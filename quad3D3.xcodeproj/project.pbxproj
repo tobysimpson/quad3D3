@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		DAE32D1F21BFBB2900CE1CFA /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = DAE32D1E21BFBB2900CE1CFA /* main.c */; };
+		DAE32D2C21BFC29600CE1CFA /* scheme.c in Sources */ = {isa = PBXBuildFile; fileRef = DAE32D2B21BFC29600CE1CFA /* scheme.c */; };
+		DAE32D2E21BFC34500CE1CFA /* float3.c in Sources */ = {isa = PBXBuildFile; fileRef = DAE32D2D21BFC34500CE1CFA /* float3.c */; };
+		DAE32D3021BFCC6000CE1CFA /* mesh.c in Sources */ = {isa = PBXBuildFile; fileRef = DAE32D2F21BFCC6000CE1CFA /* mesh.c */; };
+		DAE32D3421BFD02900CE1CFA /* element.c in Sources */ = {isa = PBXBuildFile; fileRef = DAE32D3321BFD02900CE1CFA /* element.c */; };
+		DAE32D3621BFD94300CE1CFA /* geometry.c in Sources */ = {isa = PBXBuildFile; fileRef = DAE32D3521BFD94300CE1CFA /* geometry.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +30,15 @@
 /* Begin PBXFileReference section */
 		DAE32D1B21BFBB2900CE1CFA /* quad3D3 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = quad3D3; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAE32D1E21BFBB2900CE1CFA /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		DAE32D2521BFBD2900CE1CFA /* const.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = const.h; sourceTree = "<group>"; };
+		DAE32D2621BFBD3A00CE1CFA /* master.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = master.h; sourceTree = "<group>"; };
+		DAE32D2721BFBD5800CE1CFA /* struct.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = struct.h; sourceTree = "<group>"; };
+		DAE32D2821BFBD6900CE1CFA /* proto.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = proto.h; sourceTree = "<group>"; };
+		DAE32D2B21BFC29600CE1CFA /* scheme.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = scheme.c; sourceTree = "<group>"; };
+		DAE32D2D21BFC34500CE1CFA /* float3.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = float3.c; sourceTree = "<group>"; };
+		DAE32D2F21BFCC6000CE1CFA /* mesh.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = mesh.c; sourceTree = "<group>"; };
+		DAE32D3321BFD02900CE1CFA /* element.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = element.c; sourceTree = "<group>"; };
+		DAE32D3521BFD94300CE1CFA /* geometry.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = geometry.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,7 +71,16 @@
 		DAE32D1D21BFBB2900CE1CFA /* quad3D3 */ = {
 			isa = PBXGroup;
 			children = (
+				DAE32D2621BFBD3A00CE1CFA /* master.h */,
+				DAE32D2521BFBD2900CE1CFA /* const.h */,
+				DAE32D2721BFBD5800CE1CFA /* struct.h */,
+				DAE32D2821BFBD6900CE1CFA /* proto.h */,
+				DAE32D2D21BFC34500CE1CFA /* float3.c */,
 				DAE32D1E21BFBB2900CE1CFA /* main.c */,
+				DAE32D2B21BFC29600CE1CFA /* scheme.c */,
+				DAE32D2F21BFCC6000CE1CFA /* mesh.c */,
+				DAE32D3321BFD02900CE1CFA /* element.c */,
+				DAE32D3521BFD94300CE1CFA /* geometry.c */,
 			);
 			path = quad3D3;
 			sourceTree = "<group>";
@@ -119,6 +142,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DAE32D3421BFD02900CE1CFA /* element.c in Sources */,
+				DAE32D3621BFD94300CE1CFA /* geometry.c in Sources */,
+				DAE32D3021BFCC6000CE1CFA /* mesh.c in Sources */,
+				DAE32D2C21BFC29600CE1CFA /* scheme.c in Sources */,
+				DAE32D2E21BFC34500CE1CFA /* float3.c in Sources */,
 				DAE32D1F21BFBB2900CE1CFA /* main.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
