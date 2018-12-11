@@ -39,7 +39,6 @@ void float3_sdiv(float *v1, float s, float *res)
     return;
 }
 
-
 //elementwise add
 void float3_eadd(float *v1,float *v2, float *res)
 {
@@ -140,4 +139,16 @@ float float3_nrm(float *v1)
         s += v1[i] * v1[i];
     }
     return sqrtf(s);
+}
+
+//p-norm
+float float3_nrmp(float *v1, float p)
+{
+    float s = 0;
+    
+    for(int i=0; i<3; i++)
+    {
+        s += powf(fabs(v1[i]),p);
+    }
+    return powf(s,1e0/p);
 }

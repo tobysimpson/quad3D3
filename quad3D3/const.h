@@ -33,7 +33,7 @@
 
 
 //num elements
-#define MSH_ELE_DIM         4
+#define MSH_ELE_DIM         8
 
 #define MSH_ELE_DIM_0       MSH_ELE_DIM                                     //mesh elements per dimension
 #define MSH_ELE_DIM_1       MSH_ELE_DIM

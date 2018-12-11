@@ -13,6 +13,8 @@
 		DAE32D3021BFCC6000CE1CFA /* mesh.c in Sources */ = {isa = PBXBuildFile; fileRef = DAE32D2F21BFCC6000CE1CFA /* mesh.c */; };
 		DAE32D3421BFD02900CE1CFA /* element.c in Sources */ = {isa = PBXBuildFile; fileRef = DAE32D3321BFD02900CE1CFA /* element.c */; };
 		DAE32D3621BFD94300CE1CFA /* geometry.c in Sources */ = {isa = PBXBuildFile; fileRef = DAE32D3521BFD94300CE1CFA /* geometry.c */; };
+		DAE32D3821BFE92800CE1CFA /* list.c in Sources */ = {isa = PBXBuildFile; fileRef = DAE32D3721BFE92800CE1CFA /* list.c */; };
+		DAE32D3A21BFF41000CE1CFA /* quadrature.c in Sources */ = {isa = PBXBuildFile; fileRef = DAE32D3921BFF41000CE1CFA /* quadrature.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -39,6 +41,8 @@
 		DAE32D2F21BFCC6000CE1CFA /* mesh.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = mesh.c; sourceTree = "<group>"; };
 		DAE32D3321BFD02900CE1CFA /* element.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = element.c; sourceTree = "<group>"; };
 		DAE32D3521BFD94300CE1CFA /* geometry.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = geometry.c; sourceTree = "<group>"; };
+		DAE32D3721BFE92800CE1CFA /* list.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = list.c; sourceTree = "<group>"; };
+		DAE32D3921BFF41000CE1CFA /* quadrature.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = quadrature.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,7 +84,9 @@
 				DAE32D2B21BFC29600CE1CFA /* scheme.c */,
 				DAE32D2F21BFCC6000CE1CFA /* mesh.c */,
 				DAE32D3321BFD02900CE1CFA /* element.c */,
+				DAE32D3921BFF41000CE1CFA /* quadrature.c */,
 				DAE32D3521BFD94300CE1CFA /* geometry.c */,
+				DAE32D3721BFE92800CE1CFA /* list.c */,
 			);
 			path = quad3D3;
 			sourceTree = "<group>";
@@ -145,7 +151,9 @@
 				DAE32D3421BFD02900CE1CFA /* element.c in Sources */,
 				DAE32D3621BFD94300CE1CFA /* geometry.c in Sources */,
 				DAE32D3021BFCC6000CE1CFA /* mesh.c in Sources */,
+				DAE32D3A21BFF41000CE1CFA /* quadrature.c in Sources */,
 				DAE32D2C21BFC29600CE1CFA /* scheme.c in Sources */,
+				DAE32D3821BFE92800CE1CFA /* list.c in Sources */,
 				DAE32D2E21BFC34500CE1CFA /* float3.c in Sources */,
 				DAE32D1F21BFBB2900CE1CFA /* main.c in Sources */,
 			);
@@ -202,7 +210,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
@@ -251,7 +259,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
 			};
@@ -261,6 +269,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -269,6 +278,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

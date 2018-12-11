@@ -98,8 +98,8 @@ void scm_init(struct problem *prb)
     
     for(int i=0; i<prb->scm.np; i++)
     {
-//        prb->scm.pp[i] = 0.5*(1e0+prb->scm.pp[i]);                          //adjust for interval [0,1]
-//        prb->scm.ww[i] = 0.5*prb->scm.ww[i];
+        prb->scm.pp[i] = 0.5*(1e0+prb->scm.pp[i]);                          //adjust for interval [0,1]
+        prb->scm.ww[i] = 0.5*prb->scm.ww[i];
         
         printf("scm_init        %d %+f %f\n",i,prb->scm.pp[i],prb->scm.ww[i]);
     }

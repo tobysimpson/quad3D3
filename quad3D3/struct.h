@@ -31,6 +31,7 @@ struct mesh
     
     float               msh_h[3];           //mesh coordinate dimensions
     float               ele_h[3];           //element coordinate dimensions
+    float               ele_vlm;            //element volume
 };
 
 //point
@@ -40,6 +41,22 @@ struct point
     float               v;                  //scalar value
 };
 
+//point  list (for debug)
+struct point_list
+{
+    int                 pp_num;             //number of points stored
+    int                 pp_alloc;           //size allocated
+    
+    struct point        *pp;                //array of points
+};
+
+//point
+struct quadpoint
+{
+    struct point        loc;                //local coords and weight
+    struct point        glb;                //global coords
+};
+
 //element
 struct element
 {
@@ -47,6 +64,7 @@ struct element
     int                 pos[3];             //position in the element space (i,j,k)
     
     struct point        vtx[2][2][2];       //vertices
+    int                 vtx_int;            //internal verts
 };
 
 //problem
@@ -55,6 +73,13 @@ struct problem
     struct  scheme      scm;                //quadrature scheme
     struct  mesh        msh;                //mesh
     struct  element     ele;                //ele
+    
+    struct  quadpoint   qpt;                //quadrature point
+
+    float               vlm;                //volume total
+    
+    struct  point_list  lst1;               //verts
+    struct  point_list  lst2;               //qpts
 };
 
 

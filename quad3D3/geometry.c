@@ -11,9 +11,12 @@
 //signed distance function
 void geo_sdf(struct point *pt)
 {
-    float r = 0.8;                      //radius
+    float r = 1;                              //radius
+//    float p = 4;
     
-    pt->v = float3_nrm(pt->x) - r;        //sphere
+    pt->v = (float3_nrm(pt->x) - r);          //sphere
+    
+//    pt->v = (float3_nrmp(pt->x,p) - r);         //p-sphere
     
     return;
 }

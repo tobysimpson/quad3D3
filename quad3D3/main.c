@@ -13,10 +13,21 @@ int main(int argc, const char * argv[])
 {
     printf("hello\n");
     
-    struct problem *prb = malloc(sizeof(struct problem));           //allocate memory
+    /*
+     ===================
+     initialise
+     ===================
+     */
     
-    scm_init(prb);                                                  //init scheme
-    msh_init(prb);                                                  //init mesh
+    struct problem *prb = malloc(sizeof(struct problem));       //allocate memory
+    
+    prb->vlm = 0;                                               //init volume
+    
+    scm_init(prb);                                              //init scheme
+    msh_init(prb);                                              //init mesh
+    
+    lst_init(&prb->lst1);                                       //init list
+    lst_init(&prb->lst2);                                       //init list
     
     /*
      ===================
@@ -43,7 +54,18 @@ int main(int argc, const char * argv[])
             }
         }
     }
+    
+    /*
+     ===================
+     debug
+     ===================
+     */
 
+    
+    lst_write(&prb->lst1, "list1");
+    lst_write(&prb->lst2, "list2");
+    
+    printf("prb_vlm %f %f\n",prb->vlm, M_PI*4e0/3e0);
     
     printf("done\n");
     
