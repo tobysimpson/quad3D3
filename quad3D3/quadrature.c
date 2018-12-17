@@ -31,7 +31,7 @@ float quad_ele(struct problem *prb)
  
                 prb->qpt.glb.v = prb->qpt.loc.v;                                        //copy weight
                 
-                lst_add(&prb->lst2, prb->qpt.glb);                                      //store
+//                lst_add(&prb->lst2, prb->qpt.glb);                                      //store
                 
                 vlm += prb->qpt.loc.v;                                                  //sum for volume
             }
@@ -47,11 +47,7 @@ float quad_ele(struct problem *prb)
 //count int/ext faces
 void quad_fac(struct problem *prb)
 {
-    int   fac_int[3][2] = {0,0,0,0,0,0};
-    
-    
-    
-    int vtx_int;                                                                        //is vtx interior
+    int   fac_int[3][2] = {0,0,0,0,0,0};                                                //store results
     
     for(int k=0; k<2; k++)                                                              //loop verts
     {
@@ -59,7 +55,7 @@ void quad_fac(struct problem *prb)
         {
             for(int i=0; i<2; i++)
             {
-                vtx_int = (prb->ele.vtx[i][j][k].v < 0);                                //test vertex
+                int vtx_int = (prb->ele.vtx[i][j][k].v < 0);                            //test vertex
                 
                 fac_int[0][i] += vtx_int;                                               //store sums
                 fac_int[1][j] += vtx_int;
@@ -93,6 +89,19 @@ void quad_fac(struct problem *prb)
     if(!(flag_int_fac||flag_ext_fac))
     {
         printf("!!!!!!!!!!!!!this is bad!!!!!!!!!!!!!!!!!\n");
+        
+        for(int k=0; k<2; k++)                                                                  //loop verts
+        {
+            for(int j=0; j<2; j++)
+            {
+                for(int i=0; i<2; i++)
+                {
+                    lst_add(&prb->lst2,prb->ele.vtx[i][j][k]);                                  //store for debug
+                    
+                    prb->lst2.pp[prb->lst2.pp_num-1].v = (prb->lst2.pp[prb->lst2.pp_num-1].v < 0);  //store int/ext
+                }
+            }
+        }
     }
     
     return;

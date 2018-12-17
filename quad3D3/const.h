@@ -16,7 +16,6 @@
  */
 
 
-
 //various
 #define SCM_NP              3                                               //quad points per scheme
 #define FILE_ROOT           "/Users/toby/Downloads"                         //write path
@@ -30,10 +29,8 @@
 #define MSH_XMAX_1          +1
 #define MSH_XMAX_2          +1
 
-
-
 //num elements
-#define MSH_ELE_DIM         8
+#define MSH_ELE_DIM         16
 
 #define MSH_ELE_DIM_0       MSH_ELE_DIM                                     //mesh elements per dimension
 #define MSH_ELE_DIM_1       MSH_ELE_DIM
