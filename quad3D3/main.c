@@ -28,6 +28,8 @@ int main(int argc, const char * argv[])
     
     lst_init(&prb->lst1);                                       //init list
     lst_init(&prb->lst2);                                       //init list
+    lst_init(&prb->lst3);                                       //init list
+    lst_init(&prb->lst4);                                       //init list
     
     /*
      ===================
@@ -60,12 +62,22 @@ int main(int argc, const char * argv[])
      debug
      ===================
      */
-
     
     lst_write(&prb->lst1, "list1");
     lst_write(&prb->lst2, "list2");
+    lst_write(&prb->lst3, "list3");
+    lst_write(&prb->lst4, "list4");
     
     printf("prb_vlm %f %f\n",prb->vlm, M_PI*4e0/3e0);
+    
+    /*
+     ===================
+     clean up
+     ===================
+     */
+
+    
+    free(prb);                  //problem
     
     printf("done\n");
     

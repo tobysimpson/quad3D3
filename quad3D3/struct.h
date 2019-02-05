@@ -34,28 +34,16 @@ struct mesh
     float               ele_vlm;            //element volume
 };
 
-//point
-struct point
-{
-    float               x[3];               //coords
-    float               v;                  //scalar value
-};
 
-//point  list (for debug)
-struct point_list
+//list (for debug)
+struct list
 {
     int                 pp_num;             //number of points stored
     int                 pp_alloc;           //size allocated
     
-    struct point        *pp;                //array of points
+    float               *pp;                //array of points
 };
 
-//point
-struct quadpoint
-{
-    struct point        loc;                //local coords and weight
-    struct point        glb;                //global coords
-};
 
 //element
 struct element
@@ -63,8 +51,11 @@ struct element
     int                 idx;                //counter
     int                 pos[3];             //position in the element space (i,j,k)
     
-    struct point        vtx[2][2][2];       //vertices
-    int                 vtx_int;            //internal verts
+    float               vtx_glb[8][3];      //vertices
+    float               vtx_sdf[8];         //signed distance function
+    
+    int                 vtx_int;            //count internal verts
+    int                 fac_vtx_int[3][2];  //count internal verts per face (dim [0,1,2],co-ord [0,1])
 };
 
 //problem
@@ -74,12 +65,14 @@ struct problem
     struct  mesh        msh;                //mesh
     struct  element     ele;                //ele
     
-    struct  quadpoint   qpt;                //quadrature point
+//    struct  quadpoint qpt;                //quadrature point
 
     float               vlm;                //volume total
     
-    struct  point_list  lst1;               //verts
-    struct  point_list  lst2;               //qpts
+    struct  list        lst1;               //all verts
+    struct  list        lst2;
+    struct  list        lst3;
+    struct  list        lst4;
 };
 
 
