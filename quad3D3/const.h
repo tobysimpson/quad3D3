@@ -15,15 +15,14 @@
  ===============================
  */
 
-
 //various
 #define SCM_NP              3                                               //quad points per scheme
 #define FILE_ROOT           "/Users/toby/Downloads"                         //write path
 
 //mesh dims
-#define MSH_XMIN_0          -0                                              //mesh range
-#define MSH_XMIN_1          -0
-#define MSH_XMIN_2          -0
+#define MSH_XMIN_0          -1                                              //mesh range
+#define MSH_XMIN_1          -1
+#define MSH_XMIN_2          -1
 
 #define MSH_XMAX_0          +1
 #define MSH_XMAX_1          +1

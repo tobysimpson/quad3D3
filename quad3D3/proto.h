@@ -35,17 +35,19 @@ void msh_init(struct problem *prb);
 
 //element.c
 void ele_calc(struct problem *prb);
+void ele_get_fac(struct problem *prb, int fac_dim, int fac_crd);
 
 //list.c
 void lst_init(struct list *lst);
 void lst_add(struct list *lst, const float x[3], const float s);
 void lst_add_ele(struct list *lst, struct problem *prb);
-void lst_write(struct list *lst, char file_name[100]);
+void lst_write(struct list *lst, char file_name[20]);
 
 //geometry
 float geo_sdf(float x[3]);
 
 //quadrature.c
 float quad_ele(struct problem *prb);
+float quad_vtx1(struct problem *prb);
 
 #endif /* proto_h */

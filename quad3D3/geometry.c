@@ -11,12 +11,12 @@
 //signed distance function - sphere
 float geo_sdf(float x[3])
 {
-    float r = 1;                              //radius
-    float p = 2;
+    float r = 1;                            //radius
+//    float p = 2;
 
-//    pt->v = (float3_nrm(x) - r);          //sphere
+    return (float3_nrm(x) - r);             //sphere
 
-    return float3_nrmp(x,p) - r;         //p-sphere
+//    return float3_nrmp(x,p) - r;          //p-sphere
 
 }
 

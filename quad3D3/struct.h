@@ -31,6 +31,7 @@ struct mesh
     
     float               msh_h[3];           //mesh coordinate dimensions
     float               ele_h[3];           //element coordinate dimensions
+    
     float               ele_vlm;            //element volume
 };
 
@@ -44,18 +45,29 @@ struct list
     float               *pp;                //array of points
 };
 
-
 //element
 struct element
 {
     int                 idx;                //counter
     int                 pos[3];             //position in the element space (i,j,k)
     
-    float               vtx_glb[8][3];      //vertices
+    float               vtx_glb[8][3];      //vertex global coords
     float               vtx_sdf[8];         //signed distance function
     
-    int                 vtx_int;            //count internal verts
+    int                 vtx_int_tot;        //count internal verts
     int                 fac_vtx_int[3][2];  //count internal verts per face (dim [0,1,2],co-ord [0,1])
+    
+    int                 fac_int_flg;        //internal face serach results
+    int                 fac_int_dim;
+    int                 fac_int_crd;
+
+    int                 fac_ext_flg;        //external face serach results
+    int                 fac_ext_dim;
+    int                 fac_ext_crd;
+    
+    int                 fac_vtx[4];         //vertex indices for a given face
+    
+    float               bas_aa[8];          //interpolated basis function coefficients
 };
 
 //problem
@@ -69,7 +81,7 @@ struct problem
 
     float               vlm;                //volume total
     
-    struct  list        lst1;               //all verts
+    struct  list        lst1;               //lists for debug
     struct  list        lst2;
     struct  list        lst3;
     struct  list        lst4;
