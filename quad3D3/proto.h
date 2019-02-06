@@ -48,6 +48,6 @@ float geo_sdf(float x[3]);
 
 //quadrature.c
 float quad_ele(struct problem *prb);
-float quad_vtx1(struct problem *prb);
+float quad_vtx1(struct problem *prb, int vtx_idx);
 
 #endif /* proto_h */

@@ -40,7 +40,7 @@ void lst_add_ele(struct list *lst, struct problem *prb)
 {
     for(int vtx_idx=0; vtx_idx<8; vtx_idx++)
     {
-        lst_add(lst, prb->ele.vtx_glb[vtx_idx], prb->ele.vtx_sdf[vtx_idx]>=0);          //add to list
+        lst_add(lst, prb->ele.vtx_glb[vtx_idx], prb->ele.vtx_sdf[vtx_idx]<0);          //add to list
     }
     return;
 }

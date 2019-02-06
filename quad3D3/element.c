@@ -11,11 +11,7 @@
 //process element
 void ele_calc(struct problem *prb)
 {
-    printf("ele_calc %8d | %2d %2d %2d \n",
-           prb->ele.idx,
-           prb->ele.pos[0],
-           prb->ele.pos[1],
-           prb->ele.pos[2]);
+
     
     /*
      ===============================
@@ -26,9 +22,16 @@ void ele_calc(struct problem *prb)
     float3_emul_int(prb->msh.ele_h, prb->ele.pos, prb->ele.vtx_glb[0]);                     //set reference vertex
     float3_eadd(prb->ele.vtx_glb[0], prb->msh.xmin, prb->ele.vtx_glb[0]);
     
-    prb->ele.vtx_int_tot = 0;                                                                   //reset count
+//    printf("ele_calc %8d | %2d %2d %2d | %+e %+e %+e\n",
+//           prb->ele.idx,
+//           prb->ele.pos[0],
+//           prb->ele.pos[1],
+//           prb->ele.pos[2],
+//           prb->ele.vtx_glb[0][0],
+//           prb->ele.vtx_glb[0][1],
+//           prb->ele.vtx_glb[0][2]);
     
-    //    memset(&prb->ele.fac_int,0,6&sizeof(float));                                      //reset count
+    prb->ele.vtx_int_tot = 0;                                                               //reset count
     
     for(int i=0; i<3; i++)
     {
@@ -40,36 +43,47 @@ void ele_calc(struct problem *prb)
     
     for(int vtx_idx=0; vtx_idx<8; vtx_idx++)
     {
-        char i = (vtx_idx>>0)&1;                                                            //binary digits
-        char j = (vtx_idx>>1)&1;
-        char k = (vtx_idx>>2)&1;
+        int i = (vtx_idx>>0)&1;                                                            //binary digits xyz coords
+        int j = (vtx_idx>>1)&1;
+        int k = (vtx_idx>>2)&1;
         
         prb->ele.vtx_glb[vtx_idx][0] = prb->ele.vtx_glb[0][0] + prb->msh.ele_h[0]*i;        //vtx coords
         prb->ele.vtx_glb[vtx_idx][1] = prb->ele.vtx_glb[0][1] + prb->msh.ele_h[1]*j;
         prb->ele.vtx_glb[vtx_idx][2] = prb->ele.vtx_glb[0][2] + prb->msh.ele_h[2]*k;
         
+//        float vtx_loc[3] = {(vtx_idx>>0)&1,(vtx_idx>>1)&1,(vtx_idx>>2)&1};                  //vtx local coords
+//
+//        if(vtx_idx>0)                                                                       //avoid over-writing the ref vtx
+//        {
+//            float3_emul(prb->msh.ele_h, vtx_loc, prb->ele.vtx_glb[vtx_idx]);                //local to global
+//            float3_eadd(prb->ele.vtx_glb[0], prb->ele.vtx_glb[vtx_idx], prb->ele.vtx_glb[vtx_idx]);
+//        }
+        
         prb->ele.vtx_sdf[vtx_idx] = geo_sdf(prb->ele.vtx_glb[vtx_idx]);                     //calc sdf
         
-        prb->ele.vtx_int_tot += (prb->ele.vtx_sdf[vtx_idx] < 0);                                //count internal verts
+        prb->ele.vtx_int_tot += (prb->ele.vtx_sdf[vtx_idx] < 0);                            //count internal verts
         
         lst_add(&prb->lst1, prb->ele.vtx_glb[vtx_idx], prb->ele.vtx_sdf[vtx_idx]);          //add to list
         
-        //printf("vtx_gen %d %d %d | %+e %+e %+e | %d\n",i,j,k,prb->ele.vtx_glb[vtx_idx][0],prb->ele.vtx_glb[vtx_idx][1],prb->ele.vtx_glb[vtx_idx][2],prb->ele.vtx_sdf[vtx_idx]<0);
+//        printf("vtx_gen %1.0f %1.0f %1.0f | %+e %+e %+e | %d\n",
+//               vtx_loc[0],
+//               vtx_loc[1],
+//               vtx_loc[2],
+//               prb->ele.vtx_glb[vtx_idx][0],
+//               prb->ele.vtx_glb[vtx_idx][1],
+//               prb->ele.vtx_glb[vtx_idx][2],
+//               prb->ele.vtx_sdf[vtx_idx]<0);
         
         prb->ele.fac_vtx_int[0][i] += prb->ele.vtx_sdf[vtx_idx]<0;                          //calc internal verts per face
         prb->ele.fac_vtx_int[1][j] += prb->ele.vtx_sdf[vtx_idx]<0;
         prb->ele.fac_vtx_int[2][k] += prb->ele.vtx_sdf[vtx_idx]<0;
     }
     
-    
     /*
      ===============================
      interpolated basis function coeffs
      ===============================
      */
-    
-    
-//    float prb->ele.bas_aa[8];
     
     prb->ele.bas_aa[0] = + prb->ele.vtx_sdf[0];                          //1
     
@@ -90,8 +104,8 @@ void ele_calc(struct problem *prb)
      ===============================
      */
     
-//    printf("vtx_int %d\n",prb->ele.vtx_int);
-    
+//    printf("vtx_int %d\n",prb->ele.vtx_int_tot);
+//
 //    printf("fac_int\n");
 //    for(int i=0; i<3; i++)
 //    {
@@ -101,8 +115,7 @@ void ele_calc(struct problem *prb)
 //        }
 //        printf("\n");
 //    }
-//    printf("\n");
-    
+
     
     /*
      ===============================
@@ -130,6 +143,9 @@ void ele_calc(struct problem *prb)
              find int/ext faces
              ===============================
              */
+            
+            prb->ele.fac_ext_flg = 0;                               //reset flags
+            prb->ele.fac_int_flg = 0;
             
             for(int dim_idx=0; dim_idx<3; dim_idx++)                //loop dims
             {
@@ -169,9 +185,29 @@ void ele_calc(struct problem *prb)
                         
                         ele_get_fac(prb,prb->ele.fac_ext_dim,!prb->ele.fac_ext_crd);            //get the face opposite the external one
                         
-                        prb->vlm += quad_vtx1(prb);                                             //do quadrature around the one internal vertex
+//                        printf("opp face %d %d %d %d\n",
+//                               prb->ele.fac_vtx[0],
+//                               prb->ele.fac_vtx[1],
+//                               prb->ele.fac_vtx[2],
+//                               prb->ele.fac_vtx[3]);
+//
+//                        printf("opp ivtx %d %d %d %d\n",
+//                               prb->ele.vtx_sdf[prb->ele.fac_vtx[0]]<0,
+//                               prb->ele.vtx_sdf[prb->ele.fac_vtx[1]]<0,
+//                               prb->ele.vtx_sdf[prb->ele.fac_vtx[2]]<0,
+//                               prb->ele.vtx_sdf[prb->ele.fac_vtx[3]]<0);
+                        
 
-                        break;
+                        for(int vtx_idx=0; vtx_idx<8; vtx_idx++)                        //loop verts
+                        {
+                            if(prb->ele.vtx_sdf[vtx_idx] < 0)                           //find internal vtx
+                            {
+                                prb->vlm += quad_vtx1(prb, vtx_idx);                    //do quadrature around the one internal vertex
+                                
+                                break;                                                  //break search
+                            }
+                        }
+                        break;                                                          //break case
                     }
                     case 2:
                     {
@@ -191,13 +227,11 @@ void ele_calc(struct problem *prb)
             {
                 printf("fac_int %d %d %d\n",prb->ele.fac_int_flg,prb->ele.fac_int_dim,prb->ele.fac_int_crd);
                 
-//                lst_add_ele(&prb->lst3, prb);
             }
             else
             {
                 printf("no int/ext\n");
                 
-//                lst_add_ele(&prb->lst4, prb);
             }
         }
     }
