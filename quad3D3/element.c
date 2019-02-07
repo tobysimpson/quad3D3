@@ -11,8 +11,6 @@
 //process element
 void ele_calc(struct problem *prb)
 {
-
-    
     /*
      ===============================
      generate vertices & test sdf
@@ -183,7 +181,7 @@ void ele_calc(struct problem *prb)
                     {
                         lst_add_ele(&prb->lst2, prb);
                         
-                        ele_get_fac(prb,prb->ele.fac_ext_dim,!prb->ele.fac_ext_crd);            //get the face opposite the external one
+//                        ele_get_fac(prb,prb->ele.fac_ext_dim,!prb->ele.fac_ext_crd);            //get the face opposite the external one
                         
 //                        printf("opp face %d %d %d %d\n",
 //                               prb->ele.fac_vtx[0],
