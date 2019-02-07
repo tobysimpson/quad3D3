@@ -20,14 +20,11 @@ void ele_calc(struct problem *prb)
     float3_emul_int(prb->msh.ele_h, prb->ele.pos, prb->ele.vtx_glb[0]);                     //set reference vertex
     float3_eadd(prb->ele.vtx_glb[0], prb->msh.xmin, prb->ele.vtx_glb[0]);
     
-    printf("ele_calc %8d | %2d %2d %2d | %+e %+e %+e\n",
+    printf("ele_calc %8d | %2d %2d %2d\n",
            prb->ele.idx,
            prb->ele.pos[0],
            prb->ele.pos[1],
-           prb->ele.pos[2],
-           prb->ele.vtx_glb[0][0],
-           prb->ele.vtx_glb[0][1],
-           prb->ele.vtx_glb[0][2]);
+           prb->ele.pos[2]);
     
     prb->ele.vtx_int_tot = 0;                                                               //reset count
     
@@ -48,14 +45,6 @@ void ele_calc(struct problem *prb)
         prb->ele.vtx_glb[vtx_idx][0] = prb->ele.vtx_glb[0][0] + prb->msh.ele_h[0]*i;        //vtx coords
         prb->ele.vtx_glb[vtx_idx][1] = prb->ele.vtx_glb[0][1] + prb->msh.ele_h[1]*j;
         prb->ele.vtx_glb[vtx_idx][2] = prb->ele.vtx_glb[0][2] + prb->msh.ele_h[2]*k;
-        
-//        float vtx_loc[3] = {(vtx_idx>>0)&1,(vtx_idx>>1)&1,(vtx_idx>>2)&1};                  //vtx local coords
-//
-//        if(vtx_idx>0)                                                                       //avoid over-writing the ref vtx
-//        {
-//            float3_emul(prb->msh.ele_h, vtx_loc, prb->ele.vtx_glb[vtx_idx]);                //local to global
-//            float3_eadd(prb->ele.vtx_glb[0], prb->ele.vtx_glb[vtx_idx], prb->ele.vtx_glb[vtx_idx]);
-//        }
         
         prb->ele.vtx_sdf[vtx_idx] = geo_sdf(prb->ele.vtx_glb[vtx_idx]);                     //calc sdf
         
@@ -173,13 +162,19 @@ void ele_calc(struct problem *prb)
             
             if(prb->ele.fac_ext_flg)
             {
-                printf("fac_ext %d %d %d\n",prb->ele.fac_ext_flg,prb->ele.fac_ext_dim,prb->ele.fac_ext_crd);
+//                printf("fac_ext %d %d %d\n",prb->ele.fac_ext_flg,prb->ele.fac_ext_dim,prb->ele.fac_ext_crd);
                 
-                switch (prb->ele.fac_vtx_int[prb->ele.fac_ext_dim][!prb->ele.fac_ext_crd])      //count verts on opposite face
+                switch (prb->ele.fac_vtx_int[prb->ele.fac_ext_dim][!prb->ele.fac_ext_crd])      //count internal verts on opposite face
                 {
+                    /*
+                     ===============================
+                     external face with 1 internal vertex opposite
+                     ===============================
+                     */
+
                     case 1:                                                                     //external face with one internal vertex opposite
                     {
-                        lst_add_ele(&prb->lst2, prb);
+//                        lst_add_ele(&prb->lst2, prb);
                         
 //                        ele_get_fac(prb,prb->ele.fac_ext_dim,!prb->ele.fac_ext_crd);            //get the face opposite the external one
                         
@@ -195,30 +190,91 @@ void ele_calc(struct problem *prb)
 //                               prb->ele.vtx_sdf[prb->ele.fac_vtx[2]]<0,
 //                               prb->ele.vtx_sdf[prb->ele.fac_vtx[3]]<0);
                         
-
-                        for(int vtx_idx=0; vtx_idx<8; vtx_idx++)                        //loop verts
+                        //find internal vertex
+                        for(int i=0; i<8; i++)                                          //loop verts
                         {
-                            if(prb->ele.vtx_sdf[vtx_idx] < 0)                           //find internal vtx
+                            if(prb->ele.vtx_sdf[i] < 0)                                 //find internal vtx
                             {
-                                prb->vlm += quad_vtx1(prb, vtx_idx);                    //do quadrature around the one internal vertex
+                                prb->vlm += quad_vtx1(prb, i);                          //do quadrature around the one internal vertex
                                 
                                 break;                                                  //break search
                             }
                         }
+                        
                         break;                                                          //break case
                     }
-                    case 2:
-                    {
-                        //quad along edge OR quad around two verts
+                        
+                    /*
+                     ===============================
+                     external face with 2 internal verts opposite
+                     ===============================
+                     */
 
-                        break;
+                    case 2:                                                             //quad along edge OR quad around two verts
+                    {
+                        lst_add_ele(&prb->lst2, prb);
+                        
+                        //find two internal vertices
+                        int j = 0;                                                      //storage index
+                        
+                        int vtx_idx[2];
+                        
+                        for(int i=0; i<8; i++)                                          //loop verts
+                        {
+                            if(prb->ele.vtx_sdf[i] < 0)                                 //find internal vtx
+                            {
+                                vtx_idx[j] = i;                                         //store vtx
+                                
+                                j += 1;                                                 //increment j
+                                
+                                if(j==2)
+                                {
+                                    break;                                              //break search
+                                }
+                            }
+                        }
+                        
+                        //test opposite/adjacent
+                        float f = log2f(vtx_idx[0]^vtx_idx[1]);                         //hamming distance==1 => XOR should be power of 2
+                        
+                        if(ceilf(f) == f)
+                        {
+                            prb->vlm += quad_vtx2(prb, vtx_idx);                        //adjacent do quadrature
+                        }
+                        else
+                        {
+                            printf("2-vertex exception!!");                             //opposite implement later
+                        }
+                        
+                        break;                                                          //break case
                     }
+                        
+                    /*
+                     ===============================
+                     external face with 3 internal verts opposite
+                     ===============================
+                     */
+                        
                     case 3:
                     {
                         //quad ele minus vertex
 
                         break;
                     }
+                        
+                    /*
+                     ===============================
+                     external face with 4 internal verts opposite
+                     ===============================
+                     */
+                        
+                    case 4:
+                    {
+                        //quad face
+                        
+                        break;
+                    }
+                        
                 }
             }
             else if(prb->ele.fac_int_flg)
