@@ -97,21 +97,62 @@ float quad_vtx1(struct problem *prb, int vtx_idx)
     
     /*
      ==========================
-     quadrature points
+     generate quadrature points
      ==========================
      */
     
-    for(int qpt_i=0; qpt_i<prb->scm.np; qpt_i++)                                    //loop points/dims
+    float qpt_loc[3];                                                               //vlm quad point
+    float qpt_glb[3];
+    
+    float spt_loc[3];                                                               //srf quad point
+    float spt_glb[3];
+    
+    float qpt_h[3];                                                                 //heights for scaling
+    float qpt_r[3];                                                                 //roots
+    
+    qpt_r[0] = bas_rx(prb, vtx_loc[1], vtx_loc[2]);                                 //find root x
+    
+    qpt_h[0] = qpt_r[0] - vtx_loc[0];                                               //store h x
+    
+    for(int qpt_i=0; qpt_i<prb->scm.np; qpt_i++)                                    //loop x
     {
-        for(int qpt_j=0; qpt_j<prb->scm.np; qpt_j++)                                    //loop points/dims
+        qpt_loc[0] = vtx_loc[0] + qpt_h[0]*prb->scm.pp[qpt_i];                      //update x
+        
+        qpt_r[1] = bas_ry(prb, qpt_loc[0],  vtx_loc[2]);                            //find root y
+        
+        qpt_h[1] = qpt_r[1] - vtx_loc[1];                                           //store h y
+        
+        for(int qpt_j=0; qpt_j<prb->scm.np; qpt_j++)                                //loop y
         {
-            for(int qpt_k=0; qpt_k<prb->scm.np; qpt_k++)                                    //loop points/dims
+            qpt_loc[1] = vtx_loc[1] + qpt_h[1]*prb->scm.pp[qpt_j];                  //update y
+            
+            qpt_r[2] = bas_rz(prb, qpt_loc[0],  qpt_loc[1]);                        //find root z
+            
+            qpt_h[2] = qpt_r[2] - vtx_loc[2];                                       //store h z
+            
+            spt_loc[0] = qpt_loc[0];                                                //surface quad point
+            spt_loc[1] = qpt_loc[1];
+            spt_loc[2] = qpt_r[2];
+            
+            float3_emul(spt_loc, prb->msh.ele_h, spt_glb);                          //local to global
+            float3_eadd(prb->ele.vtx_glb[0], spt_glb, spt_glb);
+            
+            lst_add(&prb->lst4, spt_glb, 0);
+            
+            for(int qpt_k=0; qpt_k<prb->scm.np; qpt_k++)                            //loop z
             {
+                qpt_loc[2] = vtx_loc[2] + qpt_h[2]*prb->scm.pp[qpt_k];              //update z
                 
+//                printf("%d %d %d | %+f %+f %+f\n",qpt_i,qpt_j,qpt_k,qpt_loc[0],qpt_loc[1],qpt_loc[2]);
+                
+                float3_emul(qpt_loc, prb->msh.ele_h, qpt_glb);                      //local to global
+                float3_eadd(prb->ele.vtx_glb[0], qpt_glb, qpt_glb);
+
+//                lst_add(&prb->lst4, qpt_glb, 0);
             }
         }
     }
-    return 0*prb->msh.ele_vlm;                              //adjusted volume
+    return 0*prb->msh.ele_vlm;                                                      //adjusted volume
 }
 
 

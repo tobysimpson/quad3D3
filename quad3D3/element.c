@@ -20,14 +20,14 @@ void ele_calc(struct problem *prb)
     float3_emul_int(prb->msh.ele_h, prb->ele.pos, prb->ele.vtx_glb[0]);                     //set reference vertex
     float3_eadd(prb->ele.vtx_glb[0], prb->msh.xmin, prb->ele.vtx_glb[0]);
     
-//    printf("ele_calc %8d | %2d %2d %2d | %+e %+e %+e\n",
-//           prb->ele.idx,
-//           prb->ele.pos[0],
-//           prb->ele.pos[1],
-//           prb->ele.pos[2],
-//           prb->ele.vtx_glb[0][0],
-//           prb->ele.vtx_glb[0][1],
-//           prb->ele.vtx_glb[0][2]);
+    printf("ele_calc %8d | %2d %2d %2d | %+e %+e %+e\n",
+           prb->ele.idx,
+           prb->ele.pos[0],
+           prb->ele.pos[1],
+           prb->ele.pos[2],
+           prb->ele.vtx_glb[0][0],
+           prb->ele.vtx_glb[0][1],
+           prb->ele.vtx_glb[0][2]);
     
     prb->ele.vtx_int_tot = 0;                                                               //reset count
     
@@ -223,12 +223,12 @@ void ele_calc(struct problem *prb)
             }
             else if(prb->ele.fac_int_flg)
             {
-                printf("fac_int %d %d %d\n",prb->ele.fac_int_flg,prb->ele.fac_int_dim,prb->ele.fac_int_crd);
+//                printf("fac_int %d %d %d\n",prb->ele.fac_int_flg,prb->ele.fac_int_dim,prb->ele.fac_int_crd);
                 
             }
             else
             {
-                printf("no int/ext\n");
+//                printf("no int/ext\n");
                 
             }
         }
