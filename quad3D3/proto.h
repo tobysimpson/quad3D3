@@ -51,6 +51,6 @@ float quad_ele(struct problem *prb);
 float quad_vtx1(struct problem *prb, int vtx_idx);
 float quad_vtx2(struct problem *prb, int vtx_idx[2]);
 
-float bas_root(struct problem *prb, int dim_idx, float x, float y, float z);
+float bas_root(struct problem *prb, int dim_idx, float x1, float x2);
 
 #endif /* proto_h */

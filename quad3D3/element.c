@@ -243,7 +243,7 @@ void ele_calc(struct problem *prb)
                         }
                         else
                         {
-                            printf("2-vertex exception!!");                             //opposite implement later
+                            printf("2 non-adjacent verts");                             //opposite implement later
                         }
                         
                         break;                                                          //break case
