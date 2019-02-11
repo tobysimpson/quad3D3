@@ -50,6 +50,8 @@ float geo_sdf(float x[3]);
 float quad_ele(struct problem *prb);
 float quad_vtx1(struct problem *prb, int vtx_idx);
 float quad_vtx2(struct problem *prb, int vtx_idx[2]);
+float quad_vtx3(struct problem *prb);
+float quad_vtx4(struct problem *prb);
 
 float bas_root(struct problem *prb, int dim_idx, float vtx_loc[3]);
 

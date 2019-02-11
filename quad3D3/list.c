@@ -25,7 +25,7 @@ void lst_add(struct list *lst, const float x[3], const float s)
         
         lst->pp = realloc(lst->pp, lst->pp_alloc*4*sizeof(float));                      //reallocate larger array
     }
-    lst->pp[lst->pp_num*4+0] = x[0];                                                          //assign
+    lst->pp[lst->pp_num*4+0] = x[0];                                                    //assign
     lst->pp[lst->pp_num*4+1] = x[1];
     lst->pp[lst->pp_num*4+2] = x[2];
     lst->pp[lst->pp_num*4+3] = s;

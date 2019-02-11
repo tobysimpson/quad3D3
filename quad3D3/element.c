@@ -212,7 +212,7 @@ void ele_calc(struct problem *prb)
 
                     case 2:                                                             //quad along edge OR quad around two verts
                     {
-                        lst_add_ele(&prb->lst2, prb);
+//                        lst_add_ele(&prb->lst2, prb);
                         
                         //find two internal vertices
                         int j = 0;                                                      //storage index
@@ -257,35 +257,144 @@ void ele_calc(struct problem *prb)
                         
                     case 3:
                     {
-                        //quad ele minus vertex
-
+//                        lst_add_ele(&prb->lst2, prb);
+                     
+                        prb->vlm += quad_vtx4(prb);                                     //do quadrature on the 3-internal face
+                        
+                        //find external vertex in opposite face
+                        for(int i=0; i<8; i++)                                          //loop verts
+                        {
+                            if((prb->ele.vtx_sdf[i] >= 0) && (((i>>prb->ele.fac_ext_dim)&1) == !prb->ele.fac_ext_crd))   //find ext vtx opp ext fac
+                            {
+                                prb->vlm -= quad_vtx1(prb, i);                          //subtract quadrature around the one external vertex
+                                
+                                break;                                                  //break search
+                            }
+                        }
                         break;
                     }
                         
                     /*
                      ===============================
-                     external face with 4 internal verts opposite
+                     external face with 4 internal verts opposite (same as internal with 4 external opposite)
                      ===============================
                      */
                         
                     case 4:
                     {
-                        //quad face
+//                        lst_add_ele(&prb->lst2, prb);
+                        
+                        prb->vlm += quad_vtx4(prb);                                 //quad face
                         
                         break;
                     }
-                        
                 }
             }
+            
+            /*
+             ===============================
+             internal face logic
+             ===============================
+             */
+
             else if(prb->ele.fac_int_flg)
             {
-//                printf("fac_int %d %d %d\n",prb->ele.fac_int_flg,prb->ele.fac_int_dim,prb->ele.fac_int_crd);
+                printf("fac_int %d %d %d\n",prb->ele.fac_int_flg,prb->ele.fac_int_dim,prb->ele.fac_int_crd);
                 
+                switch (prb->ele.fac_vtx_int[prb->ele.fac_int_dim][!prb->ele.fac_int_crd])                  //count internal verts on opposite face
+                {
+                    case 1:                                                                                 //internal face with one internal vertex opposite
+                    {
+                        lst_add_ele(&prb->lst2, prb);
+                        
+                        prb->vlm += quad_vtx4(prb);                                                         //do quadrature on the 4-internal face?? - (need to specify as param)
+                        
+                        //find internal vertex in opposite face
+                        for(int i=0; i<8; i++)                                                              //loop verts
+                        {
+                            if((prb->ele.vtx_sdf[i] < 0) && (((i>>prb->ele.fac_int_dim)&1) == !prb->ele.fac_int_crd))   //find int vtx opp int fac
+                            {
+                                prb->vlm -= quad_vtx1(prb, i);                                              //subtract quadrature around the one external vertex
+                                
+                                break;                                                                      //break search
+                            }
+                        }
+                        
+                        break;
+                    }
+                    case 2:                                                                                 //internal face with two internal vertex opposite
+                    {
+//                        lst_add_ele(&prb->lst2, prb);
+                        
+                        prb->vlm += quad_ele(prb);                                                          //quad on whole element
+                        
+                        //find two external vertices
+                        int j = 0;                                                                          //storage index
+                        
+                        int vtx_idx[2];
+                        
+                        for(int i=0; i<8; i++)                                                              //loop verts
+                        {
+                            if(prb->ele.vtx_sdf[i] >= 0)                                                    //find internal vtx
+                            {
+                                vtx_idx[j] = i;                                                             //store vtx
+                                
+                                j += 1;                                                                     //increment j
+                                
+                                if(j==2)
+                                {
+                                    break;                                                                  //break search
+                                }
+                            }
+                        }
+                        
+                        //test opposite/adjacent
+                        float f = log2f(vtx_idx[0]^vtx_idx[1]);                                             //hamming distance==1 => XOR should be power of 2
+                        
+                        if(ceilf(f) == f)
+                        {
+                            prb->vlm -= quad_vtx2(prb, vtx_idx);                                            //adjacent subtract quadrature
+                        }
+                        else
+                        {
+                            printf("2 non-adjacent verts");                                                 //opposite implement later
+                        }
+                        
+                        break;
+                    }
+                    case 3:                                                                                 //internal face with three internal vertex opposite
+                    {
+//                        lst_add_ele(&prb->lst2, prb);
+                        
+                        prb->vlm += quad_ele(prb);                                                          //quad on whole element
+                        
+                        //find external vertex in opposite face
+                        for(int i=0; i<8; i++)                                                              //loop verts
+                        {
+                            if((prb->ele.vtx_sdf[i] >= 0) && (((i>>prb->ele.fac_int_dim)&1) == !prb->ele.fac_int_crd))   //find ext vtx opp int fac
+                            {
+                                prb->vlm -= quad_vtx1(prb, i);                                              //subtract quadrature around the one external vertex
+                                
+                                break;                                                                      //break search
+                            }
+                        }
+                        
+                        break;
+                    }
+                }
+
             }
-            else
+            
+            /*
+             ===============================
+             no internal or external face
+             ===============================
+             */
+            
+            else    //no int or ext
             {
 //                printf("no int/ext\n");
-                
+                lst_add_ele(&prb->lst2, prb);
             }
         }
     }
