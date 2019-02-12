@@ -35,7 +35,8 @@ void msh_init(struct problem *prb);
 
 //element.c
 void ele_calc(struct problem *prb);
-void ele_get_fac(struct problem *prb, int fac_dim, int fac_crd);
+void fac_get_vtx(struct problem *prb, int fac_dim, int fac_crd, int vtx_intext, int vtx_num);
+int  vtx_adj(struct problem *prb);
 
 //list.c
 void lst_init(struct list *lst);
@@ -48,8 +49,8 @@ float geo_sdf(float x[3]);
 
 //quadrature.c
 float quad_ele(struct problem *prb);
-float quad_vtx1(struct problem *prb, int vtx_idx);
-float quad_vtx2(struct problem *prb, int vtx_idx[2]);
+float quad_vtx1(struct problem *prb);
+float quad_vtx2(struct problem *prb);
 float quad_vtx3(struct problem *prb);
 float quad_vtx4(struct problem *prb);
 

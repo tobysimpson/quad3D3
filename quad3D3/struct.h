@@ -57,15 +57,17 @@ struct element
     int                 vtx_int_tot;        //count internal verts
     int                 fac_vtx_int[3][2];  //count internal verts per face (dim [0,1,2],co-ord [0,1])
     
-    int                 fac_int_flg;        //internal face serach results
+    int                 fac_int_flg;        //internal face search results
     int                 fac_int_dim;
     int                 fac_int_crd;
 
-    int                 fac_ext_flg;        //external face serach results
+    int                 fac_ext_flg;        //external face search results
     int                 fac_ext_dim;
     int                 fac_ext_crd;
     
     int                 fac_vtx[4];         //vertex indices for a given face
+    
+    int                 vtx_idx[2];         //selected vertices for quadrature functions
     
     float               bas_aa[8];          //interpolated basis function coefficients
 };

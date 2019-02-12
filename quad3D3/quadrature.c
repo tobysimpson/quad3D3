@@ -15,12 +15,12 @@ float quad_ele(struct problem *prb)
 }
 
 //quadrature around one vertex
-float quad_vtx1(struct problem *prb, int vtx_idx)
+float quad_vtx1(struct problem *prb)
 {
     float vlm_loc = 0;
     //    float srf_loc = 0;
     
-    float vtx_loc[3] = {(vtx_idx>>0)&1,(vtx_idx>>1)&1,(vtx_idx>>2)&1};                  //vtx local coords
+    float vtx_loc[3] = {(prb->ele.vtx_idx[0]>>0)&1,(prb->ele.vtx_idx[0]>>1)&1,(prb->ele.vtx_idx[0]>>2)&1};                  //vtx local coords
     
     //    /*
     //     ==========================
@@ -149,14 +149,14 @@ float quad_vtx1(struct problem *prb, int vtx_idx)
 
 
 //quadrature with 2 adjacent vertices
-float quad_vtx2(struct problem *prb, int vtx_idx[2])
+float quad_vtx2(struct problem *prb)
 {
 //    printf("quad_vtx2   %d %d \n",vtx_idx[0],vtx_idx[1]);
     
     float vlm_loc = 0;
     
-    float vtx0_loc[3] = {(vtx_idx[0]>>0)&1,(vtx_idx[0]>>1)&1,(vtx_idx[0]>>2)&1};        //vtx local coords
-    float vtx1_loc[3] = {(vtx_idx[1]>>0)&1,(vtx_idx[1]>>1)&1,(vtx_idx[1]>>2)&1};
+    float vtx0_loc[3] = {(prb->ele.vtx_idx[0]>>0)&1,(prb->ele.vtx_idx[0]>>1)&1,(prb->ele.vtx_idx[0]>>2)&1};        //vtx local coords
+    float vtx1_loc[3] = {(prb->ele.vtx_idx[1]>>0)&1,(prb->ele.vtx_idx[1]>>1)&1,(prb->ele.vtx_idx[1]>>2)&1};
     
 //    float vtx0_glb[3];
 //    float vtx1_glb[3];
@@ -177,7 +177,7 @@ float quad_vtx2(struct problem *prb, int vtx_idx[2])
     
     int d[3];
     
-    switch (vtx_idx[0]^vtx_idx[1])          //test the xor of the vertex coords to get the direction of the edge
+    switch (prb->ele.vtx_idx[0]^prb->ele.vtx_idx[1])          //test the xor of the vertex coords to get the direction of the edge
     {
         case 1:                             //xyz
             
@@ -254,7 +254,7 @@ float quad_vtx2(struct problem *prb, int vtx_idx[2])
             
             float3_emul(spt_loc, prb->msh.ele_h, spt_glb);                              //local to global
             float3_eadd(prb->ele.vtx_glb[0], spt_glb, spt_glb);
-            lst_add(&prb->lst3, spt_glb, 0);
+//            lst_add(&prb->lst3, spt_glb, 0);
             
             for(int qpt_k=0; qpt_k<prb->scm.np; qpt_k++)                                //loop z
             {
@@ -266,7 +266,7 @@ float quad_vtx2(struct problem *prb, int vtx_idx[2])
                 
                 float3_emul(qpt_loc, prb->msh.ele_h, qpt_glb);                          //local to global
                 float3_eadd(prb->ele.vtx_glb[0], qpt_glb, qpt_glb);
-                lst_add(&prb->lst4, qpt_glb, 0);
+//                lst_add(&prb->lst4, qpt_glb, 0);
             }
         }
     }
@@ -387,7 +387,7 @@ float quad_vtx4(struct problem *prb)
             
             float3_emul(spt_loc, prb->msh.ele_h, spt_glb);                              //local to global
             float3_eadd(prb->ele.vtx_glb[0], spt_glb, spt_glb);
-            lst_add(&prb->lst3, spt_glb, 0);
+//            lst_add(&prb->lst3, spt_glb, 0);
             
             for(int qpt_k=0; qpt_k<prb->scm.np; qpt_k++)                                //loop z
             {
@@ -399,7 +399,7 @@ float quad_vtx4(struct problem *prb)
                 
                 float3_emul(qpt_loc, prb->msh.ele_h, qpt_glb);                          //local to global
                 float3_eadd(prb->ele.vtx_glb[0], qpt_glb, qpt_glb);
-                lst_add(&prb->lst4, qpt_glb, 0);
+//                lst_add(&prb->lst4, qpt_glb, 0);
             }
         }
     }
