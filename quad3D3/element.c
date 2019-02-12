@@ -84,7 +84,7 @@ void ele_calc(struct problem *prb)
 
     /*
      ===============================
-     debug print
+     debug print vtx_int
      ===============================
      */
     
@@ -165,7 +165,7 @@ void ele_calc(struct problem *prb)
                 {
                     case 1:                                                                     //external face with one internal vertex opposite
                     {
-                        lst_add_ele(&prb->lst2, prb);
+//                        lst_add_ele(&prb->lst2, prb);
                     
                         fac_get_vtx(prb, prb->ele.fac_ext_dim, !prb->ele.fac_ext_crd, 1, 1);     //find 1 int vtx on opp fac
                         
@@ -275,16 +275,33 @@ void ele_calc(struct problem *prb)
              ===============================
              */
             
-            else    //no int or ext
+            else                                                                                //no int or ext
             {
 //                printf("no int/ext\n");
-//                lst_add_ele(&prb->lst2, prb);
+                lst_add_ele(&prb->lst2, prb);
                 
-                //do integral of the base
+                //pick a base face - one with 3 internal verts
+                for(int i=0; i<3; i++)
+                {
+                    for(int j=0; j<2; j++)
+                    {
+                        if(prb->ele.fac_vtx_int[i][j]==3)
+                        {
+                            prb->ele.fac_int_dim = i;
+                            prb->ele.fac_int_crd = j;
+                        }
+                    }
+                }
                 
-                //find ext vtx on base quad and subtract
+                prb->vlm += quad_vtx4(prb);                                                     //do integral of the base
                 
-                //find int vtx on opp and subtract
+                fac_get_vtx(prb, prb->ele.fac_int_dim, prb->ele.fac_int_crd, 0, 1);            //find the external vertex on the base
+                
+                prb->vlm += quad_vtx1(prb);                                                     //subtract quad around the vertex
+                
+                fac_get_vtx(prb, prb->ele.fac_int_dim, !prb->ele.fac_int_crd, 1, 1);            //find the internal vertex on opposite face
+                
+                prb->vlm -= quad_vtx1(prb);                                                     //subtract quad around the vertex
                 
             }
         }
@@ -295,19 +312,19 @@ void ele_calc(struct problem *prb)
 //get some vertex indices for a given face (specify which face, how many, int/ext)
 void fac_get_vtx(struct problem *prb, int fac_dim, int fac_crd, int vtx_intext, int vtx_num)
 {
-    int j = 0;                                                                          //position in return array
+    int j = 0;                                                                                  //position in return array
     
-    for(int i=0; i<8; i++)                                                              //loop all verts of ele
+    for(int i=0; i<8; i++)                                                                      //loop all verts of ele
     {
-        if( (((i>>fac_dim)&1) == fac_crd) && ((prb->ele.vtx_sdf[i]<0)==vtx_intext))     //test face, (ie dim,coord) and int/ext
+        if( (((i>>fac_dim)&1) == fac_crd) && ((prb->ele.vtx_sdf[i]<0)==vtx_intext))             //test face, (ie dim,coord) and int/ext
         {
-            prb->ele.vtx_idx[j] = i;                                                    //store vertex index
+            prb->ele.vtx_idx[j] = i;                                                            //store vertex index
             
-            j += 1;                                                                     //increment strorage position
+            j += 1;                                                                             //increment strorage position
         }
-        if(j==vtx_num)                                                                  //have you got them all?
+        if(j==vtx_num)                                                                          //have you got them all?
         {
-            break;                                                                      //exit search
+            break;                                                                              //exit search
         }
     }
     return;
@@ -316,9 +333,9 @@ void fac_get_vtx(struct problem *prb, int fac_dim, int fac_crd, int vtx_intext, 
 //test if two verts are adjacent on the cube
 int vtx_adj(struct problem *prb)
 {
-    float f = log2f(prb->ele.vtx_idx[0]^prb->ele.vtx_idx[1]);                           //hamming distance==1 => XOR should be power of 2
+    float f = log2f(prb->ele.vtx_idx[0]^prb->ele.vtx_idx[1]);                                   //hamming distance==1 => XOR should be power of 2
     
-    return (ceilf(f) == f);                                                             //test for integer power of two
+    return (ceilf(f) == f);                                                                     //test for integer power of two
 }
 
 
