@@ -38,7 +38,7 @@ void msh_init(struct problem *prb)
     
     printf("msh_h           %f %f %f\n",prb->msh.msh_h[0],prb->msh.msh_h[1],prb->msh.msh_h[2]);
     printf("ele_h           %f %f %f\n",prb->msh.ele_h[0],prb->msh.ele_h[1],prb->msh.ele_h[2]);
-    printf("ele_vlm         %f\n",prb->msh.ele_vlm);
+    printf("ele_vlm         %18.16f\n",prb->msh.ele_vlm);
     
     return;
 }

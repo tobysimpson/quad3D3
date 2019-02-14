@@ -50,7 +50,7 @@ void ele_calc(struct problem *prb)
         
         prb->ele.vtx_int_tot += (prb->ele.vtx_sdf[vtx_idx] < 0);                            //count internal verts
         
-        lst_add(&prb->lst1, prb->ele.vtx_glb[vtx_idx], prb->ele.vtx_sdf[vtx_idx]);          //add to list
+//        lst_add(&prb->lst1, prb->ele.vtx_glb[vtx_idx], prb->ele.vtx_sdf[vtx_idx]);          //add to list
         
 //        printf("vtx_gen %1.0f %1.0f %1.0f | %+e %+e %+e | %d\n",vtx_loc[0],vtx_loc[1],vtx_loc[2],
 //               prb->ele.vtx_glb[vtx_idx][0],
@@ -281,7 +281,7 @@ void ele_calc(struct problem *prb)
             else                                                                                //no int or ext
             {
 //                printf("no int/ext\n");
-                lst_add_ele(&prb->lst2, prb);
+//                lst_add_ele(&prb->lst2, prb);
 
                 //choose a dimension and face
                 float grad[3] = {prb->ele.bas_aa[1] + 0.5*(prb->ele.bas_aa[4] + prb->ele.bas_aa[5]),

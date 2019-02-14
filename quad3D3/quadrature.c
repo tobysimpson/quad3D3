@@ -11,7 +11,7 @@
 //quadrature on whole element
 float quad_ele(struct problem *prb)
 {
-    return prb->msh.ele_vlm;                                        //whole element volume
+    return 1;                                                                //whole element volume
 }
 
 //quadrature around one vertex
@@ -144,7 +144,7 @@ float quad_vtx1(struct problem *prb)
             }
         }
     }
-    return vlm_loc*prb->msh.ele_vlm;                                                    //adjusted volume
+    return vlm_loc;                                                                     //local volume
 }
 
 
@@ -254,7 +254,7 @@ float quad_vtx2(struct problem *prb)
             
             float3_emul(spt_loc, prb->msh.ele_h, spt_glb);                                          //local to global
             float3_eadd(prb->ele.vtx_glb[0], spt_glb, spt_glb);
-            lst_add(&prb->lst3, spt_glb, 0);
+//            lst_add(&prb->lst3, spt_glb, 0);
             
             for(int qpt_k=0; qpt_k<prb->scm.np; qpt_k++)                                            //loop z
             {
@@ -266,11 +266,11 @@ float quad_vtx2(struct problem *prb)
                 
                 float3_emul(qpt_loc, prb->msh.ele_h, qpt_glb);                                      //local to global
                 float3_eadd(prb->ele.vtx_glb[0], qpt_glb, qpt_glb);
-                lst_add(&prb->lst4, qpt_glb, 0);
+//                lst_add(&prb->lst4, qpt_glb, 0);
             }
         }
     }
-    return vlm_loc*prb->msh.ele_vlm;                                                                //adjusted volume
+    return vlm_loc;                                                                     //local volume
 }
 
 
@@ -377,7 +377,7 @@ float quad_vtx4(struct problem *prb)
             
             float3_emul(spt_loc, prb->msh.ele_h, spt_glb);                                          //local to global
             float3_eadd(prb->ele.vtx_glb[0], spt_glb, spt_glb);
-            lst_add(&prb->lst3, spt_glb, 0);
+//            lst_add(&prb->lst3, spt_glb, 0);
             
             for(int qpt_k=0; qpt_k<prb->scm.np; qpt_k++)                                            //loop z
             {
@@ -389,12 +389,12 @@ float quad_vtx4(struct problem *prb)
                 
                 float3_emul(qpt_loc, prb->msh.ele_h, qpt_glb);                                      //local to global
                 float3_eadd(prb->ele.vtx_glb[0], qpt_glb, qpt_glb);
-                lst_add(&prb->lst4, qpt_glb, 0);
+//                lst_add(&prb->lst4, qpt_glb, 0);
             }
         }
     }
     
-    return vlm_loc*prb->msh.ele_vlm;                                                                //adjusted volume
+    return vlm_loc;                                                                         //adjusted volume
 }
 
 

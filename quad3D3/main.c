@@ -57,25 +57,26 @@ int main(int argc, const char * argv[])
         }
     }
     
+    prb->vlm = prb->vlm*prb->msh.ele_vlm;                       //adjust for ele size
+    
+    printf("prb_vlm         %f %f\n",prb->vlm, M_PI*4e0/3e0);
+    
     /*
      ===================
      debug
      ===================
      */
     
-    lst_write(&prb->lst1, "list1");
-    lst_write(&prb->lst2, "list2");
-    lst_write(&prb->lst3, "list3");
-    lst_write(&prb->lst4, "list4");
-    
-    printf("prb_vlm         %f %f\n",prb->vlm, M_PI*4e0/3e0);
-    
+//    lst_write(&prb->lst1, "list1");
+//    lst_write(&prb->lst2, "list2");
+//    lst_write(&prb->lst3, "list3");
+//    lst_write(&prb->lst4, "list4");
+
     /*
      ===================
      clean up
      ===================
      */
-
     
     free(prb);                  //problem
     
