@@ -27,14 +27,32 @@ void ele_calc(struct problem *prb)
         }
     }
     
-    prb->ele.vlm_loc = 0;                                                                   //volume subtotal
-    
-
-    if(prb->ele.pos[0]==0)                                                                  //do running total
+    if(prb->ele.pos[0]==(MSH_ELE_DIM_0-1))                                                                  //do running total
     {
-        prb->vlm += prb->vlm_sub;
-        prb->vlm_sub = 0;
+        prb->vlm[1] += prb->vlm[0];                                                         //sum onto row total
+        prb->vlm[0] = 0;                                                                    //reset subtotal
+        
+        if(prb->ele.pos[1]==(MSH_ELE_DIM_1-1))                                                              //do running total
+        {
+            prb->vlm[2] += prb->vlm[1];                                                     //sum onto main total
+            prb->vlm[1] = 0;                                                                //reset subtotal
+            
+            printf("ele_calc %10d | %3d %3d %3d | %d %d %d | %+f %+f %+f +%f\n",
+                   prb->ele.idx,
+                   prb->ele.pos[0],
+                   prb->ele.pos[1],
+                   prb->ele.pos[2],
+                   prb->ele.vtx_int_tot,
+                   prb->ele.fac_ext_flg,
+                   prb->ele.fac_int_flg,
+                   prb->ele.vlm_loc,
+                   prb->vlm[0],
+                   prb->vlm[1],
+                   prb->vlm[2]);
+        }
     }
+    
+    prb->ele.vlm_loc = 0;                                                                   //volume subtotal
     
     /*
      ===============================
@@ -292,7 +310,7 @@ void ele_calc(struct problem *prb)
             else                                                                                //no int or ext
             {
 //                printf("no int/ext\n");
-                lst_add_ele(&prb->lst2, prb);
+//                lst_add_ele(&prb->lst2, prb);
                 
                 
                 prb->ele.fac_ext_flg = 0;                               //reset flags
@@ -373,27 +391,25 @@ void ele_calc(struct problem *prb)
      ===============================
      */
     
-    
-    
-    
-    prb->vlm_sub += prb->ele.vlm_loc;                                                                           //add to running total
-    
 
+    prb->vlm[0] += prb->ele.vlm_loc;                                                                           //add to running total
     
-    if(prb->ele.vtx_int_tot>0)//&&(prb->ele.vtx_int_tot<8))
-    {
-    printf("ele_calc %10d | %3d %3d %3d | %d %d %d | %+f %+f %+f\n",
-           prb->ele.idx,
-           prb->ele.pos[0],
-           prb->ele.pos[1],
-           prb->ele.pos[2],
-           prb->ele.vtx_int_tot,
-           prb->ele.fac_ext_flg,
-           prb->ele.fac_int_flg,
-           prb->ele.vlm_loc,
-           prb->vlm_sub,
-           prb->vlm);
-    }
+//    if(prb->ele.vtx_int_tot>0)//&&(prb->ele.vtx_int_tot<8))
+//    if(prb->ele.pos[2]==0)
+//    {
+//        printf("ele_calc %10d | %3d %3d %3d | %d %d %d | %+f %+f %+f +%f\n",
+//               prb->ele.idx,
+//               prb->ele.pos[0],
+//               prb->ele.pos[1],
+//               prb->ele.pos[2],
+//               prb->ele.vtx_int_tot,
+//               prb->ele.fac_ext_flg,
+//               prb->ele.fac_int_flg,
+//               prb->ele.vlm_loc,
+//               prb->vlm[0],
+//               prb->vlm[1],
+//               prb->vlm[2]);
+//    }
     
     return;
 }

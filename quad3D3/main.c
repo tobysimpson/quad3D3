@@ -21,8 +21,9 @@ int main(int argc, const char * argv[])
     
     struct problem *prb = malloc(sizeof(struct problem));       //allocate memory
     
-    prb->vlm = 0;                                               //init volume
-    prb->vlm_sub = 0;
+    prb->vlm[0] = 0;                                            //init volume
+    prb->vlm[1] = 0;
+    prb->vlm[2] = 0;
     
     scm_init(prb);                                              //init scheme
     msh_init(prb);                                              //init mesh
@@ -57,7 +58,7 @@ int main(int argc, const char * argv[])
             }
         }
     }
-    printf("prb_vlm         %f %f %f  \n", prb->vlm, prb->vlm*prb->msh.ele_vlm, M_PI*4e0/3e0);
+    printf("prb_vlm         %f %f %f  \n", prb->vlm[2], prb->vlm[2]*prb->msh.ele_vlm, M_PI*4e0/3e0);
     
     /*
      ===================
