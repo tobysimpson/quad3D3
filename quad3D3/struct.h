@@ -67,7 +67,7 @@ struct element
     
     int                 fac_vtx[4];         //vertex indices for a given face
     
-    int                 vtx_idx[2];         //selected vertices for quadrature functions
+    int                 vtx_idx[4];         //selected vertices for quadrature functions
     
     float               bas_aa[8];          //interpolated basis function coefficients
 };

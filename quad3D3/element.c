@@ -50,7 +50,7 @@ void ele_calc(struct problem *prb)
         
         prb->ele.vtx_int_tot += (prb->ele.vtx_sdf[vtx_idx] < 0);                            //count internal verts
         
-//        lst_add(&prb->lst1, prb->ele.vtx_glb[vtx_idx], prb->ele.vtx_sdf[vtx_idx]);          //add to list
+        lst_add(&prb->lst1, prb->ele.vtx_glb[vtx_idx], prb->ele.vtx_sdf[vtx_idx]);          //add to list
         
 //        printf("vtx_gen %1.0f %1.0f %1.0f | %+e %+e %+e | %d\n",vtx_loc[0],vtx_loc[1],vtx_loc[2],
 //               prb->ele.vtx_glb[vtx_idx][0],
@@ -169,7 +169,7 @@ void ele_calc(struct problem *prb)
                     
                         fac_get_vtx(prb, prb->ele.fac_ext_dim, !prb->ele.fac_ext_crd, 1, 1);     //find 1 int vtx on opp fac
                         
-                        prb->vlm += quad_vtx1(prb);                                             //do quadrature around the one internal vertex
+//                        prb->vlm += quad_vtx1(prb);                                             //do quadrature around the one internal vertex
 
                         break;                                                                  //break case
                     }
@@ -181,7 +181,7 @@ void ele_calc(struct problem *prb)
 
                         if(vtx_adj(prb))                                                        //test if vtxs are adjacent
                         {
-                            prb->vlm += quad_vtx2(prb);                                         //adjacent do quadrature
+//                            prb->vlm += quad_vtx2(prb);                                         //adjacent do quadrature
                         }
                         else
                         {
@@ -196,11 +196,11 @@ void ele_calc(struct problem *prb)
                         prb->ele.fac_int_dim = prb->ele.fac_ext_dim;                            //set the 3-face as internal
                         prb->ele.fac_int_crd = !prb->ele.fac_ext_crd;
                         
-                        prb->vlm += quad_vtx4(prb);                                             //do quadrature on the 3-internal face
+//                        prb->vlm += quad_vtx4(prb);                                             //do quadrature on the 3-internal face
                         
                         fac_get_vtx(prb, prb->ele.fac_ext_dim, !prb->ele.fac_ext_crd, 0, 1);    //find external vertex in opposite face
                         
-                        prb->vlm -= quad_vtx1(prb);                                             //subtract quadrature around the one external vertex
+//                        prb->vlm -= quad_vtx1(prb);                                             //subtract quadrature around the one external vertex
                         
                         break;
                     }
@@ -208,7 +208,7 @@ void ele_calc(struct problem *prb)
                     {
 //                        lst_add_ele(&prb->lst2, prb);
                         
-                        prb->vlm += quad_vtx4(prb);                                             //quad on face
+//                        prb->vlm += quad_vtx4(prb);                                             //quad on face
                         
                         break;
                     }
@@ -231,11 +231,11 @@ void ele_calc(struct problem *prb)
                     {
 //                        lst_add_ele(&prb->lst2, prb);
                         
-                        prb->vlm += quad_vtx4(prb);                                             //do quadrature on the 4-internal face
+//                        prb->vlm += quad_vtx4(prb);                                             //do quadrature on the 4-internal face
                         
                         fac_get_vtx(prb, prb->ele.fac_int_dim, !prb->ele.fac_int_crd, 1, 1);    //find internal vertex opposite internal face
                         
-                        prb->vlm -= quad_vtx1(prb);                                             //subtract quadrature around the one external vertex
+//                        prb->vlm -= quad_vtx1(prb);                                             //subtract quadrature around the one external vertex
 
                         break;
                     }
@@ -249,7 +249,7 @@ void ele_calc(struct problem *prb)
                         
                         if(vtx_adj(prb))                                                        //test if vtxs are adjacent
                         {
-                            prb->vlm -= quad_vtx2(prb);                                         //adjacent subtract quadrature
+//                            prb->vlm -= quad_vtx2(prb);                                         //adjacent subtract quadrature
                         }
                         else
                         {
@@ -265,7 +265,7 @@ void ele_calc(struct problem *prb)
                         
                         fac_get_vtx(prb, prb->ele.fac_int_dim, !prb->ele.fac_int_crd, 0, 1);    //find external vertex in opposite face
                         
-                        prb->vlm -= quad_vtx1(prb);                                              //subtract quadrature around the one external vertex
+//                        prb->vlm -= quad_vtx1(prb);                                              //subtract quadrature around the one external vertex
 
                         break;
                     }
@@ -280,33 +280,50 @@ void ele_calc(struct problem *prb)
             
             else                                                                                //no int or ext
             {
-//                printf("no int/ext\n");
-//                lst_add_ele(&prb->lst2, prb);
-
-                //choose a dimension and face
-                float grad[3] = {prb->ele.bas_aa[1] + 0.5*(prb->ele.bas_aa[4] + prb->ele.bas_aa[5]),
-                                 prb->ele.bas_aa[2] + 0.5*(prb->ele.bas_aa[4] + prb->ele.bas_aa[6]),
-                                 prb->ele.bas_aa[3] + 0.5*(prb->ele.bas_aa[5] + prb->ele.bas_aa[6])};   //gradient of the interpolated sdf at the centre
-
-                //we need the max abs and the sign for the base face
-                prb->ele.fac_int_dim = (fabs(grad[0])>fabs(grad[1]))?0:1;
-                prb->ele.fac_int_dim = (fabs(grad[prb->ele.fac_int_dim])>fabs(grad[2]))?prb->ele.fac_int_dim:2; //use index of max abs grad to determine the dimension
-
-                prb->ele.fac_int_crd = grad[prb->ele.fac_int_dim] < 0;                          //use the sign of the gradient to determine the face
+                printf("no int/ext\n");
+                lst_add_ele(&prb->lst2, prb);
                 
-                prb->vlm += quad_vtx4(prb);                                                     //do integral of the base
+                
+                prb->ele.fac_ext_flg = 0;                               //reset flags
+                prb->ele.fac_int_flg = 0;
+                
+                
+                //need a face with 3-int verts opp 3 ext verts - and you need the gradient as well
+                for(int dim_idx=0; dim_idx<3; dim_idx++)                //loop dims
+                {
+                    for(int crd_idx=0; crd_idx<2; crd_idx++)            //loop coords
+                    {
+                        if(prb->ele.fac_vtx_int[dim_idx][crd_idx]==3)   //find face with 3 int verts
+                        {
+                            prb->ele.fac_int_flg = 1;
+                            prb->ele.fac_int_dim = dim_idx;
+                            prb->ele.fac_int_crd = crd_idx;
+                            
+                            break;
+                        }
+                    }
+                }
+                if(prb->ele.fac_int_flg)
+                {
+                    prb->vlm += quad_vtx4(prb);                                                     //do integral of the base
 
-                fac_get_vtx(prb, prb->ele.fac_int_dim, prb->ele.fac_int_crd, 0, 1);            //find the external vertex on the base
+                    fac_get_vtx(prb, prb->ele.fac_int_dim, prb->ele.fac_int_crd, 0, 1);             //find the external vertex on the base
 
-                prb->vlm += quad_vtx1(prb);                                                     //add quad around the vertex below
+                    prb->vlm -= quad_vtx1(prb);                                                     //add quad around the vertex below
 
-                fac_get_vtx(prb, prb->ele.fac_int_dim, !prb->ele.fac_int_crd, 1, 1);            //find the internal vertex on opposite face
+                    fac_get_vtx(prb, prb->ele.fac_int_dim, !prb->ele.fac_int_crd, 1, 1);            //find the internal vertex on opposite face
 
-                prb->vlm -= quad_vtx1(prb);                                                     //subtract quad around the vertex above
-
+                    prb->vlm -= quad_vtx1(prb);                                                     //subtract quad around the vertex above
+                }
+                else
+                {
+                    printf("no 3-face!\n");
+                }
             }
         }
     }
+    
+//    printf("ele calc vlm        %6d %18.16f\n",prb->ele.idx, prb->vlm);
     return;
 }
 

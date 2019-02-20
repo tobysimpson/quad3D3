@@ -56,10 +56,9 @@ int main(int argc, const char * argv[])
             }
         }
     }
+    printf("prb_vlm         %6d %f %f\n",MSH_ELE_TOT, prb->vlm, M_PI*4e0/3e0);
     
-    prb->vlm = prb->vlm*prb->msh.ele_vlm;                       //adjust for ele size
-    
-    printf("prb_vlm         %f %f\n",prb->vlm, M_PI*4e0/3e0);
+//    printf("prb_vlm         %6d %f %f\n",MSH_ELE_TOT, prb->vlm, ((M_PI)*0.3*0.3)*(2*(M_PI)*0.7));
     
     /*
      ===================
@@ -67,10 +66,10 @@ int main(int argc, const char * argv[])
      ===================
      */
     
-//    lst_write(&prb->lst1, "list1");
-//    lst_write(&prb->lst2, "list2");
-//    lst_write(&prb->lst3, "list3");
-//    lst_write(&prb->lst4, "list4");
+    lst_write(&prb->lst1, "list1");
+    lst_write(&prb->lst2, "list2");
+    lst_write(&prb->lst3, "list3");
+    lst_write(&prb->lst4, "list4");
 
     /*
      ===================
