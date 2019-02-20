@@ -83,7 +83,8 @@ struct problem
     
 //    struct  quadpoint qpt;                //quadrature point
 
-    float               vlm;                //volume total
+    float               vlm;                //volume
+    float               vlm_sub;            //subtotal
     
     struct  list        lst1;               //lists for debug
     struct  list        lst2;

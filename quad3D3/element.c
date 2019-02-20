@@ -29,8 +29,12 @@ void ele_calc(struct problem *prb)
     
     prb->ele.vlm_loc = 0;                                                                   //volume subtotal
     
-    prb->ele.fac_ext_flg = 0;                               //reset flags
-    prb->ele.fac_int_flg = 0;
+
+    if(prb->ele.pos[0]==0)                                                                  //do running total
+    {
+        prb->vlm += prb->vlm_sub;
+        prb->vlm_sub = 0;
+    }
     
     /*
      ===============================
@@ -123,7 +127,7 @@ void ele_calc(struct problem *prb)
         }
         case 8:                                                     //all internal
         {
-            prb->ele.vlm_loc += quad_ele(prb);                              //quad on whole element
+            prb->ele.vlm_loc += quad_ele(prb);                      //quad on whole element
             
             break;
         }
@@ -134,6 +138,9 @@ void ele_calc(struct problem *prb)
              find int/ext faces
              ===============================
              */
+            
+            prb->ele.fac_ext_flg = 0;                               //reset flags
+            prb->ele.fac_int_flg = 0;
             
             for(int dim_idx=0; dim_idx<3; dim_idx++)                //loop dims
             {
@@ -367,11 +374,15 @@ void ele_calc(struct problem *prb)
      */
     
     
-    prb->vlm += prb->ele.vlm_loc;                                                                           //add to running total
     
-    if((prb->ele.vtx_int_tot>0)&&(prb->ele.vtx_int_tot<8))
+    
+    prb->vlm_sub += prb->ele.vlm_loc;                                                                           //add to running total
+    
+
+    
+    if(prb->ele.vtx_int_tot>0)//&&(prb->ele.vtx_int_tot<8))
     {
-    printf("ele_calc %10d | %3d %3d %3d | %d %d %d | %+f %+f\n",
+    printf("ele_calc %10d | %3d %3d %3d | %d %d %d | %+f %+f %+f\n",
            prb->ele.idx,
            prb->ele.pos[0],
            prb->ele.pos[1],
@@ -380,6 +391,7 @@ void ele_calc(struct problem *prb)
            prb->ele.fac_ext_flg,
            prb->ele.fac_int_flg,
            prb->ele.vlm_loc,
+           prb->vlm_sub,
            prb->vlm);
     }
     

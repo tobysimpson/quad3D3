@@ -22,6 +22,7 @@ int main(int argc, const char * argv[])
     struct problem *prb = malloc(sizeof(struct problem));       //allocate memory
     
     prb->vlm = 0;                                               //init volume
+    prb->vlm_sub = 0;
     
     scm_init(prb);                                              //init scheme
     msh_init(prb);                                              //init mesh
