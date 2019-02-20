@@ -44,14 +44,13 @@ void scm_init(struct problem *prb)
             
             prb->scm.np = 3;
         
-//            prb->scm.pp[0] = -sqrt(3e0/5e0);                                //points on [-1,+1]
-//            prb->scm.pp[1] = 0e0;
-//            prb->scm.pp[2] = +sqrt(3e0/5e0);
+            prb->scm.pp[0] = -sqrt(3e0/5e0);                                //points on [-1,+1]
+            prb->scm.pp[1] = 0e0;
+            prb->scm.pp[2] = +sqrt(3e0/5e0);
             
-            
-            prb->scm.pp[0] = -1;                                            //points on [-1,+1]
-            prb->scm.pp[1] = +0;
-            prb->scm.pp[2] = +1;
+//            prb->scm.pp[0] = -1;                                            //points on [-1,+1] - just for plots
+//            prb->scm.pp[1] = +0;
+//            prb->scm.pp[2] = +1;
             
             prb->scm.ww[0] = 5e0/9e0;                                       //weights for [-1,+1]
             prb->scm.ww[1] = 8e0/9e0;
@@ -79,13 +78,13 @@ void scm_init(struct problem *prb)
             
             prb->scm.np = 5;
             
-//            prb->scm.pp[0] = -sqrt(5+(2*sqrt(10e0/7e0)))/3e0;               //points on [-1,+1]
-//            prb->scm.pp[1] = -sqrt(5-(2*sqrt(10e0/7e0)))/3e0;
-//            prb->scm.pp[2] = 0e0;
-//            prb->scm.pp[3] = +sqrt(5-(2*sqrt(10e0/7e0)))/3e0;
-//            prb->scm.pp[4] = +sqrt(5+(2*sqrt(10e0/7e0)))/3e0;
+            prb->scm.pp[0] = -sqrt(5+(2*sqrt(10e0/7e0)))/3e0;               //points on [-1,+1]
+            prb->scm.pp[1] = -sqrt(5-(2*sqrt(10e0/7e0)))/3e0;
+            prb->scm.pp[2] = 0e0;
+            prb->scm.pp[3] = +sqrt(5-(2*sqrt(10e0/7e0)))/3e0;
+            prb->scm.pp[4] = +sqrt(5+(2*sqrt(10e0/7e0)))/3e0;
             
-            prb->scm.pp[0] = -1.0;                                            //points on [-1,+1]
+            prb->scm.pp[0] = -1.0;                                            //points on [-1,+1] - just for plots
             prb->scm.pp[1] = -0.5;
             prb->scm.pp[2] = +0.0;
             prb->scm.pp[3] = +0.5;

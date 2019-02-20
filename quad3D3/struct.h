@@ -33,6 +33,7 @@ struct mesh
     float               ele_h[3];           //element coordinate dimensions
     
     float               ele_vlm;            //element volume
+    float               msh_vlm;            //mesh volume
 };
 
 
@@ -50,6 +51,7 @@ struct element
 {
     int                 idx;                //counter
     int                 pos[3];             //position in the element space (i,j,k)
+    float               vlm_loc;            //ele volume (for subtotal and debug)
     
     float               vtx_glb[8][3];      //vertex global coords
     float               vtx_sdf[8];         //signed distance function

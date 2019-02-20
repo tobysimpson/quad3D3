@@ -33,12 +33,14 @@ void msh_init(struct problem *prb)
     prb->msh.ele_h[2] = prb->msh.msh_h[2]/MSH_ELE_DIM_2;
     
     prb->msh.ele_vlm = float3_eprd(prb->msh.ele_h);                                                 //element volume
+    prb->msh.msh_vlm = float3_eprd(prb->msh.msh_h);                                                 //mesh volume
     
     printf("MSH_ELE_TOT     %d\n",MSH_ELE_TOT);
     
     printf("msh_h           %f %f %f\n",prb->msh.msh_h[0],prb->msh.msh_h[1],prb->msh.msh_h[2]);
     printf("ele_h           %f %f %f\n",prb->msh.ele_h[0],prb->msh.ele_h[1],prb->msh.ele_h[2]);
-    printf("ele_vlm         %18.16f\n",prb->msh.ele_vlm);
+    printf("ele_vlm         %14.12f\n",prb->msh.ele_vlm);
+    printf("msh_vlm         %f\n",prb->msh.msh_vlm);
     
     return;
 }
