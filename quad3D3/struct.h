@@ -46,6 +46,30 @@ struct list
     float               *pp;                //array of points
 };
 
+
+//counter (for debug)
+struct counter
+{
+    int                 ele_ext;            //external elements
+    int                 ele_int;            //internal elements
+    
+    int                 fac_ext;            //external face (may also have internal face)
+    
+    int                 fac_ext_v1;         //how many int verts
+    int                 fac_ext_v2;
+    int                 fac_ext_v3;
+    int                 fac_ext_v4;
+    
+    int                 fac_int;            //internal face
+    
+    int                 fac_int_v1;         //how many ext verts
+    int                 fac_int_v2;
+    int                 fac_int_v3;
+    int                 fac_int_v4;
+
+    int                 fac_oth;            //no int or ext face
+};
+
 //element
 struct element
 {
@@ -72,6 +96,8 @@ struct element
     int                 vtx_idx[4];         //selected vertices for quadrature functions
     
     float               bas_aa[8];          //interpolated basis function coefficients
+    
+    struct counter      ctr;                //counter for logic debug
 };
 
 //problem

@@ -37,18 +37,15 @@ void ele_calc(struct problem *prb)
             prb->vlm[2] += prb->vlm[1];                                                     //sum onto main total
             prb->vlm[1] = 0;                                                                //reset subtotal
             
-            printf("ele_calc %10d | %3d %3d %3d | %d %d %d | %+f %+f %+f +%f\n",
-                   prb->ele.idx,
-                   prb->ele.pos[0],
-                   prb->ele.pos[1],
-                   prb->ele.pos[2],
-                   prb->ele.vtx_int_tot,
-                   prb->ele.fac_ext_flg,
-                   prb->ele.fac_int_flg,
-                   prb->ele.vlm_loc,
-                   prb->vlm[0],
-                   prb->vlm[1],
-                   prb->vlm[2]);
+//            printf("ele_calc %10d | %3d %3d %3d | %d %d %d | %+f \n",
+//                   prb->ele.idx,
+//                   prb->ele.pos[0],
+//                   prb->ele.pos[1],
+//                   prb->ele.pos[2],
+//                   prb->ele.vtx_int_tot,
+//                   prb->ele.fac_ext_flg,
+//                   prb->ele.fac_int_flg,
+//                   prb->vlm[2]);
         }
     }
     
@@ -140,11 +137,15 @@ void ele_calc(struct problem *prb)
     {
         case 0:                                                     //all external
         {
+            prb->ele.ctr.ele_ext += 1;                              //increment counter
+            
             //do nothing
             break;
         }
         case 8:                                                     //all internal
         {
+            prb->ele.ctr.ele_int += 1;                              //increment counter
+            
             prb->ele.vlm_loc += quad_ele(prb);                      //quad on whole element
             
             break;
@@ -188,12 +189,16 @@ void ele_calc(struct problem *prb)
             
             if(prb->ele.fac_ext_flg)
             {
+                prb->ele.ctr.fac_ext += 1;                                                      //increment counter
+                
 //                printf("fac_ext %d %d %d\n",prb->ele.fac_ext_flg,prb->ele.fac_ext_dim,prb->ele.fac_ext_crd);
                 
                 switch (prb->ele.fac_vtx_int[prb->ele.fac_ext_dim][!prb->ele.fac_ext_crd])      //count internal verts on opposite face
                 {
                     case 1:                                                                     //external face with one internal vertex opposite
                     {
+                        prb->ele.ctr.fac_ext_v1 += 1;
+                        
 //                        lst_add_ele(&prb->lst2, prb);
                     
                         fac_get_vtx(prb, prb->ele.fac_ext_dim, !prb->ele.fac_ext_crd, 1, 1);    //find 1 int vtx on opp fac
@@ -204,6 +209,8 @@ void ele_calc(struct problem *prb)
                     }
                     case 2:                                                                     //2 ext verts opposite ext face
                     {
+                        prb->ele.ctr.fac_ext_v2 += 1;
+                        
 //                        lst_add_ele(&prb->lst2, prb);
                         
                         fac_get_vtx(prb, prb->ele.fac_ext_dim, !prb->ele.fac_ext_crd, 1, 2);    //find two internal vertices
@@ -214,12 +221,14 @@ void ele_calc(struct problem *prb)
                         }
                         else
                         {
-                            printf("2 non-adjacent verts");                                     //opposite implement later
+                            printf("ext_v2  2 non-adjacent verts\n");                                     //opposite implement later
                         }
                         break;                                                                  //break case
                     }
                     case 3:                                                                     //3 ext verts opp ext face
                     {
+                        prb->ele.ctr.fac_ext_v3 += 1;
+                        
 //                        lst_add_ele(&prb->lst2, prb);
                      
                         prb->ele.fac_int_dim = prb->ele.fac_ext_dim;                            //set the 3-face as internal
@@ -235,6 +244,8 @@ void ele_calc(struct problem *prb)
                     }
                     case 4:                                                                     //both internal and external face
                     {
+                        prb->ele.ctr.fac_ext_v4 += 1;
+                        
 //                        lst_add_ele(&prb->lst2, prb);
                         
                         prb->ele.vlm_loc += quad_vtx4(prb);                                             //quad on face
@@ -252,12 +263,16 @@ void ele_calc(struct problem *prb)
 
             else if(prb->ele.fac_int_flg)
             {
+                prb->ele.ctr.fac_int += 1;                                                      //increment counter
+                
 //                printf("fac_int %d %d %d\n",prb->ele.fac_int_flg,prb->ele.fac_int_dim,prb->ele.fac_int_crd);
                 
                 switch (prb->ele.fac_vtx_int[prb->ele.fac_int_dim][!prb->ele.fac_int_crd])      //count internal verts on opposite face
                 {
                     case 1:                                                                     //internal face with one internal vertex opposite
                     {
+                        prb->ele.ctr.fac_int_v1 += 1;
+                        
 //                        lst_add_ele(&prb->lst2, prb);
                         
                         prb->ele.vlm_loc += quad_vtx4(prb);                                             //do quadrature on the 4-internal face
@@ -270,6 +285,8 @@ void ele_calc(struct problem *prb)
                     }
                     case 2:                                                                     //two internal vertex opposite internal face
                     {
+                        prb->ele.ctr.fac_int_v2 += 1;
+                        
 //                        lst_add_ele(&prb->lst2, prb);
                         
                         prb->ele.vlm_loc += quad_ele(prb);                                              //quad on whole element
@@ -282,12 +299,14 @@ void ele_calc(struct problem *prb)
                         }
                         else
                         {
-                            printf("2 non-adjacent verts");                                     //opposite implement later
+                            printf("int_v2  2 non-adjacent verts\n");                                     //opposite implement later
                         }
                         break;
                     }
                     case 3:                                                                     //internal face with three internal vertex opposite
                     {
+                        prb->ele.ctr.fac_int_v3 += 1;
+                        
 //                        lst_add_ele(&prb->lst2, prb);
                         
                         prb->ele.vlm_loc += quad_ele(prb);                                              //quad on whole element
@@ -309,6 +328,8 @@ void ele_calc(struct problem *prb)
             
             else                                                                                //no int or ext
             {
+                prb->ele.ctr.fac_oth += 1;                                                      //increment counter
+                
 //                printf("no int/ext\n");
 //                lst_add_ele(&prb->lst2, prb);
                 
@@ -317,17 +338,17 @@ void ele_calc(struct problem *prb)
                 prb->ele.fac_int_flg = 0;
                 
                 
-                //calc gradient of sdf approx in centre of cube
+                //calc gradient of sdf approx in centre of cube - for numerical stability
                 float grad[3];
                 
-                grad[0] = prb->ele.bas_aa[1] + 0.5*(prb->ele.bas_aa[4] + prb->ele.bas_aa[5]);   //grad at centre
+                grad[0] = prb->ele.bas_aa[1] + 0.5*(prb->ele.bas_aa[4] + prb->ele.bas_aa[5]);           //grad at centre
                 grad[1] = prb->ele.bas_aa[2] + 0.5*(prb->ele.bas_aa[4] + prb->ele.bas_aa[6]);
                 grad[2] = prb->ele.bas_aa[3] + 0.5*(prb->ele.bas_aa[5] + prb->ele.bas_aa[6]);
                 
-                float   grad_max = fabsf(grad[0]);                      //init max abs grad
+                float   grad_max = fabsf(grad[0]);                                                      //init max abs grad
                 int     grad_idx = 0;
                 
-                for(int dim_idx=0; dim_idx<3; dim_idx++)                //loop dims
+                for(int dim_idx=0; dim_idx<3; dim_idx++)                                                //loop dims
                 {
                     if(fabsf(grad[dim_idx])>grad_max)
                     {
@@ -342,11 +363,11 @@ void ele_calc(struct problem *prb)
                 
                 prb->ele.vlm_loc += quad_vtx4(prb);                                                     //do integral of the base
                 
-                fac_get_vtx(prb, prb->ele.fac_int_dim, prb->ele.fac_int_crd, 0, 1);             //find the external vertex on the base
+                fac_get_vtx(prb, prb->ele.fac_int_dim, prb->ele.fac_int_crd, 0, 1);                     //find the external vertex on the base
                 
                 prb->ele.vlm_loc -= quad_vtx1(prb);                                                     //add quad around the vertex below
                 
-                fac_get_vtx(prb, prb->ele.fac_int_dim, !prb->ele.fac_int_crd, 1, 1);            //find the internal vertex on opposite face
+                fac_get_vtx(prb, prb->ele.fac_int_dim, !prb->ele.fac_int_crd, 1, 1);                    //find the internal vertex on opposite face
                 
                 prb->ele.vlm_loc -= quad_vtx1(prb);                                                     //subtract quad around the vertex
                 
