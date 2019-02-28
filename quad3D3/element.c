@@ -133,140 +133,136 @@ void ele_calc(struct problem *prb)
     
     prb->ele.ctr.vtx_int[1][prb->ele.vtx_int_tot] += pth_con;               //count path conn
     
-    if(pth_con)
+    if(!pth_con)
     {
-        lst_add_ele(&prb->lst1, prb);                                        //have a look
+        lst_add_ele(&prb->lst2, prb);                                        //have a look
     }
+
     
-//    switch (prb->ele.vtx_int_tot)
-//    {
-//        case 0:                                                             //all external
-//        {
-//            prb->ele.ctr.vtx_int[1][prb->ele.vtx_int_tot] += 1;             //is path connected
-//
-//            break;
-//        }
-//        case 8:                                                             //all internal
-//        {
-//            prb->ele.ctr.vtx_int[1][prb->ele.vtx_int_tot] += 1;             //is path connected
-//
-//            break;
-//        }
-//        default:                                                            //both
-//        {
-//
-//
-//
-////            /*
-////             ===============================
-////             find int/ext faces
-////             ===============================
-////             */
-////
-////            prb->ele.fac_ext_flg = 0;                               //reset flags
-////            prb->ele.fac_int_flg = 0;
-////
-////            for(int dim_idx=0; dim_idx<3; dim_idx++)                //loop dims
-////            {
-////                for(int crd_idx=0; crd_idx<2; crd_idx++)            //loop coords
-////                {
-////                    if(prb->ele.fac_vtx_int[dim_idx][crd_idx]==0)   //ext face
-////                    {
-////                        prb->ele.fac_ext_flg = 1;
-////                        prb->ele.fac_ext_dim = dim_idx;
-////                        prb->ele.fac_ext_crd = crd_idx;
-////                    }
-////
-////                    if(prb->ele.fac_vtx_int[dim_idx][crd_idx]==4)   //int face
-////                    {
-////                        prb->ele.fac_int_flg = 1;
-////                        prb->ele.fac_int_dim = dim_idx;
-////                        prb->ele.fac_int_crd = crd_idx;
-////                    }
-////                }
-////            }
-////
-////            /*
-////             ===============================
-////             max verts per face
-////             ===============================
-////             */
-////
-////            int fac_max_int = prb->ele.fac_vtx_int[0][0];                   //init max
-////            int fac_max_dim = 0;
-////            int fac_max_crd = 0;
-////
-////
-////            for(int dim_idx=0; dim_idx<3; dim_idx++)                        //loop dims
-////            {
-////                for(int crd_idx=0; crd_idx<2; crd_idx++)                    //loop coords
-////                {
-////                    int tmp_max = prb->ele.fac_vtx_int[dim_idx][crd_idx];
-////
-////                    if(tmp_max>fac_max_int)
-////                    {
-////                        fac_max_int = tmp_max;
-////                        fac_max_dim = dim_idx;
-////                        fac_max_crd = crd_idx;
-////                    }
-////                }
-////            }
-////
-//
+    switch (prb->ele.vtx_int_tot)
+    {
+        case 0:                                                             //all external
+        {
+            break;
+        }
+        case 8:                                                             //all internal
+        {
+            break;
+        }
+        default:                                                            //both
+        {
+            lst_add_ele(&prb->lst1, prb);                                        //have a look
+
 //            /*
 //             ===============================
-//             vertex logic
+//             find int/ext faces
 //             ===============================
 //             */
 //
-//            switch (prb->ele.vtx_int_tot)                                                   //internal verts
+//            prb->ele.fac_ext_flg = 0;                               //reset flags
+//            prb->ele.fac_int_flg = 0;
+//
+//            for(int dim_idx=0; dim_idx<3; dim_idx++)                //loop dims
 //            {
-//                case 1:                                                                     //1 int vtx
+//                for(int crd_idx=0; crd_idx<2; crd_idx++)            //loop coords
 //                {
-//                    break;                                                                  //break case
-//                }
-//                case 2:                                                                     //2 int vtx
-//                {
-//                    break;                                                                  //break case
-//                }
-//                case 3:                                                                     //3 int vtx
-//                {
-////                    printf("fac_int\n");
-////                    for(int i=0; i<3; i++)
-////                    {
-////                        for(int j=0; j<2; j++)
-////                        {
-////                            printf("%d ",prb->ele.fac_vtx_int[i][j]);                       //print fac_int
-////                        }
-////                        printf("\n");
-////                    }
-////
-////                    printf("fac_max %d %d %d\n",fac_max_dim,fac_max_crd,fac_max_int);       //disp
+//                    if(prb->ele.fac_vtx_int[dim_idx][crd_idx]==0)   //ext face
+//                    {
+//                        prb->ele.fac_ext_flg = 1;
+//                        prb->ele.fac_ext_dim = dim_idx;
+//                        prb->ele.fac_ext_crd = crd_idx;
+//                    }
 //
-//                    break;                                                                  //break case
-//                }
-//                case 4:                                                                     //4 int vtx
-//                {
-//
-//
-//                    break;                                                                  //break case
-//                }
-//                case 5:                                                                     //5 int vtx
-//                {
-//                    break;                                                                  //break case
-//                }
-//                case 6:                                                                     //6 int vtx
-//                {
-//                    break;                                                                  //break case
-//                }
-//                case 7:                                                                     //7 int vtx
-//                {
-//                    break;                                                                  //break case
+//                    if(prb->ele.fac_vtx_int[dim_idx][crd_idx]==4)   //int face
+//                    {
+//                        prb->ele.fac_int_flg = 1;
+//                        prb->ele.fac_int_dim = dim_idx;
+//                        prb->ele.fac_int_crd = crd_idx;
+//                    }
 //                }
 //            }
-//        }
-//    }
 //
+//            /*
+//             ===============================
+//             max verts per face
+//             ===============================
+//             */
+//
+//            int fac_max_int = prb->ele.fac_vtx_int[0][0];                   //init max
+//            int fac_max_dim = 0;
+//            int fac_max_crd = 0;
+//
+//
+//            for(int dim_idx=0; dim_idx<3; dim_idx++)                        //loop dims
+//            {
+//                for(int crd_idx=0; crd_idx<2; crd_idx++)                    //loop coords
+//                {
+//                    int tmp_max = prb->ele.fac_vtx_int[dim_idx][crd_idx];
+//
+//                    if(tmp_max>fac_max_int)
+//                    {
+//                        fac_max_int = tmp_max;
+//                        fac_max_dim = dim_idx;
+//                        fac_max_crd = crd_idx;
+//                    }
+//                }
+//            }
+//
+
+            /*
+             ===============================
+             vertex logic
+             ===============================
+             */
+
+            switch (prb->ele.vtx_int_tot)                                                   //internal verts
+            {
+                case 1:                                                                     //1 int vtx
+                {
+                    break;                                                                  //break case
+                }
+                case 2:                                                                     //2 int vtx
+                {
+                    break;                                                                  //break case
+                }
+                case 3:                                                                     //3 int vtx
+                {
+//                    printf("fac_int\n");
+//                    for(int i=0; i<3; i++)
+//                    {
+//                        for(int j=0; j<2; j++)
+//                        {
+//                            printf("%d ",prb->ele.fac_vtx_int[i][j]);                       //print fac_int
+//                        }
+//                        printf("\n");
+//                    }
+//
+//                    printf("fac_max %d %d %d\n",fac_max_dim,fac_max_crd,fac_max_int);       //disp
+
+                    break;                                                                  //break case
+                }
+                case 4:                                                                     //4 int vtx
+                {
+
+
+                    break;                                                                  //break case
+                }
+                case 5:                                                                     //5 int vtx
+                {
+                    break;                                                                  //break case
+                }
+                case 6:                                                                     //6 int vtx
+                {
+                    break;                                                                  //break case
+                }
+                case 7:                                                                     //7 int vtx
+                {
+                    break;                                                                  //break case
+                }
+            }
+        }
+    }
+
     /*
      ===============================
      debug

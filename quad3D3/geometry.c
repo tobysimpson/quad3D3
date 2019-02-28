@@ -73,8 +73,8 @@ float geo_sdf(struct problem *prb, float x[3])
 //        {
 //            sdf_min = sdf_eval;                             //store min
 //        }
-        
-        sdf_min = smin(sdf_min,sdf_eval,0.4);
+    
+        sdf_min = smin(sdf_min,sdf_eval,0.3);
     }
     return sdf_min;
 }

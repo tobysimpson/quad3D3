@@ -34,7 +34,7 @@
 #define MSH_XMAX_2          +1
 
 //num elements
-#define MSH_ELE_DIM         50
+#define MSH_ELE_DIM         32
 
 #define MSH_ELE_DIM_0       MSH_ELE_DIM                                     //mesh elements per dimension
 #define MSH_ELE_DIM_1       MSH_ELE_DIM
