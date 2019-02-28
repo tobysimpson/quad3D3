@@ -45,7 +45,8 @@ void lst_add_ele(struct list *lst, struct problem *prb);
 void lst_write(struct list *lst, char file_name[20]);
 
 //geometry
-float geo_sdf(float x[3]);
+void geo_init(struct problem *prb);
+float geo_sdf(struct problem *prb, float x[3]);
 
 //quadrature.c
 float quad_ele(struct problem *prb);
@@ -55,5 +56,11 @@ float quad_vtx3(struct problem *prb);
 float quad_vtx4(struct problem *prb);
 
 float bas_root(struct problem *prb, int dim_idx, float vtx_loc[3]);
+
+//path
+int ele_pth_test(struct problem *prb);
+int pth_calc(struct problem *prb, int vtx_idx);
+void pth_rec(struct problem *prb, int vtx_idx1, int *pth_vtx, int *pth_num);
+
 
 #endif /* proto_h */

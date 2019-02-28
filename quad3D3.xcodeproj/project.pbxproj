@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DA0BBD5E2226BB7800FE0F6C /* path.c in Sources */ = {isa = PBXBuildFile; fileRef = DA0BBD5D2226BB7800FE0F6C /* path.c */; };
 		DAE32D1F21BFBB2900CE1CFA /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = DAE32D1E21BFBB2900CE1CFA /* main.c */; };
 		DAE32D2C21BFC29600CE1CFA /* scheme.c in Sources */ = {isa = PBXBuildFile; fileRef = DAE32D2B21BFC29600CE1CFA /* scheme.c */; };
 		DAE32D2E21BFC34500CE1CFA /* float3.c in Sources */ = {isa = PBXBuildFile; fileRef = DAE32D2D21BFC34500CE1CFA /* float3.c */; };
@@ -30,6 +31,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		DA0BBD5B2226A7DB00FE0F6C /* old_element1.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = old_element1.c; sourceTree = "<group>"; };
+		DA0BBD5D2226BB7800FE0F6C /* path.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = path.c; sourceTree = "<group>"; };
 		DAE32D1B21BFBB2900CE1CFA /* quad3D3 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = quad3D3; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAE32D1E21BFBB2900CE1CFA /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		DAE32D2521BFBD2900CE1CFA /* const.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = const.h; sourceTree = "<group>"; };
@@ -84,9 +87,11 @@
 				DAE32D2B21BFC29600CE1CFA /* scheme.c */,
 				DAE32D2F21BFCC6000CE1CFA /* mesh.c */,
 				DAE32D3321BFD02900CE1CFA /* element.c */,
+				DA0BBD5D2226BB7800FE0F6C /* path.c */,
 				DAE32D3921BFF41000CE1CFA /* quadrature.c */,
 				DAE32D3521BFD94300CE1CFA /* geometry.c */,
 				DAE32D3721BFE92800CE1CFA /* list.c */,
+				DA0BBD5B2226A7DB00FE0F6C /* old_element1.c */,
 			);
 			path = quad3D3;
 			sourceTree = "<group>";
@@ -149,6 +154,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DAE32D3421BFD02900CE1CFA /* element.c in Sources */,
+				DA0BBD5E2226BB7800FE0F6C /* path.c in Sources */,
 				DAE32D3621BFD94300CE1CFA /* geometry.c in Sources */,
 				DAE32D3021BFCC6000CE1CFA /* mesh.c in Sources */,
 				DAE32D3A21BFF41000CE1CFA /* quadrature.c in Sources */,

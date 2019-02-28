@@ -31,14 +31,23 @@ int main(int argc, const char * argv[])
     
     scm_init(prb);                                              //init scheme
     msh_init(prb);                                              //init mesh
+    geo_init(prb);
     
     lst_init(&prb->lst1);                                       //init list
     lst_init(&prb->lst2);                                       //init list
     lst_init(&prb->lst3);                                       //init list
     lst_init(&prb->lst4);                                       //init list
+    
+    /*
+     ===================
+     reset counters
+     ===================
+     */
 
     prb->ele.ctr.ele_ext =  0;                                  //reset counters
     prb->ele.ctr.ele_int =  0;
+    prb->ele.ctr.ele_oth =  0;
+    
     prb->ele.ctr.fac_ext =  0;
     prb->ele.ctr.fac_int =  0;
     prb->ele.ctr.fac_oth =  0;
@@ -52,6 +61,13 @@ int main(int argc, const char * argv[])
     prb->ele.ctr.fac_int_v2  = 0;
     prb->ele.ctr.fac_int_v3  = 0;
     prb->ele.ctr.fac_int_v4  = 0;
+    
+    for(int i=0; i<9; i++)
+    {
+        prb->ele.ctr.vtx_int[0][i] = 0;
+        prb->ele.ctr.vtx_int[1][i] = 0;
+        prb->ele.ctr.vtx_int[2][i] = 0;
+    }
     
     /*
      ===================
@@ -79,14 +95,28 @@ int main(int argc, const char * argv[])
         }
     }
     
-    printf("prb_vlm         %4d,%d,%f,%f,%f; \n",MSH_ELE_DIM, MSH_ELE_TOT , prb->vlm[2]*prb->msh.ele_vlm, M_PI*4e0/3e0, (M_PI*0.3*0.3)*(2*M_PI*0.7));   //sphere
+//    printf("prb_vlm         %4d,%d,%f,%f,%f; \n",MSH_ELE_DIM, MSH_ELE_TOT , prb->vlm[2]*prb->msh.ele_vlm, M_PI*4e0/3e0, (M_PI*0.3*0.3)*(2*M_PI*0.7));   //sphere
 //    printf("prb_vlm         %4d,%d,%f,%f; \n",MSH_ELE_DIM, MSH_ELE_TOT , prb->vlm[2]*prb->msh.ele_vlm, (M_PI*0.3*0.3)*(2*M_PI*0.7));
+    
+    printf("\n");
+    
+    /*
     
     printf("ele_ext         %8d %6.3f\n",prb->ele.ctr.ele_ext,(100e0*prb->ele.ctr.ele_ext)/(MSH_ELE_TOT));       //display counters
     printf("ele_int         %8d %6.3f\n",prb->ele.ctr.ele_int,(100e0*prb->ele.ctr.ele_int)/(MSH_ELE_TOT));
+    printf("ele_oth         %8d %6.3f\n",prb->ele.ctr.ele_oth,(100e0*prb->ele.ctr.ele_oth)/(MSH_ELE_TOT));
+    
+    printf("ele_sum         %8d\n",prb->ele.ctr.ele_ext+prb->ele.ctr.ele_int+prb->ele.ctr.fac_ext+prb->ele.ctr.fac_int+prb->ele.ctr.fac_oth);
+    
+    printf("\n");
+    
     printf("fac_ext         %8d %6.3f\n",prb->ele.ctr.fac_ext,(100e0*prb->ele.ctr.fac_ext)/(MSH_ELE_TOT));
     printf("fac_int         %8d %6.3f\n",prb->ele.ctr.fac_int,(100e0*prb->ele.ctr.fac_int)/(MSH_ELE_TOT));
     printf("fac_oth         %8d %6.3f\n",prb->ele.ctr.fac_oth,(100e0*prb->ele.ctr.fac_oth)/(MSH_ELE_TOT));
+    
+    printf("fac_sum         %8d\n",prb->ele.ctr.fac_ext+prb->ele.ctr.fac_int+prb->ele.ctr.fac_oth);
+    
+    printf("\n");
     
     printf("fac_ext_v1      %8d\n",prb->ele.ctr.fac_ext_v1);
     printf("fac_ext_v2      %8d\n",prb->ele.ctr.fac_ext_v2);
@@ -95,6 +125,8 @@ int main(int argc, const char * argv[])
     
     printf("fac_ext_sum     %8d\n",prb->ele.ctr.fac_ext_v1+prb->ele.ctr.fac_ext_v2+prb->ele.ctr.fac_ext_v3+prb->ele.ctr.fac_ext_v4);
     
+    printf("\n");
+    
     printf("fac_int_v1      %8d\n",prb->ele.ctr.fac_int_v1);
     printf("fac_int_v2      %8d\n",prb->ele.ctr.fac_int_v2);
     printf("fac_int_v3      %8d\n",prb->ele.ctr.fac_int_v3);
@@ -102,7 +134,20 @@ int main(int argc, const char * argv[])
     
     printf("fac_int_sum     %8d\n",prb->ele.ctr.fac_int_v1+prb->ele.ctr.fac_int_v2+prb->ele.ctr.fac_int_v3+prb->ele.ctr.fac_int_v4);
     
-    printf("fac_sum         %8d\n",prb->ele.ctr.ele_ext+prb->ele.ctr.ele_int+prb->ele.ctr.fac_ext+prb->ele.ctr.fac_int+prb->ele.ctr.fac_oth);
+    */
+    
+    int vtx_int_sum = 0;
+    
+    for(int i=0; i<9; i++)
+    {
+        printf("vtx_int         %d %9d %9d  \n",i,prb->ele.ctr.vtx_int[0][i],prb->ele.ctr.vtx_int[1][i]);
+        
+        vtx_int_sum += prb->ele.ctr.vtx_int[0][i];
+    }
+
+    printf("vtx_int_sum       %9d  \n",vtx_int_sum);
+    
+    printf("\n");
     
     /*
      ===================
@@ -110,7 +155,7 @@ int main(int argc, const char * argv[])
      ===================
      */
 
-//    lst_write(&prb->lst1, "list1");
+    lst_write(&prb->lst1, "list1");
 //    lst_write(&prb->lst2, "list2");
 //    lst_write(&prb->lst3, "list3");
 //    lst_write(&prb->lst4, "list4");

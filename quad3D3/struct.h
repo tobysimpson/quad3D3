@@ -52,6 +52,7 @@ struct counter
 {
     int                 ele_ext;            //external elements
     int                 ele_int;            //internal elements
+    int                 ele_oth;            //other elements
     
     int                 fac_ext;            //external face (may also have internal face)
     
@@ -68,6 +69,8 @@ struct counter
     int                 fac_int_v4;
 
     int                 fac_oth;            //no int or ext face
+    
+    int                 vtx_int[3][9];      //number of internal verts
 };
 
 //element
@@ -100,12 +103,21 @@ struct element
     struct counter      ctr;                //counter for logic debug
 };
 
+
+//geometry
+struct geometry
+{
+    float                 cc[GEO_NC][3];          //coords
+    float                 rr[GEO_NC];             //radii
+};
+
 //problem
 struct problem
 {
     struct  scheme      scm;                //quadrature scheme
     struct  mesh        msh;                //mesh
     struct  element     ele;                //ele
+    struct  geometry    geo;                //geometry data
     
 //    struct  quadpoint qpt;                //quadrature point
 
