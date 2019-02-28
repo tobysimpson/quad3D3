@@ -16,12 +16,12 @@
  */
 
 
-//#define                     MIN(a,b) (((a)<(b))?(a):(b))                    //max and min functions
-//#define                     MAX(a,b) (((a)>(b))?(a):(b))
+#define                     MIN(a,b) (((a)<(b))?(a):(b))                    //max and min functions
+#define                     MAX(a,b) (((a)>(b))?(a):(b))
 
 //various
 #define SCM_NP              3                                               //quad points per scheme
-#define GEO_NC              10                                              //number of centres for geometry
+#define GEO_NC              100                                              //number of centres for geometry
 #define FILE_ROOT           "/Users/toby/Downloads"                         //write path
 
 //mesh dims
@@ -34,7 +34,7 @@
 #define MSH_XMAX_2          +1
 
 //num elements
-#define MSH_ELE_DIM         16
+#define MSH_ELE_DIM         50
 
 #define MSH_ELE_DIM_0       MSH_ELE_DIM                                     //mesh elements per dimension
 #define MSH_ELE_DIM_1       MSH_ELE_DIM

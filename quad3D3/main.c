@@ -151,7 +151,7 @@ int main(int argc, const char * argv[])
     
     /*
      ===================
-     debug
+     write files
      ===================
      */
 
@@ -159,6 +159,8 @@ int main(int argc, const char * argv[])
 //    lst_write(&prb->lst2, "list2");
 //    lst_write(&prb->lst3, "list3");
 //    lst_write(&prb->lst4, "list4");
+    
+    write_dof_raw(prb);
 
     /*
      ===================

@@ -62,5 +62,7 @@ int ele_pth_test(struct problem *prb);
 int pth_calc(struct problem *prb, int vtx_idx);
 void pth_rec(struct problem *prb, int vtx_idx1, int *pth_vtx, int *pth_num);
 
+//write
+void write_dof_raw(struct problem *prb);
 
 #endif /* proto_h */
