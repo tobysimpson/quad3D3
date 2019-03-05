@@ -23,7 +23,7 @@ void float3_eadd(float *v1,float *v2, float *res);
 void float3_esub(float *v1,float *v2, float *res);
 
 void float3_emul(float *v1,float *v2, float *res);
-void float3_emul_int(float *v1,int *v2, float *res);
+void float3_emul_int3(float *v1,int *v2, float *res);
 
 float float3_eprd(float *v1);   
 

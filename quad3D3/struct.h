@@ -83,13 +83,15 @@ struct element
     float               vtx_glb[8][3];      //vertex global coords
     float               vtx_sdf[8];         //signed distance function
     
-    int                 vtx_int_tot;        //count internal verts
+    float               bas_aa[8];          //interpolated basis function coefficients
+    
+    int                 vtx_int_num;        //count internal verts
     int                 fac_vtx_int[3][2];  //count internal verts per face (dim [0,1,2],co-ord [0,1])
     
-    int                 fac_int_flg;        //internal face search results
-    int                 fac_int_dim;
-    int                 fac_int_crd;
+    int                 bas_dim;            //base dimension for integration
+    int                 bas_crd;            //base face coord for integration
 
+    int                 fac_int_flg;        //internal face search results
     int                 fac_ext_flg;        //external face search results
     int                 fac_ext_dim;
     int                 fac_ext_crd;
@@ -98,7 +100,6 @@ struct element
     
     int                 vtx_idx[4];         //selected vertices for quadrature functions
     
-    float               bas_aa[8];          //interpolated basis function coefficients
     
     struct counter      ctr;                //counter for logic debug
 };

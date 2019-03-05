@@ -339,7 +339,7 @@ void ele_calc(struct problem *prb)
                 prb->ele.fac_int_flg = 0;
                 
                 
-                //calc gradient of sdf approx in centre of cube - for numerical stability
+                //calc gradient of interpolated sdf in centre of cube - for numerical stability
                 float grad[3];
                 
                 grad[0] = prb->ele.bas_aa[1] + 0.5*(prb->ele.bas_aa[4] + prb->ele.bas_aa[5]);           //grad at centre

@@ -71,7 +71,7 @@ void float3_emul(float *v1,float *v2, float *res)
 }
 
 //elementwise multiply by integers
-void float3_emul_int(float *v1,int *v2, float *res)
+void float3_emul_int3(float *v1,int *v2, float *res)
 {
     for(int i=0; i<3; i++)
     {
@@ -152,3 +152,5 @@ float float3_nrmp(float *v1, float p)
     }
     return powf(s,1e0/p);
 }
+
+

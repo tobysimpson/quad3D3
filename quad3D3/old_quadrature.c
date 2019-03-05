@@ -290,11 +290,11 @@ float quad_vtx4(struct problem *prb)
     
     int dim_idx[3];                             //permute dimensions
     
-    switch (prb->ele.bas_dim)               //choose a starting vertex and dimension order
+    switch (prb->ele.fac_int_dim)               //choose a starting vertex and dimension order
     {
         case 0:
             
-            vtx_loc[0] = prb->ele.bas_crd;
+            vtx_loc[0] = prb->ele.fac_int_crd;
             vtx_loc[1] = 0;
             vtx_loc[2] = 0;
             
@@ -307,7 +307,7 @@ float quad_vtx4(struct problem *prb)
         case 1:
             
             vtx_loc[0] = 0;
-            vtx_loc[1] = prb->ele.bas_crd;
+            vtx_loc[1] = prb->ele.fac_int_crd;
             vtx_loc[2] = 0;
             
             dim_idx[0] = 0;
@@ -320,7 +320,7 @@ float quad_vtx4(struct problem *prb)
             
             vtx_loc[0] = 0;
             vtx_loc[1] = 0;
-            vtx_loc[2] = prb->ele.bas_crd;
+            vtx_loc[2] = prb->ele.fac_int_crd;
             
             dim_idx[0] = 0;
             dim_idx[1] = 1;
@@ -377,7 +377,7 @@ float quad_vtx4(struct problem *prb)
             
             float3_emul(spt_loc, prb->msh.ele_h, spt_glb);                                          //local to global
             float3_eadd(prb->ele.vtx_glb[0], spt_glb, spt_glb);
-            lst_add(&prb->lst3, spt_glb, 0);
+//            lst_add(&prb->lst3, spt_glb, 0);
             
             for(int qpt_k=0; qpt_k<prb->scm.np; qpt_k++)                                            //loop z
             {
