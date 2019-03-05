@@ -213,25 +213,25 @@ void ele_calc(struct problem *prb)
             int i = prb->ele.fac_vtx_int[prb->ele.bse_dim][prb->ele.bse_crd];               //indices for counter
             int j = prb->ele.fac_vtx_int[prb->ele.bse_dim][!prb->ele.bse_crd];
             
-            prb->ele.ctr.vtx_int[i][j] += 1; //counter
+            prb->ele.ctr.vtx_int[i][j] += 1;                                                //count different configurations
             
             switch (prb->ele.fac_vtx_int[prb->ele.bse_dim][prb->ele.bse_crd])               //test num verts on base face
             {
                 case 1:                                                                     //1 int vtx
                 {
-                    lst_add_ele(&prb->lst1, prb);                                           //have a look
+//                    lst_add_ele(&prb->lst1, prb);                                           //have a look
                     
 //                    prb->ele.ctr.vtx_int[1][0] += 1;                                        //increment counter
                     
                     fac_get_vtx(prb, prb->ele.bse_dim, !prb->ele.bse_crd, 1, 1);            //find internal vertex on base face
                     
-                    prb->vlm[0] += quad_vtx1(prb);                                          //quadrature around the one internal vertex
+//                    prb->vlm[0] += quad_vtx1(prb);                                          //quadrature around the one internal vertex
                     
                     break;                                                                  //break case
                 }
                 case 2:                                                                     //2 int vtx
                 {
-                    lst_add_ele(&prb->lst2, prb);                                           //have a look
+//                    lst_add_ele(&prb->lst2, prb);                                           //have a look
                     
 //                    prb->ele.ctr.vtx_int[2][0] += 1;                                        //increment counter
                     
@@ -239,7 +239,7 @@ void ele_calc(struct problem *prb)
                 }
                 case 3:                                                                     //3 int vtx
                 {
-                    lst_add_ele(&prb->lst3, prb);                                           //have a look
+//                    lst_add_ele(&prb->lst3, prb);                                           //have a look
                     
 //                    prb->ele.ctr.vtx_int[3][0] += 1;                                        //increment counter
                     
@@ -247,7 +247,7 @@ void ele_calc(struct problem *prb)
                 }
                 case 4:                                                                     //4 int vtx
                 {
-                    lst_add_ele(&prb->lst4, prb);                                           //have a look
+//                    lst_add_ele(&prb->lst4, prb);                                           //have a look
                     
 //                    prb->ele.ctr.vtx_int[4][0] += 1;                                        //increment counter
                     

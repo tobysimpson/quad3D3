@@ -98,7 +98,7 @@ int main(int argc, const char * argv[])
     {
         for(int j=0; j<5; j++)
         {
-            printf("vtx_ctr %d %d %8d  \n",i,j,prb->ele.ctr.vtx_int[i][j]);
+            printf("vtx_ctr %d %d %8d %6.3f  \n",i,j,prb->ele.ctr.vtx_int[i][j],(100e0*prb->ele.ctr.vtx_int[i][j])/(MSH_ELE_TOT));
             
             ctr_sum += prb->ele.ctr.vtx_int[i][j];
         }
