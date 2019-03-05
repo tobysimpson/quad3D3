@@ -44,29 +44,13 @@ int main(int argc, const char * argv[])
      ===================
      */
 
-    prb->ele.ctr.ele_ext =  0;                                  //reset counters
-    prb->ele.ctr.ele_int =  0;
-    prb->ele.ctr.ele_oth =  0;
     
-    prb->ele.ctr.fac_ext =  0;
-    prb->ele.ctr.fac_int =  0;
-    prb->ele.ctr.fac_oth =  0;
-    
-    prb->ele.ctr.fac_ext_v1  = 0;
-    prb->ele.ctr.fac_ext_v2  = 0;
-    prb->ele.ctr.fac_ext_v3  = 0;
-    prb->ele.ctr.fac_ext_v4  = 0;
-    
-    prb->ele.ctr.fac_int_v1  = 0;
-    prb->ele.ctr.fac_int_v2  = 0;
-    prb->ele.ctr.fac_int_v3  = 0;
-    prb->ele.ctr.fac_int_v4  = 0;
-    
-    for(int i=0; i<9; i++)
+    for(int i=0; i<5; i++)
     {
-        prb->ele.ctr.vtx_int[0][i] = 0;
-        prb->ele.ctr.vtx_int[1][i] = 0;
-        prb->ele.ctr.vtx_int[2][i] = 0;
+        for(int j=0; j<5; j++)
+        {
+            prb->ele.ctr.vtx_int[i][j] = 0;
+        }
     }
     
     /*
@@ -95,57 +79,32 @@ int main(int argc, const char * argv[])
         }
     }
     
-//    printf("prb_vlm         %4d,%d,%f,%f,%f; \n",MSH_ELE_DIM, MSH_ELE_TOT , prb->vlm[2]*prb->msh.ele_vlm, M_PI*4e0/3e0, (M_PI*0.3*0.3)*(2*M_PI*0.7));   //sphere
-//    printf("prb_vlm         %4d,%d,%f,%f; \n",MSH_ELE_DIM, MSH_ELE_TOT , prb->vlm[2]*prb->msh.ele_vlm, (M_PI*0.3*0.3)*(2*M_PI*0.7));
+    printf("prb_vlm         %4d,%d,%f,%f; \n",MSH_ELE_DIM, MSH_ELE_TOT , prb->vlm[2]*prb->msh.ele_vlm, M_PI*4e0/3e0);                   //sphere
+//    printf("prb_vlm         %4d,%d,%f,%f; \n",MSH_ELE_DIM, MSH_ELE_TOT , prb->vlm[2]*prb->msh.ele_vlm, (M_PI*0.3*0.3)*(2*M_PI*0.7));    //torus
     
     printf("\n");
+    
+   
     
     /*
-    
-    printf("ele_ext         %8d %6.3f\n",prb->ele.ctr.ele_ext,(100e0*prb->ele.ctr.ele_ext)/(MSH_ELE_TOT));       //display counters
-    printf("ele_int         %8d %6.3f\n",prb->ele.ctr.ele_int,(100e0*prb->ele.ctr.ele_int)/(MSH_ELE_TOT));
-    printf("ele_oth         %8d %6.3f\n",prb->ele.ctr.ele_oth,(100e0*prb->ele.ctr.ele_oth)/(MSH_ELE_TOT));
-    
-    printf("ele_sum         %8d\n",prb->ele.ctr.ele_ext+prb->ele.ctr.ele_int+prb->ele.ctr.fac_ext+prb->ele.ctr.fac_int+prb->ele.ctr.fac_oth);
-    
-    printf("\n");
-    
-    printf("fac_ext         %8d %6.3f\n",prb->ele.ctr.fac_ext,(100e0*prb->ele.ctr.fac_ext)/(MSH_ELE_TOT));
-    printf("fac_int         %8d %6.3f\n",prb->ele.ctr.fac_int,(100e0*prb->ele.ctr.fac_int)/(MSH_ELE_TOT));
-    printf("fac_oth         %8d %6.3f\n",prb->ele.ctr.fac_oth,(100e0*prb->ele.ctr.fac_oth)/(MSH_ELE_TOT));
-    
-    printf("fac_sum         %8d\n",prb->ele.ctr.fac_ext+prb->ele.ctr.fac_int+prb->ele.ctr.fac_oth);
-    
-    printf("\n");
-    
-    printf("fac_ext_v1      %8d\n",prb->ele.ctr.fac_ext_v1);
-    printf("fac_ext_v2      %8d\n",prb->ele.ctr.fac_ext_v2);
-    printf("fac_ext_v3      %8d\n",prb->ele.ctr.fac_ext_v3);
-    printf("fac_ext_v4      %8d\n",prb->ele.ctr.fac_ext_v4);
-    
-    printf("fac_ext_sum     %8d\n",prb->ele.ctr.fac_ext_v1+prb->ele.ctr.fac_ext_v2+prb->ele.ctr.fac_ext_v3+prb->ele.ctr.fac_ext_v4);
-    
-    printf("\n");
-    
-    printf("fac_int_v1      %8d\n",prb->ele.ctr.fac_int_v1);
-    printf("fac_int_v2      %8d\n",prb->ele.ctr.fac_int_v2);
-    printf("fac_int_v3      %8d\n",prb->ele.ctr.fac_int_v3);
-    printf("fac_int_v4      %8d\n",prb->ele.ctr.fac_int_v4);
-    
-    printf("fac_int_sum     %8d\n",prb->ele.ctr.fac_int_v1+prb->ele.ctr.fac_int_v2+prb->ele.ctr.fac_int_v3+prb->ele.ctr.fac_int_v4);
-    
-    */
-    
-    int vtx_int_sum = 0;
-    
-    for(int i=0; i<9; i++)
-    {
-        printf("vtx_int         %d %9d %9d  \n",i,prb->ele.ctr.vtx_int[0][i],prb->ele.ctr.vtx_int[1][i]);
-        
-        vtx_int_sum += prb->ele.ctr.vtx_int[0][i];
-    }
+     ===================
+     debug print counter
+     ===================
+     */
 
-    printf("vtx_int_sum       %9d  \n",vtx_int_sum);
+    int ctr_sum = 0;
+    
+    for(int i=0; i<5; i++)
+    {
+        for(int j=0; j<5; j++)
+        {
+            printf("vtx_ctr %d %d %8d  \n",i,j,prb->ele.ctr.vtx_int[i][j]);
+            
+            ctr_sum += prb->ele.ctr.vtx_int[i][j];
+        }
+    }
+    
+    printf("ctr_sum     %8d\n",ctr_sum);
     
     printf("\n");
     

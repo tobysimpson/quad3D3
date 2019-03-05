@@ -18,9 +18,10 @@ float quad_ele(struct problem *prb)
 float quad_vtx1(struct problem *prb)
 {
     float vlm_loc = 0;
-    //    float srf_loc = 0;
     
-    float vtx_loc[3] = {(prb->ele.vtx_idx[0]>>0)&1,(prb->ele.vtx_idx[0]>>1)&1,(prb->ele.vtx_idx[0]>>2)&1};  //vtx local coords
+    float vtx_loc[3] = {(prb->ele.vtx_idx[0]>>0)&1,
+                        (prb->ele.vtx_idx[0]>>1)&1,
+                        (prb->ele.vtx_idx[0]>>2)&1};  //vtx local coords
     
     //    /*
     //     ==========================
@@ -290,11 +291,11 @@ float quad_vtx4(struct problem *prb)
     
     int dim_idx[3];                             //permute dimensions
     
-    switch (prb->ele.bas_dim)               //choose a starting vertex and dimension order
+    switch (prb->ele.bse_dim)               //choose a starting vertex and dimension order
     {
         case 0:
             
-            vtx_loc[0] = prb->ele.bas_crd;
+            vtx_loc[0] = prb->ele.bse_crd;
             vtx_loc[1] = 0;
             vtx_loc[2] = 0;
             
@@ -307,7 +308,7 @@ float quad_vtx4(struct problem *prb)
         case 1:
             
             vtx_loc[0] = 0;
-            vtx_loc[1] = prb->ele.bas_crd;
+            vtx_loc[1] = prb->ele.bse_crd;
             vtx_loc[2] = 0;
             
             dim_idx[0] = 0;
@@ -320,7 +321,7 @@ float quad_vtx4(struct problem *prb)
             
             vtx_loc[0] = 0;
             vtx_loc[1] = 0;
-            vtx_loc[2] = prb->ele.bas_crd;
+            vtx_loc[2] = prb->ele.bse_crd;
             
             dim_idx[0] = 0;
             dim_idx[1] = 1;
@@ -377,7 +378,7 @@ float quad_vtx4(struct problem *prb)
             
             float3_emul(spt_loc, prb->msh.ele_h, spt_glb);                                          //local to global
             float3_eadd(prb->ele.vtx_glb[0], spt_glb, spt_glb);
-            lst_add(&prb->lst3, spt_glb, 0);
+//            lst_add(&prb->lst3, spt_glb, 0);
             
             for(int qpt_k=0; qpt_k<prb->scm.np; qpt_k++)                                            //loop z
             {

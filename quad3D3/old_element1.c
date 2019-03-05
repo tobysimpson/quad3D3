@@ -278,7 +278,7 @@ void ele_calc(struct problem *prb)
                         
                         prb->ele.vlm_loc += quad_vtx4(prb);                                             //do quadrature on the 4-internal face
                         
-                        fac_get_vtx(prb, prb->ele.fac_int_dim, !prb->ele.fac_int_crd, 1, 1);    //find internal vertex opposite internal face
+                        fac_get_vtx(prb, prb->ele.fac_int_dim, !prb->ele.fac_int_crd, 1, 1);        //find internal vertex opposite internal face
                         
                         prb->ele.vlm_loc -= quad_vtx1(prb);                                             //subtract quadrature around the one external vertex
 

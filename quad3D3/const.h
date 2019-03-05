@@ -25,16 +25,16 @@
 #define FILE_ROOT           "/Users/toby/Downloads"                         //write path
 
 //mesh dims
-#define MSH_XMIN_0          -1                                              //mesh range
-#define MSH_XMIN_1          -1
-#define MSH_XMIN_2          -1
+#define MSH_XMIN_0          -0                                              //mesh range
+#define MSH_XMIN_1          -0
+#define MSH_XMIN_2          -0
 
 #define MSH_XMAX_0          +1
 #define MSH_XMAX_1          +1
 #define MSH_XMAX_2          +1
 
 //num elements
-#define MSH_ELE_DIM         32
+#define MSH_ELE_DIM         16
 
 #define MSH_ELE_DIM_0       MSH_ELE_DIM                                     //mesh elements per dimension
 #define MSH_ELE_DIM_1       MSH_ELE_DIM

@@ -53,7 +53,7 @@ void ele_calc(struct problem *prb)
      ===============================
      */
     
-    float3_emul_int3(prb->msh.ele_h, prb->ele.pos, prb->ele.vtx_glb[0]);                     //set reference vertex
+    float3_emul_int3(prb->msh.ele_h, prb->ele.pos, prb->ele.vtx_glb[0]);                    //set reference vertex
     float3_eadd(prb->ele.vtx_glb[0], prb->msh.xmin, prb->ele.vtx_glb[0]);
     
     for(int vtx_idx=0; vtx_idx<8; vtx_idx++)
@@ -70,7 +70,7 @@ void ele_calc(struct problem *prb)
         
         prb->ele.vtx_int_num += (prb->ele.vtx_sdf[vtx_idx] < 0);                            //count internal verts
         
-        //        lst_add(&prb->lst1, prb->ele.vtx_glb[vtx_idx], prb->ele.vtx_sdf[vtx_idx]);          //add to list
+        //lst_add(&prb->lst1, prb->ele.vtx_glb[vtx_idx], prb->ele.vtx_sdf[vtx_idx]);          //add to list
         
         prb->ele.fac_vtx_int[0][i] += prb->ele.vtx_sdf[vtx_idx]<0;                          //calc internal verts per face
         prb->ele.fac_vtx_int[1][j] += prb->ele.vtx_sdf[vtx_idx]<0;
@@ -94,7 +94,7 @@ void ele_calc(struct problem *prb)
     prb->ele.bas_aa[6] = + prb->ele.vtx_sdf[0] - prb->ele.vtx_sdf[2] - prb->ele.vtx_sdf[4] + prb->ele.vtx_sdf[6];       //xz
     
     prb->ele.bas_aa[7] = - prb->ele.vtx_sdf[0] + prb->ele.vtx_sdf[1] + prb->ele.vtx_sdf[2] - prb->ele.vtx_sdf[3]
-    + prb->ele.vtx_sdf[4] - prb->ele.vtx_sdf[5] - prb->ele.vtx_sdf[6] + prb->ele.vtx_sdf[7];       //xyz
+    + prb->ele.vtx_sdf[4] - prb->ele.vtx_sdf[5] - prb->ele.vtx_sdf[6] + prb->ele.vtx_sdf[7];                            //xyz
     
     /*
      ===============================
@@ -116,7 +116,7 @@ void ele_calc(struct problem *prb)
     
     /*
      ===============================
-     quadrature logic
+     test path connectedness
      ===============================
      */
     
@@ -131,15 +131,25 @@ void ele_calc(struct problem *prb)
     //        lst_add_ele(&prb->lst2, prb);                                        //have a look
     //    }
     
+    /*
+     ===============================
+     quadrature logic
+     ===============================
+     */
+    
     
     switch (prb->ele.vtx_int_num)
     {
         case 0:                                                             //all external
         {
+            prb->ele.ctr.vtx_int[0][0] += 1;                                //increment counter
+            
             break;
         }
         case 8:                                                             //all internal
         {
+            prb->ele.ctr.vtx_int[4][4] += 1;                                //increment counter
+            
             break;
         }
         default:                                                            //both
@@ -147,7 +157,6 @@ void ele_calc(struct problem *prb)
             //            lst_add_ele(&prb->lst1, prb);                                   //have a look
             
             //            printf("vtx_int %d\n",prb->ele.vtx_int_num);
-            
             
             
             /*
@@ -163,17 +172,17 @@ void ele_calc(struct problem *prb)
             grad[1] = prb->ele.bas_aa[2] + 0.5*(prb->ele.bas_aa[4] + prb->ele.bas_aa[6]);
             grad[2] = prb->ele.bas_aa[3] + 0.5*(prb->ele.bas_aa[5] + prb->ele.bas_aa[6]);
             
-            prb->ele.bas_dim = 0;                                                                       //integration dim (max chg)
+            prb->ele.bse_dim = 0;                                                                       //integration dim (max chg)
             
             for(int dim_idx=0; dim_idx<3; dim_idx++)                                                    //loop dims
             {
                 diff[dim_idx] = prb->ele.fac_vtx_int[dim_idx][1] - prb->ele.fac_vtx_int[dim_idx][0];    //calc diff per dim
                 
-                if(abs(diff[dim_idx])>=abs(diff[prb->ele.bas_dim]))                                     //look for max change in vertex count (>=)
+                if(abs(diff[dim_idx])>=abs(diff[prb->ele.bse_dim]))                                     //look for max change in vertex count (>=)
                 {
-                    if(fabsf(grad[dim_idx])>fabsf(grad[prb->ele.bas_dim]))                              //look for max gradient (>)
+                    if(fabsf(grad[dim_idx])>fabsf(grad[prb->ele.bse_dim]))                              //look for max gradient (>)
                     {
-                        prb->ele.bas_dim = dim_idx;                                                     //store dim index
+                        prb->ele.bse_dim = dim_idx;                                                     //store dim index
                     }
                 }
 //                printf("fac_vtx_int     %d | %d %d | %+d %d\n",
@@ -183,15 +192,15 @@ void ele_calc(struct problem *prb)
 //                       diff[dim_idx],
 //                       diff[dim_idx]>0);
             }
-            prb->ele.bas_crd = (diff[prb->ele.bas_dim] > 0);                                           //set base face coord
+            prb->ele.bse_crd = (diff[prb->ele.bse_dim] > 0);                                           //set base face coord
             
-            printf("dim_max         %d | %d %d | %+d | %d %d \n",
-                   prb->ele.bas_dim,
-                   prb->ele.fac_vtx_int[prb->ele.bas_dim][0],
-                   prb->ele.fac_vtx_int[prb->ele.bas_dim][1],
-                   diff[prb->ele.bas_dim],
-                   prb->ele.bas_crd,
-                   prb->ele.fac_vtx_int[prb->ele.bas_dim][prb->ele.bas_crd] > prb->ele.fac_vtx_int[prb->ele.bas_dim][!prb->ele.bas_crd]);
+//            printf("dim_max         %d | %d %d | %+d | %d %d \n",
+//                   prb->ele.bas_dim,
+//                   prb->ele.fac_vtx_int[prb->ele.bas_dim][0],
+//                   prb->ele.fac_vtx_int[prb->ele.bas_dim][1],
+//                   diff[prb->ele.bas_dim],
+//                   prb->ele.bas_crd,
+//                   prb->ele.fac_vtx_int[prb->ele.bas_dim][prb->ele.bas_crd] > prb->ele.fac_vtx_int[prb->ele.bas_dim][!prb->ele.bas_crd]);
             
             
             /*
@@ -200,13 +209,23 @@ void ele_calc(struct problem *prb)
              ===============================
              */
             
-            //printf("bas_fac %d\n",prb->ele.fac_vtx_int[prb->ele.bas_dim][prb->ele.bas_crd]);
             
-            switch (prb->ele.fac_vtx_int[prb->ele.bas_dim][prb->ele.bas_crd])               //test num verts on base face
+            int i = prb->ele.fac_vtx_int[prb->ele.bse_dim][prb->ele.bse_crd];               //indices for counter
+            int j = prb->ele.fac_vtx_int[prb->ele.bse_dim][!prb->ele.bse_crd];
+            
+            prb->ele.ctr.vtx_int[i][j] += 1; //counter
+            
+            switch (prb->ele.fac_vtx_int[prb->ele.bse_dim][prb->ele.bse_crd])               //test num verts on base face
             {
-                case 1:                                                                    //1 int vtx
+                case 1:                                                                     //1 int vtx
                 {
                     lst_add_ele(&prb->lst1, prb);                                           //have a look
+                    
+//                    prb->ele.ctr.vtx_int[1][0] += 1;                                        //increment counter
+                    
+                    fac_get_vtx(prb, prb->ele.bse_dim, !prb->ele.bse_crd, 1, 1);            //find internal vertex on base face
+                    
+                    prb->vlm[0] += quad_vtx1(prb);                                          //quadrature around the one internal vertex
                     
                     break;                                                                  //break case
                 }
@@ -214,11 +233,15 @@ void ele_calc(struct problem *prb)
                 {
                     lst_add_ele(&prb->lst2, prb);                                           //have a look
                     
+//                    prb->ele.ctr.vtx_int[2][0] += 1;                                        //increment counter
+                    
                     break;                                                                  //break case
                 }
                 case 3:                                                                     //3 int vtx
                 {
                     lst_add_ele(&prb->lst3, prb);                                           //have a look
+                    
+//                    prb->ele.ctr.vtx_int[3][0] += 1;                                        //increment counter
                     
                     break;                                                                  //break case
                 }
@@ -226,8 +249,15 @@ void ele_calc(struct problem *prb)
                 {
                     lst_add_ele(&prb->lst4, prb);                                           //have a look
                     
+//                    prb->ele.ctr.vtx_int[4][0] += 1;                                        //increment counter
+                    
                     break;                                                                  //break case
                 }
+                default:
+                {
+                    printf("fac logic   %d\n",prb->ele.fac_vtx_int[prb->ele.bse_dim][prb->ele.bse_crd]);
+                }
+                    
             }
         }
     }
@@ -240,7 +270,6 @@ void ele_calc(struct problem *prb)
     
     return;
 }
-
 
 
 //get some vertex indices for a given face (specify which face, how many, int/ext)
@@ -256,7 +285,7 @@ void fac_get_vtx(struct problem *prb, int fac_dim, int fac_crd, int vtx_int, int
             
             j += 1;                                                                             //increment strorage position
         }
-        if(j==vtx_num)                                                                          //have you got them all?
+        if(j==(vtx_num-1))                                                                      //have you got them all?
         {
             break;                                                                              //exit search
         }
@@ -271,125 +300,4 @@ int vtx_adj(struct problem *prb)
     
     return (ceilf(f) == f);                                                                     //test for integer power of two
 }
-
-
-
-
-///*
-//===============================
-//direction of greatest vtx change
-//===============================
-//*/
-//
-//    int dim_vtx_chg[3];                                                         //change in int/ext verts per dim
-//
-//    prb->ele.fac_int_dim = 0;                                                   //integration dim (max chg)
-//
-//    for(int dim_idx=0; dim_idx<3; dim_idx++)                                    //loop dims
-//    {
-//        dim_vtx_chg[dim_idx] = prb->ele.fac_vtx_int[dim_idx][1] - prb->ele.fac_vtx_int[dim_idx][0];        //calc diff per dim
-//
-//        if(abs(dim_vtx_chg[dim_idx])>abs(dim_vtx_chg[prb->ele.fac_int_dim]))                   //test max
-//        {
-//            prb->ele.fac_int_dim = dim_idx;                                      //store index
-//            prb->ele.fac_int_crd = dim_vtx_chg[prb->ele.fac_int_dim]<0;                 //base face
-//        }
-////                printf("fac_vtx_int     %d | %d %d | %+d \n",
-////                       dim_idx,
-////                       prb->ele.fac_vtx_int[dim_idx][0],
-////                       prb->ele.fac_vtx_int[dim_idx][1],
-////                       diff[dim_idx]);
-//    }
-//    printf("dim_max %d %+d\n",prb->ele.fac_int_dim,dim_vtx_chg[prb->ele.fac_int_dim]);
-//
-//    quad_vtx4(prb);                                                             //do a provisional quad
-//
-///*
-//===============================
-//direction of maximum gradient
-//===============================
-//*/
-//
-//    //calc gradient of interpolated sdf in centre of cube - for numerical stability
-//    float grad[3];
-//
-//    grad[0] = prb->ele.bas_aa[1] + 0.5*(prb->ele.bas_aa[4] + prb->ele.bas_aa[5]);           //grad at centre
-//    grad[1] = prb->ele.bas_aa[2] + 0.5*(prb->ele.bas_aa[4] + prb->ele.bas_aa[6]);
-//    grad[2] = prb->ele.bas_aa[3] + 0.5*(prb->ele.bas_aa[5] + prb->ele.bas_aa[6]);
-//
-//    float   grad_max = fabsf(grad[0]);                                                      //init max abs grad
-//    int     grad_idx = 0;
-//
-//    for(int dim_idx=0; dim_idx<3; dim_idx++)                                                //loop dims
-//    {
-//        if(fabsf(grad[dim_idx])>grad_max)
-//        {
-//            grad_max = fabsf(grad[dim_idx]);
-//            grad_idx = dim_idx;
-//        }
-//    }
-//
-//    prb->ele.fac_int_flg = 1;
-//    prb->ele.fac_int_dim = grad_idx;
-//    prb->ele.fac_int_crd = grad[grad_idx]<0;
-//
-//    prb->ele.vlm_loc += quad_vtx4(prb);                                                     //do integral of the base
-
-
-
-//    /*
-//     ===============================
-//     find int/ext faces
-//     ===============================
-//     */
-//
-//    prb->ele.fac_ext_flg = 0;                               //reset flags
-//    prb->ele.fac_int_flg = 0;
-//
-//    for(int dim_idx=0; dim_idx<3; dim_idx++)                //loop dims
-//    {
-//        for(int crd_idx=0; crd_idx<2; crd_idx++)            //loop coords
-//        {
-//            if(prb->ele.fac_vtx_int[dim_idx][crd_idx]==0)   //ext face
-//            {
-//                prb->ele.fac_ext_flg = 1;
-//                prb->ele.fac_ext_dim = dim_idx;
-//                prb->ele.fac_ext_crd = crd_idx;
-//            }
-//
-//            if(prb->ele.fac_vtx_int[dim_idx][crd_idx]==4)   //int face
-//            {
-//                prb->ele.fac_int_flg = 1;
-//                prb->ele.fac_int_dim = dim_idx;
-//                prb->ele.fac_int_crd = crd_idx;
-//            }
-//        }
-//    }
-//
-//    /*
-//     ===============================
-//     max verts per face
-//     ===============================
-//     */
-//
-//    int fac_max_int = prb->ele.fac_vtx_int[0][0];                   //init max
-//    int fac_max_dim = 0;
-//    int fac_max_crd = 0;
-//
-//
-//    for(int dim_idx=0; dim_idx<3; dim_idx++)                        //loop dims
-//    {
-//        for(int crd_idx=0; crd_idx<2; crd_idx++)                    //loop coords
-//        {
-//            int tmp_max = prb->ele.fac_vtx_int[dim_idx][crd_idx];
-//
-//            if(tmp_max>fac_max_int)
-//            {
-//                fac_max_int = tmp_max;
-//                fac_max_dim = dim_idx;
-//                fac_max_crd = crd_idx;
-//            }
-//        }
-//    }
-//
 
