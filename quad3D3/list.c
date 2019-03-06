@@ -9,45 +9,44 @@
 #include "master.h"
 
 //init point list
-void lst_init(struct list *lst)
+void lst_init(struct point_list *lst)
 {
     lst->pp_num = 0;
     lst->pp_alloc = 128;
-    lst->pp = malloc(lst->pp_alloc*4*sizeof(float));
+    lst->pp = malloc(lst->pp_alloc*sizeof(struct point));
 }
 
 //add point to list
-void lst_add(struct list *lst, const float x[3], const float s)
+void lst_add_pt(struct point_list *lst, const float x[3], const float v)
 {
-    if(lst->pp_num == (lst->pp_alloc-1))                                                //needs to be resized
-    {
-        lst->pp_alloc = 2*lst->pp_alloc;                                                //increase size
-        
-        lst->pp = realloc(lst->pp, lst->pp_alloc*4*sizeof(float));                      //reallocate larger array
-    }
-    lst->pp[lst->pp_num*4+0] = x[0];                                                    //assign
-    lst->pp[lst->pp_num*4+1] = x[1];
-    lst->pp[lst->pp_num*4+2] = x[2];
-    lst->pp[lst->pp_num*4+3] = s;
+    struct point pt = {{x[0],x[1],x[2]},v};                                         //init point
     
-    lst->pp_num += 1;                                                                   //increment
+    if(lst->pp_num == (lst->pp_alloc-1))                                            //needs to be resized
+    {
+        lst->pp_alloc = 2*lst->pp_alloc;                                            //increase size
+        
+        lst->pp = realloc(lst->pp, lst->pp_alloc*sizeof(struct point));             //reallocate larger array
+    }
+    lst->pp[lst->pp_num] = pt;                                                      //assign
+    
+    lst->pp_num += 1;                                                               //increment
     
     return;
 }
 
 //add element verts to list
-void lst_add_ele(struct list *lst, struct problem *prb)
+void lst_add_ele(struct point_list *lst, struct problem *prb)
 {
     for(int vtx_idx=0; vtx_idx<8; vtx_idx++)
     {
-        lst_add(lst, prb->ele.vtx_glb[vtx_idx], prb->ele.vtx_sdf[vtx_idx]<0);          //add to list
+        lst_add_pt(lst, prb->ele.vtx_glb[vtx_idx], prb->ele.vtx_sdf[vtx_idx]<0);    //add to list
     }
     return;
 }
 
 
 //write for paraview
-void lst_write(struct list *lst, char file_name[100])
+void lst_write(struct point_list *lst, char file_name[100])
 {
     FILE *file1;
     
@@ -61,7 +60,7 @@ void lst_write(struct list *lst, char file_name[100])
     
     for(int k=0; k<lst->pp_num; k++)
     {
-        fprintf(file1, "%+e,%+e,%+e,%+e\n",lst->pp[k*4+0],lst->pp[k*4+1],lst->pp[k*4+2],lst->pp[k*4+3]);       //write data
+        fprintf(file1, "%+e,%+e,%+e,%+e\n",lst->pp[k].x[0],lst->pp[k].x[1],lst->pp[k].x[2],lst->pp[k].v);       //write data
     }
     fclose(file1);
 }

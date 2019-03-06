@@ -53,26 +53,28 @@ void ele_calc(struct problem *prb)
      ===============================
      */
     
-    float3_emul_int3(prb->msh.ele_h, prb->ele.pos, prb->ele.vtx_glb[0]);                    //set reference vertex
+    float3_emul_int3(prb->msh.ele_h, prb->ele.pos, prb->ele.vtx_glb[0]);                                        //set reference vertex
     float3_eadd(prb->ele.vtx_glb[0], prb->msh.xmin, prb->ele.vtx_glb[0]);
     
-    for(int vtx_idx=0; vtx_idx<8; vtx_idx++)
+    for(int vtx_idx=0; vtx_idx<8; vtx_idx++)                                                                    //loop verts
     {
-        int i = (vtx_idx>>0)&1;                                                             //binary digits xyz coords
+        int i = (vtx_idx>>0)&1;                                                                                 //binary digits xyz coords
         int j = (vtx_idx>>1)&1;
         int k = (vtx_idx>>2)&1;
         
-        prb->ele.vtx_glb[vtx_idx][0] = prb->ele.vtx_glb[0][0] + prb->msh.ele_h[0]*i;        //vtx coords
+        prb->ele.vtx_glb[vtx_idx][0] = prb->ele.vtx_glb[0][0] + prb->msh.ele_h[0]*i;                            //vtx coords
         prb->ele.vtx_glb[vtx_idx][1] = prb->ele.vtx_glb[0][1] + prb->msh.ele_h[1]*j;
         prb->ele.vtx_glb[vtx_idx][2] = prb->ele.vtx_glb[0][2] + prb->msh.ele_h[2]*k;
+//
+//        prb->ele.vtx_sdf[vtx_idx] = geo_sdf(prb, prb->ele.vtx_glb[vtx_idx]);                                  //calc sdf
         
-        prb->ele.vtx_sdf[vtx_idx] = geo_sdf(prb, prb->ele.vtx_glb[vtx_idx]);                //calc sdf
+        prb->ele.vtx_sdf[vtx_idx] = prb->geo.dof_sdf[prb->ele.pos[0]+i][prb->ele.pos[1]+j][prb->ele.pos[2]+k];  //retrieve sdf from array
         
-        prb->ele.vtx_int_num += (prb->ele.vtx_sdf[vtx_idx] < 0);                            //count internal verts
+        prb->ele.vtx_int_num += (prb->ele.vtx_sdf[vtx_idx] < 0);                                                //count internal verts
         
-        //lst_add(&prb->lst1, prb->ele.vtx_glb[vtx_idx], prb->ele.vtx_sdf[vtx_idx]);          //add to list
+        //lst_add(&prb->lst1, prb->ele.vtx_glb[vtx_idx], prb->ele.vtx_sdf[vtx_idx]);                            //add to list
         
-        prb->ele.fac_vtx_int[0][i] += prb->ele.vtx_sdf[vtx_idx]<0;                          //calc internal verts per face
+        prb->ele.fac_vtx_int[0][i] += prb->ele.vtx_sdf[vtx_idx]<0;                                              //calc internal verts per face
         prb->ele.fac_vtx_int[1][j] += prb->ele.vtx_sdf[vtx_idx]<0;
         prb->ele.fac_vtx_int[2][k] += prb->ele.vtx_sdf[vtx_idx]<0;
     }
@@ -180,10 +182,10 @@ void ele_calc(struct problem *prb)
                 
                 if(abs(diff[dim_idx])>=abs(diff[prb->ele.bse_dim]))                                     //look for max change in vertex count (>=)
                 {
-                    if(fabsf(grad[dim_idx])>fabsf(grad[prb->ele.bse_dim]))                              //look for max gradient (>)
-                    {
+//                    if(fabsf(grad[dim_idx])>fabsf(grad[prb->ele.bse_dim]))                              //look for max gradient (>)
+//                    {
                         prb->ele.bse_dim = dim_idx;                                                     //store dim index
-                    }
+//                    }
                 }
 //                printf("fac_vtx_int     %d | %d %d | %+d %d\n",
 //                       dim_idx,
@@ -219,7 +221,10 @@ void ele_calc(struct problem *prb)
             {
                 case 1:                                                                     //1 int vtx
                 {
-//                    lst_add_ele(&prb->lst1, prb);                                           //have a look
+                    if(prb->ele.fac_vtx_int[prb->ele.bse_dim][!prb->ele.bse_crd]==1)        //check the other face
+                    {
+                        lst_add_ele(&prb->lst1, prb);                                           //have a look
+                    }
                     
 //                    prb->ele.ctr.vtx_int[1][0] += 1;                                        //increment counter
                     
@@ -231,7 +236,10 @@ void ele_calc(struct problem *prb)
                 }
                 case 2:                                                                     //2 int vtx
                 {
-//                    lst_add_ele(&prb->lst2, prb);                                           //have a look
+                    if(prb->ele.fac_vtx_int[prb->ele.bse_dim][!prb->ele.bse_crd]==1)        //check the other face
+                    {
+                        lst_add_ele(&prb->lst2, prb);                                           //have a look
+                    }
                     
 //                    prb->ele.ctr.vtx_int[2][0] += 1;                                        //increment counter
                     
@@ -239,7 +247,10 @@ void ele_calc(struct problem *prb)
                 }
                 case 3:                                                                     //3 int vtx
                 {
-//                    lst_add_ele(&prb->lst3, prb);                                           //have a look
+                    if(prb->ele.fac_vtx_int[prb->ele.bse_dim][!prb->ele.bse_crd]==1)        //check the other face
+                    {
+                        lst_add_ele(&prb->lst3, prb);                                           //have a look
+                    }
                     
 //                    prb->ele.ctr.vtx_int[3][0] += 1;                                        //increment counter
                     
@@ -247,7 +258,7 @@ void ele_calc(struct problem *prb)
                 }
                 case 4:                                                                     //4 int vtx
                 {
-//                    lst_add_ele(&prb->lst4, prb);                                           //have a look
+
                     
 //                    prb->ele.ctr.vtx_int[4][0] += 1;                                        //increment counter
                     

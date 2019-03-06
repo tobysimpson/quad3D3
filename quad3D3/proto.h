@@ -39,10 +39,10 @@ void fac_get_vtx(struct problem *prb, int fac_dim, int fac_crd, int vtx_intext, 
 int  vtx_adj(struct problem *prb);
 
 //list.c
-void lst_init(struct list *lst);
-void lst_add(struct list *lst, const float x[3], const float s);
-void lst_add_ele(struct list *lst, struct problem *prb);
-void lst_write(struct list *lst, char file_name[20]);
+void lst_init(struct point_list *lst);
+void lst_add(struct point_list *lst, const float x[3], const float s);
+void lst_add_ele(struct point_list *lst, struct problem *prb);
+void lst_write(struct point_list *lst, char file_name[20]);
 
 //geometry
 void geo_init(struct problem *prb);

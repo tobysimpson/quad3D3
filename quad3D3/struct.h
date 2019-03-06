@@ -37,13 +37,20 @@ struct mesh
 };
 
 
-//list (for debug)
-struct list
+//point  list
+struct point_list
 {
     int                 pp_num;             //number of points stored
     int                 pp_alloc;           //size allocated
     
-    float               *pp;                //array of points
+    struct point        *pp;                //array
+};
+
+//point
+struct point
+{
+    float               x[4];               //coords
+    float               v;                  //value
 };
 
 
@@ -88,8 +95,10 @@ struct element
 //geometry
 struct geometry
 {
-    float                 cc[GEO_NC][3];          //coords
-    float                 rr[GEO_NC];             //radii
+    float               cc[GEO_NC][3];      //coords
+    float               rr[GEO_NC];         //radii
+    
+    float               dof_sdf[MSH_ELE_DIM_0+1][MSH_ELE_DIM_1+1][MSH_ELE_DIM_2+1]; //sdf data
 };
 
 //problem
@@ -103,12 +112,14 @@ struct problem
 //    struct  quadpoint qpt;                //quadrature point
 
     float               vlm[3];             //volume (with subtotals)
+    
+   
 
     
-    struct  list        lst1;               //lists for debug
-    struct  list        lst2;
-    struct  list        lst3;
-    struct  list        lst4;
+    struct  point_list        lst1;               //lists for debug
+    struct  point_list        lst2;
+    struct  point_list        lst3;
+    struct  point_list        lst4;
 };
 
 
