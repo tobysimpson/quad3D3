@@ -71,8 +71,8 @@ void ele_calc(struct problem *prb)
         prb->ele.vtx_glb[vtx_idx][0] = prb->ele.vtx_glb[0][0] + prb->msh.ele_h[0]*i;                                //vtx coords
         prb->ele.vtx_glb[vtx_idx][1] = prb->ele.vtx_glb[0][1] + prb->msh.ele_h[1]*j;
         prb->ele.vtx_glb[vtx_idx][2] = prb->ele.vtx_glb[0][2] + prb->msh.ele_h[2]*k;
-
-//        prb->ele.vtx_sdf[vtx_idx] = geo_sdf(prb, prb->ele.vtx_glb[vtx_idx]);                                      //calc sdf
+        
+        //        prb->ele.vtx_sdf[vtx_idx] = geo_sdf(prb, prb->ele.vtx_glb[vtx_idx]);                                      //calc sdf
         prb->ele.vtx_sdf[vtx_idx] = prb->geo.dof_sdf[prb->ele.pos[0]+i][prb->ele.pos[1]+j][prb->ele.pos[2]+k];      //retrieve sdf from array
         
         prb->ele.vtx_int_num += (prb->ele.vtx_sdf[vtx_idx] < 0);                                                    //count internal verts
@@ -172,34 +172,42 @@ void ele_calc(struct problem *prb)
              ===============================
              */
             
+            prb->ele.bf_dim = 0;                                                                        //integration dim (max chg)
+            
             int   diff[3];                                                                              //change in int/ext verts per dim
-
-            prb->ele.bf_dim = 0;                                                                       //integration dim (max chg)
+            float grad[3];                                                                              //gradient of interp sdf
+            
+            grad[0] = prb->ele.bas_aa[1] + 0.5*(prb->ele.bas_aa[4] + prb->ele.bas_aa[5]);               //grad at centre
+            grad[1] = prb->ele.bas_aa[2] + 0.5*(prb->ele.bas_aa[4] + prb->ele.bas_aa[6]);
+            grad[2] = prb->ele.bas_aa[3] + 0.5*(prb->ele.bas_aa[5] + prb->ele.bas_aa[6]);
             
             for(int dim_idx=0; dim_idx<3; dim_idx++)                                                    //loop dims
             {
                 diff[dim_idx] = prb->ele.fac_vtx_int[dim_idx][1] - prb->ele.fac_vtx_int[dim_idx][0];    //calc diff per dim
                 
-                if(abs(diff[dim_idx])>=abs(diff[prb->ele.bf_dim]))                                     //look for max change in vertex count (>=)
+                if(abs(diff[dim_idx])>=abs(diff[prb->ele.bf_dim]))                                      //look for max change in vertex count (>=)
                 {
-                    prb->ele.bf_dim = dim_idx;                                                     //store dim index
+                    //                    if(fabsf(grad[dim_idx])>fabsf(grad[prb->ele.bf_dim]))                               //look for max change in gradient (>)
+                    //                    {
+                    prb->ele.bf_dim = dim_idx;                                                      //store dim index
+                    //                    }
                 }
-//                printf("fac_vtx_int     %d | %d %d | %+d %d\n",
-//                       dim_idx,
-//                       prb->ele.fac_vtx_int[dim_idx][0],
-//                       prb->ele.fac_vtx_int[dim_idx][1],
-//                       diff[dim_idx],
-//                       diff[dim_idx]>0);
+                //                printf("fac_vtx_int     %d | %d %d | %+d %d\n",
+                //                       dim_idx,
+                //                       prb->ele.fac_vtx_int[dim_idx][0],
+                //                       prb->ele.fac_vtx_int[dim_idx][1],
+                //                       diff[dim_idx],
+                //                       diff[dim_idx]>0);
             }
             prb->ele.bf_crd = (diff[prb->ele.bf_dim] > 0);                                           //set base face coord
             
-//            printf("dim_max         %d | %d %d | %+d | %d %d \n",
-//                   prb->ele.bas_dim,
-//                   prb->ele.fac_vtx_int[prb->ele.bas_dim][0],
-//                   prb->ele.fac_vtx_int[prb->ele.bas_dim][1],
-//                   diff[prb->ele.bas_dim],
-//                   prb->ele.bas_crd,
-//                   prb->ele.fac_vtx_int[prb->ele.bas_dim][prb->ele.bas_crd] > prb->ele.fac_vtx_int[prb->ele.bas_dim][!prb->ele.bas_crd]);
+            //            printf("dim_max         %d | %d %d | %+d | %d %d \n",
+            //                   prb->ele.bas_dim,
+            //                   prb->ele.fac_vtx_int[prb->ele.bas_dim][0],
+            //                   prb->ele.fac_vtx_int[prb->ele.bas_dim][1],
+            //                   diff[prb->ele.bas_dim],
+            //                   prb->ele.bas_crd,
+            //                   prb->ele.fac_vtx_int[prb->ele.bas_dim][prb->ele.bas_crd] > prb->ele.fac_vtx_int[prb->ele.bas_dim][!prb->ele.bas_crd]);
             
             
             /*
@@ -223,16 +231,23 @@ void ele_calc(struct problem *prb)
                     fac_get_vtx(prb, prb->ele.bf_dim, prb->ele.bf_crd, 1);                  //find internal vertex on base face
                     
                     prb->ele.vlm_loc += quad_vtx1(prb);                                     //add internal corner
-    
+                    
                     break;                                                                  //break base case
                 }
                 case 2:                                                                     //2 base
                 {
                     lst_add_ele(&prb->lst1, prb);
-
+                    
                     fac_get_vtx(prb, prb->ele.bf_dim, prb->ele.bf_crd, 1);                  //find internal verts on base face
-
-                    prb->ele.vlm_loc += quad_vtx2(prb);                                     //do quad on 2 points
+                    
+                    if( vtx_adj(prb))                                                       //check verts are adjacent
+                    {
+                        prb->ele.vlm_loc += quad_vtx2(prb);                                 //do quad on 2 points
+                    }
+                    else
+                    {
+                        printf("non-adj base\n");
+                    }
                     
                     break;                                                                  //break base case
                 }
@@ -243,11 +258,11 @@ void ele_calc(struct problem *prb)
                         case 0:                                                             //0 opp
                         {
                             lst_add_ele(&prb->lst1, prb);
-
+                            
                             prb->ele.vlm_loc += quad_vtx4(prb);                             //add quad on 4 verts
-
+                            
                             fac_get_vtx(prb, prb->ele.bf_dim, prb->ele.bf_crd, 0);          //find ext vert on base face
-
+                            
                             prb->ele.vlm_loc -= quad_vtx1(prb);                             //subtract external corner
                             
                             break;                                                          //break opposite case
@@ -255,15 +270,15 @@ void ele_calc(struct problem *prb)
                         case 1:                                                             //1 opp
                         {
                             lst_add_ele(&prb->lst1, prb);
-
+                            
                             prb->ele.vlm_loc += quad_vtx4(prb);                             //add quad on 4 verts
-
+                            
                             fac_get_vtx(prb, prb->ele.bf_dim, prb->ele.bf_crd, 0);          //find ext vert on base face
-
+                            
                             prb->ele.vlm_loc -= quad_vtx1(prb);                             //subtract external corner
-
+                            
                             fac_get_vtx(prb, prb->ele.bf_dim, !prb->ele.bf_crd, 1);         //find int vert on opp face
-
+                            
                             prb->ele.vlm_loc -= quad_vtx1(prb);                             //subtract internal corner
                             
                             break;                                                          //break opposite case
@@ -278,7 +293,7 @@ void ele_calc(struct problem *prb)
                         case 0:                                                             //0 opp
                         {
                             lst_add_ele(&prb->lst1, prb);
-
+                            
                             prb->ele.vlm_loc += quad_vtx4(prb);                             //add quad on 4 verts
                             
                             break;                                                          //break opposite case
@@ -286,11 +301,11 @@ void ele_calc(struct problem *prb)
                         case 1:                                                             //1 opp
                         {
                             lst_add_ele(&prb->lst1, prb);
-
+                            
                             prb->ele.vlm_loc += quad_vtx4(prb);                             //add quad on 4 verts
-
+                            
                             fac_get_vtx(prb, prb->ele.bf_dim, !prb->ele.bf_crd, 1);         //find int vert on opp face
-
+                            
                             prb->ele.vlm_loc -= quad_vtx1(prb);                             //subtract internal corner
                             
                             break;                                                          //break opposite case
@@ -298,19 +313,26 @@ void ele_calc(struct problem *prb)
                         case 2:                                                             //2 opp
                         {
                             lst_add_ele(&prb->lst1, prb);
-
+                            
                             fac_get_vtx(prb, prb->ele.bf_dim, !prb->ele.bf_crd, 0);         //find external verts on opposite face
-
-                            prb->ele.vlm_loc += (1 - quad_vtx2(prb));                       //subtract quad on 2 external points
+                            
+                            if( vtx_adj(prb))                                               //check verts are adjacent
+                            {
+                                prb->ele.vlm_loc += (1 - quad_vtx2(prb));                   //subtract quad on 2 external points
+                            }
+                            else
+                            {
+                                printf("non-adj base\n");
+                            }
                             
                             break;                                                          //break opposite case
                         }
                         case 3:                                                             //3 opp
                         {
                             lst_add_ele(&prb->lst1, prb);
-
+                            
                             fac_get_vtx(prb, prb->ele.bf_dim, !prb->ele.bf_crd, 0);         //find external vertex on opposite face
-
+                            
                             prb->ele.vlm_loc += (1 - quad_vtx1(prb));                       //subtract external corner
                             
                             break;                                                          //break opposite case
@@ -324,7 +346,7 @@ void ele_calc(struct problem *prb)
     
     prb->vlm[0] += prb->ele.vlm_loc;                                                        //add to running total
     
-    printf("vlm %6.3f %6.3f %6.3f %6.3f \n",prb->ele.vlm_loc,prb->vlm[0],prb->vlm[1],prb->vlm[2]);
+    //    printf("vlm %6.3f %6.3f %6.3f %6.3f \n",prb->ele.vlm_loc,prb->vlm[0],prb->vlm[1],prb->vlm[2]);
     
     
     /*

@@ -12,16 +12,16 @@
 float smin( float a, float b, float k );
 
 
-//signed distance function - sphere
-float geo_sdf(struct problem *prb, float x[3])
-{
-    float r = 1;                            //radius
-//    float p = 2;
-
-    return (float3_nrm(x) - r);             //sphere
-
-//    return float3_nrmp(x,p) - r;          //p-sphere
-}
+////signed distance function - sphere
+//float geo_sdf(struct problem *prb, float x[3])
+//{
+//    float r = 1;                            //radius
+////    float p = 2;
+//
+//    return (float3_nrm(x) - r);             //sphere
+//
+////    return float3_nrmp(x,p) - r;          //p-sphere
+//}
 
 
 //////signed distance function - torus
@@ -87,28 +87,28 @@ void geo_init(struct problem *prb)
 }
 
 
-////signed distance function - blob
-//float geo_sdf(struct problem *prb, float x[3])
-//{
-//    float sdf_min = float3_nrm(x) - prb->geo.rr[0];
-//
-//    float y[3];                                             //tmp coord
-//
-//    for(int i=0; i<GEO_NC; i++)                             //loop centres
-//    {
-//        float3_esub(x, prb->geo.cc[i], y);                  //shift to centre
-//
-//        float sdf_eval = float3_nrm(y) - prb->geo.rr[i];   //eval
-//
-////        if(sdf_eval<sdf_min)
-////        {
-////            sdf_min = sdf_eval;                             //store min
-////        }
-//
-//        sdf_min = smin(sdf_min,sdf_eval,0.3);
-//    }
-//    return sdf_min;
-//}
+//signed distance function - blob
+float geo_sdf(struct problem *prb, float x[3])
+{
+    float sdf_min = float3_nrm(x) - prb->geo.rr[0];
+
+    float y[3];                                             //tmp coord
+
+    for(int i=0; i<GEO_NC; i++)                             //loop centres
+    {
+        float3_esub(x, prb->geo.cc[i], y);                  //shift to centre
+
+        float sdf_eval = float3_nrm(y) - prb->geo.rr[i];   //eval
+
+//        if(sdf_eval<sdf_min)
+//        {
+//            sdf_min = sdf_eval;                             //store min
+//        }
+
+        sdf_min = smin(sdf_min,sdf_eval,0.3);
+    }
+    return sdf_min;
+}
 
 
 // polynomial smooth min (k = 0.1);
