@@ -49,7 +49,10 @@ int main(int argc, const char * argv[])
     {
         for(int j=0; j<5; j++)
         {
-            prb->ele.ctr.vtx_int[i][j] = 0;
+            for(int k=0; k<2; k++)
+            {
+                prb->ele.ctr.vtx_int[i][j][k] = 0;
+            }
         }
     }
     
@@ -98,9 +101,9 @@ int main(int argc, const char * argv[])
     {
         for(int j=0; j<5; j++)
         {
-            printf("vtx_ctr %d %d %8d %6.3f  \n",i,j,prb->ele.ctr.vtx_int[i][j],(100e0*prb->ele.ctr.vtx_int[i][j])/(MSH_ELE_TOT));
+            printf("vtx_ctr %d %d %8d %6.3f %8d \n",i,j,prb->ele.ctr.vtx_int[i][j][0],(100e0*prb->ele.ctr.vtx_int[i][j][0])/(MSH_ELE_TOT),prb->ele.ctr.vtx_int[i][j][1]);
             
-            ctr_sum += prb->ele.ctr.vtx_int[i][j];
+            ctr_sum += prb->ele.ctr.vtx_int[i][j][0];
         }
     }
     

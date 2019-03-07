@@ -57,7 +57,7 @@ struct point
 //counter (for debug)
 struct counter
 {
-    int                 vtx_int[5][5];      //a counter
+    int                 vtx_int[5][5][2];      //a counter int and path
 };
 
 //element
@@ -72,18 +72,15 @@ struct element
     
     float               bas_aa[8];          //interpolated basis function coefficients
     
-    int                 vtx_int_num;        //count internal verts
+    int                 vtx_int;            //count internal verts
     int                 fac_vtx_int[3][2];  //count internal verts per face (dim [0,1,2],co-ord [0,1])
     
-    int                 bf_dim;            //base dimension for integration
-    int                 bf_crd;            //base face coord for integration
+    int                 bf_dim;             //base dimension for integration
+    int                 bf_crd;             //base face coord for integration
 
     int                 vtx_idx[4];         //selected vertices for quadrature functions
     
-    int                 fac_vtx[4];         //vertex indices for a given face
-    
-
-    
+//    int                 fac_vtx[4];         //vertex indices for a given face
     
     struct counter      ctr;                //counter for logic debug
 };

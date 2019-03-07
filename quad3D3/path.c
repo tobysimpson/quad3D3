@@ -14,7 +14,6 @@
 int ele_pth_test(struct problem *prb)
 {
     int pth_int_num = 0;                                                        //length of internal path
-    int pth_ext_num = 0;                                                        //length of external path
     
     //internal
     for(int vtx_idx=0; vtx_idx<8; vtx_idx++)                                    //loop all verts of ele
@@ -26,19 +25,22 @@ int ele_pth_test(struct problem *prb)
             break;
         }
     }
+//    return pth_int_num == prb->ele.vtx_int;                                 //internal verts are path connected
     
     //external
+    int pth_ext_num = 0;                                                        //length of external path
+
     for(int vtx_idx=0; vtx_idx<8; vtx_idx++)                                    //loop all verts of ele
     {
         if(!(prb->ele.vtx_sdf[vtx_idx]<0))                                      //start from external vertex
         {
             pth_ext_num = pth_calc(prb, vtx_idx);                               //get length path
-            
+
             break;
         }
     }
-//    printf("ele_pth_test    %d %d | %d %d | %d \n",prb->ele.vtx_int_tot, 8-prb->ele.vtx_int_tot, pth_int_num, pth_ext_num, (pth_int_num + pth_ext_num) == 8);
-    
+////    printf("ele_pth_test    %d %d | %d %d | %d \n",prb->ele.vtx_int_tot, 8-prb->ele.vtx_int_tot, pth_int_num, pth_ext_num, (pth_int_num + pth_ext_num) == 8);
+//
     return (pth_int_num + pth_ext_num) == 8;                                    //are all verts accounted for?
 }
 

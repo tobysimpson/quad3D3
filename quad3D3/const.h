@@ -21,7 +21,7 @@
 
 //various
 #define SCM_NP              3                                               //quad points per scheme
-#define GEO_NC              100                                             //number of centres for geometry
+#define GEO_NC              200                                             //number of centres for geometry
 #define FILE_ROOT           "/Users/toby/Downloads"                         //write path
 
 //mesh dims

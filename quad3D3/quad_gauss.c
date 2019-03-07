@@ -148,16 +148,16 @@ float quad_vtx2(struct problem *prb)
     float vtx0_loc[3] = {(prb->ele.vtx_idx[0]>>0)&1,(prb->ele.vtx_idx[0]>>1)&1,(prb->ele.vtx_idx[0]>>2)&1};        //vtx local coords
     float vtx1_loc[3] = {(prb->ele.vtx_idx[1]>>0)&1,(prb->ele.vtx_idx[1]>>1)&1,(prb->ele.vtx_idx[1]>>2)&1};
     
-    float vtx0_glb[3];
-    float vtx1_glb[3];
-    
-    float3_emul(vtx0_loc, prb->msh.ele_h, vtx0_glb);                                  //local to global
-    float3_eadd(prb->ele.vtx_glb[0], vtx0_glb, vtx0_glb);
-    lst_add_pt(&prb->lst2, vtx0_glb, 0);
-
-    float3_emul(vtx1_loc, prb->msh.ele_h, vtx1_glb);                                  //local to global
-    float3_eadd(prb->ele.vtx_glb[0], vtx1_glb, vtx1_glb);
-    lst_add_pt(&prb->lst2, vtx1_glb, 0);
+//    float vtx0_glb[3];
+//    float vtx1_glb[3];
+//
+//    float3_emul(vtx0_loc, prb->msh.ele_h, vtx0_glb);                                  //local to global
+//    float3_eadd(prb->ele.vtx_glb[0], vtx0_glb, vtx0_glb);
+//    lst_add_pt(&prb->lst2, vtx0_glb, 0);
+//
+//    float3_emul(vtx1_loc, prb->msh.ele_h, vtx1_glb);                                  //local to global
+//    float3_eadd(prb->ele.vtx_glb[0], vtx1_glb, vtx1_glb);
+//    lst_add_pt(&prb->lst2, vtx1_glb, 0);
     
     /*
      ==========================

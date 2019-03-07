@@ -23,7 +23,7 @@ void ele_calc(struct problem *prb)
      ===============================
      */
     
-    prb->ele.vtx_int_num = 0;                                                               //reset count
+    prb->ele.vtx_int = 0;                                                               //reset count
     
     for(int i=0; i<3; i++)
     {
@@ -75,7 +75,7 @@ void ele_calc(struct problem *prb)
         //        prb->ele.vtx_sdf[vtx_idx] = geo_sdf(prb, prb->ele.vtx_glb[vtx_idx]);                                      //calc sdf
         prb->ele.vtx_sdf[vtx_idx] = prb->geo.dof_sdf[prb->ele.pos[0]+i][prb->ele.pos[1]+j][prb->ele.pos[2]+k];      //retrieve sdf from array
         
-        prb->ele.vtx_int_num += (prb->ele.vtx_sdf[vtx_idx] < 0);                                                    //count internal verts
+        prb->ele.vtx_int += (prb->ele.vtx_sdf[vtx_idx] < 0);                                                    //count internal verts
         
         prb->ele.fac_vtx_int[0][i] += prb->ele.vtx_sdf[vtx_idx]<0;                                                  //calc internal verts per face
         prb->ele.fac_vtx_int[1][j] += prb->ele.vtx_sdf[vtx_idx]<0;
@@ -143,17 +143,17 @@ void ele_calc(struct problem *prb)
      */
     
     
-    switch (prb->ele.vtx_int_num)
+    switch (prb->ele.vtx_int)
     {
         case 0:                                                             //all external
         {
-            prb->ele.ctr.vtx_int[0][0] += 1;                                //increment counter
+            prb->ele.ctr.vtx_int[0][0][0] += 1;                                //increment counter
             
             break;
         }
         case 8:                                                             //all internal
         {
-            prb->ele.ctr.vtx_int[4][4] += 1;                                //increment counter
+            prb->ele.ctr.vtx_int[4][4][0] += 1;                                //increment counter
             
             prb->ele.vlm_loc = 1;                                           //add volume
             
@@ -185,12 +185,12 @@ void ele_calc(struct problem *prb)
             {
                 diff[dim_idx] = prb->ele.fac_vtx_int[dim_idx][1] - prb->ele.fac_vtx_int[dim_idx][0];    //calc diff per dim
                 
-                if(abs(diff[dim_idx])>=abs(diff[prb->ele.bf_dim]))                                      //look for max change in vertex count (>=)
+                if(abs(diff[dim_idx]) >= abs(diff[prb->ele.bf_dim]))                                    //look for max change in vertex count (>=)
                 {
-                    //                    if(fabsf(grad[dim_idx])>fabsf(grad[prb->ele.bf_dim]))                               //look for max change in gradient (>)
-                    //                    {
-                    prb->ele.bf_dim = dim_idx;                                                      //store dim index
-                    //                    }
+//                    if(fabsf(grad[dim_idx]) > fabsf(grad[prb->ele.bf_dim]))                             //look for max change in gradient (>)
+//                    {
+                        prb->ele.bf_dim = dim_idx;                                                      //store dim index
+//                    }
                 }
                 //                printf("fac_vtx_int     %d | %d %d | %+d %d\n",
                 //                       dim_idx,
@@ -220,7 +220,9 @@ void ele_calc(struct problem *prb)
             int i = prb->ele.fac_vtx_int[prb->ele.bf_dim][prb->ele.bf_crd];                 //indices for counter
             int j = prb->ele.fac_vtx_int[prb->ele.bf_dim][!prb->ele.bf_crd];
             
-            prb->ele.ctr.vtx_int[i][j] += 1;                                                //count different configurations
+            prb->ele.ctr.vtx_int[i][j][0] += 1;                                             //count different configurations
+            
+//            prb->ele.ctr.vtx_int[i][j][1] += ele_pth_test(prb);                             //count path connected
             
             switch (prb->ele.fac_vtx_int[prb->ele.bf_dim][prb->ele.bf_crd])                 //test internal verts on base face
             {
@@ -283,6 +285,14 @@ void ele_calc(struct problem *prb)
                             
                             break;                                                          //break opposite case
                         }
+                        case 2:                                                             //2 opp
+                        {
+                            lst_add_ele(&prb->lst2, prb);
+                            
+                            //these are 4:1 cubes introduced by the gradient test
+                            
+                            break;                                                          //break opposite case
+                        }
                     }
                     break;                                                                  //break base case
                 }
@@ -322,7 +332,7 @@ void ele_calc(struct problem *prb)
                             }
                             else
                             {
-                                printf("non-adj base\n");
+                                printf("non-adj opp\n");
                             }
                             
                             break;                                                          //break opposite case
