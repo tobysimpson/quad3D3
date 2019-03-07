@@ -75,17 +75,14 @@ struct element
     int                 vtx_int_num;        //count internal verts
     int                 fac_vtx_int[3][2];  //count internal verts per face (dim [0,1,2],co-ord [0,1])
     
-    int                 bse_dim;            //base dimension for integration
-    int                 bse_crd;            //base face coord for integration
+    int                 bf_dim;            //base dimension for integration
+    int                 bf_crd;            //base face coord for integration
 
-//    int                 fac_int_flg;        //internal face search results
-//    int                 fac_ext_flg;        //external face search results
-//    int                 fac_ext_dim;
-//    int                 fac_ext_crd;
+    int                 vtx_idx[4];         //selected vertices for quadrature functions
     
     int                 fac_vtx[4];         //vertex indices for a given face
     
-    int                 vtx_idx[4];         //selected vertices for quadrature functions
+
     
     
     struct counter      ctr;                //counter for logic debug

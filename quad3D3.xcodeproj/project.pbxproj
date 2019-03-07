@@ -16,7 +16,7 @@
 		DAE32D3421BFD02900CE1CFA /* element.c in Sources */ = {isa = PBXBuildFile; fileRef = DAE32D3321BFD02900CE1CFA /* element.c */; };
 		DAE32D3621BFD94300CE1CFA /* geometry.c in Sources */ = {isa = PBXBuildFile; fileRef = DAE32D3521BFD94300CE1CFA /* geometry.c */; };
 		DAE32D3821BFE92800CE1CFA /* list.c in Sources */ = {isa = PBXBuildFile; fileRef = DAE32D3721BFE92800CE1CFA /* list.c */; };
-		DAE32D3A21BFF41000CE1CFA /* quadrature.c in Sources */ = {isa = PBXBuildFile; fileRef = DAE32D3921BFF41000CE1CFA /* quadrature.c */; };
+		DAE32D3A21BFF41000CE1CFA /* quad_gauss.c in Sources */ = {isa = PBXBuildFile; fileRef = DAE32D3921BFF41000CE1CFA /* quad_gauss.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -48,7 +48,7 @@
 		DAE32D3321BFD02900CE1CFA /* element.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = element.c; sourceTree = "<group>"; };
 		DAE32D3521BFD94300CE1CFA /* geometry.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = geometry.c; sourceTree = "<group>"; };
 		DAE32D3721BFE92800CE1CFA /* list.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = list.c; sourceTree = "<group>"; };
-		DAE32D3921BFF41000CE1CFA /* quadrature.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = quadrature.c; sourceTree = "<group>"; };
+		DAE32D3921BFF41000CE1CFA /* quad_gauss.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = quad_gauss.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,7 +91,7 @@
 				DAE32D2F21BFCC6000CE1CFA /* mesh.c */,
 				DAE32D3321BFD02900CE1CFA /* element.c */,
 				DA0BBD5D2226BB7800FE0F6C /* path.c */,
-				DAE32D3921BFF41000CE1CFA /* quadrature.c */,
+				DAE32D3921BFF41000CE1CFA /* quad_gauss.c */,
 				DAE32D3521BFD94300CE1CFA /* geometry.c */,
 				DAE32D3721BFE92800CE1CFA /* list.c */,
 				DA0BBD5F2227FA9600FE0F6C /* write.c */,
@@ -163,7 +163,7 @@
 				DAE32D3621BFD94300CE1CFA /* geometry.c in Sources */,
 				DA0BBD602227FA9600FE0F6C /* write.c in Sources */,
 				DAE32D3021BFCC6000CE1CFA /* mesh.c in Sources */,
-				DAE32D3A21BFF41000CE1CFA /* quadrature.c in Sources */,
+				DAE32D3A21BFF41000CE1CFA /* quad_gauss.c in Sources */,
 				DAE32D2C21BFC29600CE1CFA /* scheme.c in Sources */,
 				DAE32D3821BFE92800CE1CFA /* list.c in Sources */,
 				DAE32D2E21BFC34500CE1CFA /* float3.c in Sources */,
