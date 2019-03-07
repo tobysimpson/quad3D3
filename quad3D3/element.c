@@ -207,7 +207,7 @@ void ele_calc(struct problem *prb)
              */
             
             
-            int i = prb->ele.fac_vtx_int[prb->ele.bf_dim][prb->ele.bf_crd];               //indices for counter
+            int i = prb->ele.fac_vtx_int[prb->ele.bf_dim][prb->ele.bf_crd];                 //indices for counter
             int j = prb->ele.fac_vtx_int[prb->ele.bf_dim][!prb->ele.bf_crd];
             
             prb->ele.ctr.vtx_int[i][j] += 1;                                                //count different configurations
@@ -216,75 +216,50 @@ void ele_calc(struct problem *prb)
             {
                 case 1:                                                                     //1 base
                 {
-                    lst_add_ele(&prb->lst1, prb);
+//                    lst_add_ele(&prb->lst1, prb);
                     
-                    fac_get_vtx(prb, prb->ele.bf_dim, prb->ele.bf_crd, 1);             //find internal vertex on base face
+//                    fac_get_vtx(prb, prb->ele.bf_dim, prb->ele.bf_crd, 1);                  //find internal vertex on base face
                     
-                    prb->ele.vlm_loc += quad_vtx1(prb);                                     //add internal corner
+//                    prb->ele.vlm_loc += quad_vtx1(prb);                                     //add internal corner
     
                     break;                                                                  //break base case
                 }
                 case 2:                                                                     //2 base
                 {
-                    fac_get_vtx(prb, prb->ele.bf_dim, prb->ele.bf_crd, 1);             //find internal vertex on base face
-                    
-//                    prb->vlm[0] += quad_vtx2(prb);                                          //quadrature around the one internal vertex
-                    
                     break;                                                                  //break base case
                 }
                 case 3:                                                                     //3 base
                 {
-                    fac_get_vtx(prb, prb->ele.bf_dim, prb->ele.bf_crd, 3);             //find internal vertex on base face
-                    
-                    if(prb->ele.fac_vtx_int[prb->ele.bf_dim][!prb->ele.bf_crd]==1)        //test internal verts on opposite face
-                    {
-
-                    }
                     break;                                                                  //break base case
                 }
                 case 4:                                                                     //4 base
                 {
-                    fac_get_vtx(prb, prb->ele.bf_dim, prb->ele.bf_crd, 3);             //find internal vertex on base face
-                    
-                    switch (prb->ele.fac_vtx_int[prb->ele.bf_dim][!prb->ele.bf_crd])      //test internal verts on opposite face
+                    switch (prb->ele.fac_vtx_int[prb->ele.bf_dim][!prb->ele.bf_crd])        //test internal verts on opposite face
                     {
-                        case 0:                                                             //1 opp
+                        case 0:                                                             //0 opp
                         {
-                            fac_get_vtx(prb, prb->ele.bf_dim, !prb->ele.bf_crd, 1);    //find internal vertex on opposite face
-                            
-                            //                            prb->vlm[0] += quad_vtx1(prb);                                  //quadrature around the one internal vertex
-                            
                             break;                                                          //break opposite case
                         }
                         case 1:                                                             //1 opp
                         {
-                            fac_get_vtx(prb, prb->ele.bf_dim, !prb->ele.bf_crd, 1);    //find internal vertex on opposite face
-                            
-                            //                            prb->vlm[0] += quad_vtx1(prb);                                  //quadrature around the one internal vertex
+                            break;                                                          //break opposite case
+                        }
+                        case 2:                                                             //2 opp
+                        {
+                            break;                                                          //break opposite case
+                        }
+                        case 3:                                                             //3 opp
+                        {
+                            lst_add_ele(&prb->lst1, prb);
+        
+                            fac_get_vtx(prb, prb->ele.bf_dim, !prb->ele.bf_crd, 0);         //find external vertex on opposite face
+        
+                            prb->ele.vlm_loc += (1 - quad_vtx1(prb));                       //subtract external corner
                             
                             break;                                                          //break opposite case
                         }
-                        case 2:                                                             //1 opp
+                        case 4:                                                             //4 opp
                         {
-                            fac_get_vtx(prb, prb->ele.bf_dim, !prb->ele.bf_crd, 1);    //find internal vertex on opposite face
-                            
-                            //                            prb->vlm[0] += quad_vtx1(prb);                                  //quadrature around the one internal vertex
-                            
-                            break;                                                          //break opposite case
-                        }
-                        case 3:                                                             //1 opp
-                        {
-                            fac_get_vtx(prb, prb->ele.bf_dim, !prb->ele.bf_crd, 0);    //find internal vertex on opposite face
-                            
-//                            prb->ele.vlm_loc += (1 - quad_vtx1(prb));                       //subtract external corner
-                            
-                            break;                                                          //break opposite case
-                        }
-                        case 4:                                                             //1 opp
-                        {
-                            fac_get_vtx(prb, prb->ele.bf_dim, !prb->ele.bf_crd, 1);    //find internal vertex on opposite face
-                            
-                            //                            prb->vlm[0] += quad_vtx1(prb);                                  //quadrature around the one internal vertex
                             
                             break;                                                          //break opposite case
                         }
