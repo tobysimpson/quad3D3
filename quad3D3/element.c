@@ -253,14 +253,14 @@ void ele_calc(struct problem *prb)
                         case 1:                                                             //1 opp
                         {
 //                            lst_add_ele(&prb->lst1, prb);
-//                            
+//
 //                            prb->ele.vlm_loc += quad_vtx4(prb);                             //add quad on 4 verts
 //
 //                            fac_get_vtx(prb, prb->ele.bf_dim, prb->ele.bf_crd, 0);          //find ext vert on base face
 //
 //                            prb->ele.vlm_loc -= quad_vtx1(prb);                             //subtract external corner
 //
-//                            fac_get_vtx(prb, prb->ele.bf_dim, !prb->ele.bf_crd, 1);          //find int vert on opp face
+//                            fac_get_vtx(prb, prb->ele.bf_dim, !prb->ele.bf_crd, 1);         //find int vert on opp face
 //
 //                            prb->ele.vlm_loc -= quad_vtx1(prb);                             //subtract internal corner
                             
@@ -283,6 +283,14 @@ void ele_calc(struct problem *prb)
                         }
                         case 1:                                                             //1 opp
                         {
+//                            lst_add_ele(&prb->lst1, prb);
+//
+//                            prb->ele.vlm_loc += quad_vtx4(prb);                             //add quad on 4 verts
+//
+//                            fac_get_vtx(prb, prb->ele.bf_dim, !prb->ele.bf_crd, 1);         //find int vert on opp face
+//
+//                            prb->ele.vlm_loc -= quad_vtx1(prb);                             //subtract internal corner
+                            
                             break;                                                          //break opposite case
                         }
                         case 2:                                                             //2 opp
