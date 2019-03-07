@@ -226,11 +226,11 @@ void ele_calc(struct problem *prb)
                 }
                 case 2:                                                                     //2 base
                 {
-                    lst_add_ele(&prb->lst1, prb);
-                    
-                    fac_get_vtx(prb, prb->ele.bf_dim, prb->ele.bf_crd, 1);                  //find internal verts on base face
-                    
-                    prb->ele.vlm_loc += quad_vtx2(prb);                                     //do quad on 2 points
+//                    lst_add_ele(&prb->lst1, prb);
+//
+//                    fac_get_vtx(prb, prb->ele.bf_dim, prb->ele.bf_crd, 1);                  //find internal verts on base face
+//
+//                    prb->ele.vlm_loc += quad_vtx2(prb);                                     //do quad on 2 points
                     
                     break;                                                                  //break base case
                 }
@@ -252,6 +252,12 @@ void ele_calc(struct problem *prb)
                         }
                         case 2:                                                             //2 opp
                         {
+                            lst_add_ele(&prb->lst1, prb);
+                            
+                            fac_get_vtx(prb, prb->ele.bf_dim, !prb->ele.bf_crd, 0);         //find external verts on opposite face
+                            
+                            prb->ele.vlm_loc += (1 - quad_vtx2(prb));                             //do quad on 2 points
+                            
                             break;                                                          //break opposite case
                         }
                         case 3:                                                             //3 opp
