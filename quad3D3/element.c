@@ -244,6 +244,10 @@ void ele_calc(struct problem *prb)
                     {
                         case 0:                                                             //0 opp
                         {
+                            lst_add_ele(&prb->lst1, prb);
+                            
+                            prb->ele.vlm_loc += quad_vtx4(prb);                             //add quad on 4 verts
+                            
                             break;                                                          //break opposite case
                         }
                         case 1:                                                             //1 opp
@@ -252,11 +256,11 @@ void ele_calc(struct problem *prb)
                         }
                         case 2:                                                             //2 opp
                         {
-                            lst_add_ele(&prb->lst1, prb);
-                            
-                            fac_get_vtx(prb, prb->ele.bf_dim, !prb->ele.bf_crd, 0);         //find external verts on opposite face
-                            
-                            prb->ele.vlm_loc += (1 - quad_vtx2(prb));                             //do quad on 2 points
+//                            lst_add_ele(&prb->lst1, prb);
+//
+//                            fac_get_vtx(prb, prb->ele.bf_dim, !prb->ele.bf_crd, 0);         //find external verts on opposite face
+//
+//                            prb->ele.vlm_loc += (1 - quad_vtx2(prb));                       //subtract quad on 2 external points
                             
                             break;                                                          //break opposite case
                         }
@@ -270,17 +274,14 @@ void ele_calc(struct problem *prb)
                             
                             break;                                                          //break opposite case
                         }
-                        case 4:                                                             //4 opp
-                        {
-                            
-                            break;                                                          //break opposite case
-                        }
                     }
                     break;                                                                  //break base case
                 }
             }
         }
     }
+    
+    prb->vlm[0] += prb->ele.vlm_loc;                                                        //add to running total
     
     /*
      ===============================
