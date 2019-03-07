@@ -79,7 +79,7 @@ int main(int argc, const char * argv[])
         }
     }
     
-    printf("prb_vlm         %4d,%d,%f,%f; \n",MSH_ELE_DIM, MSH_ELE_TOT , prb->vlm[2]*prb->msh.ele_vlm, M_PI*4e0/3e0);                   //sphere
+    printf("prb_vlm         %4d,%d,%f,%f; \n",MSH_ELE_DIM, MSH_ELE_TOT , prb->vlm[2]*prb->msh.ele_vlm, (1e0/8e0)*M_PI*4e0/3e0);                   //sphere
 //    printf("prb_vlm         %4d,%d,%f,%f; \n",MSH_ELE_DIM, MSH_ELE_TOT , prb->vlm[2]*prb->msh.ele_vlm, (M_PI*0.3*0.3)*(2*M_PI*0.7));    //torus
     
     printf("\n");
