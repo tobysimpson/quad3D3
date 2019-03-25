@@ -175,11 +175,11 @@ void ele_calc(struct problem *prb)
             prb->ele.bf_dim = 0;                                                                        //integration dim (max chg)
             
             int   diff[3];                                                                              //change in int/ext verts per dim
-            float grad[3];                                                                              //gradient of interp sdf
-            
-            grad[0] = prb->ele.bas_aa[1] + 0.5*(prb->ele.bas_aa[4] + prb->ele.bas_aa[5]);               //grad at centre
-            grad[1] = prb->ele.bas_aa[2] + 0.5*(prb->ele.bas_aa[4] + prb->ele.bas_aa[6]);
-            grad[2] = prb->ele.bas_aa[3] + 0.5*(prb->ele.bas_aa[5] + prb->ele.bas_aa[6]);
+            //            float grad[3];                                                                              //gradient of interp sdf
+            //
+            //            grad[0] = prb->ele.bas_aa[1] + 0.5*(prb->ele.bas_aa[4] + prb->ele.bas_aa[5]);               //grad at centre
+            //            grad[1] = prb->ele.bas_aa[2] + 0.5*(prb->ele.bas_aa[4] + prb->ele.bas_aa[6]);
+            //            grad[2] = prb->ele.bas_aa[3] + 0.5*(prb->ele.bas_aa[5] + prb->ele.bas_aa[6]);
             
             for(int dim_idx=0; dim_idx<3; dim_idx++)                                                    //loop dims
             {
@@ -191,7 +191,16 @@ void ele_calc(struct problem *prb)
 //                    {
                         prb->ele.bf_dim = dim_idx;                                                      //store dim index
 //                    }
+                    
+//                    int m1 = MAX(fabsf(prb->ele.fac_vtx_int[dim_idx][0]),fabsf(prb->ele.fac_vtx_int[dim_idx][1]));
+//                    int m2 = MAX(fabsf(prb->ele.fac_vtx_int[prb->ele.bf_dim][0]),fabsf(prb->ele.fac_vtx_int[prb->ele.bf_dim][1]));
+//
+//                    if(m1 > m2)                             //look for max change in gradient (>)
+//                    {
+//                        prb->ele.bf_dim = dim_idx;                                                      //store dim index
+//                    }
                 }
+                
                 //                printf("fac_vtx_int     %d | %d %d | %+d %d\n",
                 //                       dim_idx,
                 //                       prb->ele.fac_vtx_int[dim_idx][0],
@@ -222,7 +231,7 @@ void ele_calc(struct problem *prb)
             
             prb->ele.ctr.vtx_int[i][j][0] += 1;                                             //count different configurations
             
-//            prb->ele.ctr.vtx_int[i][j][1] += ele_pth_test(prb);                             //count path connected
+            //            prb->ele.ctr.vtx_int[i][j][1] += ele_pth_test(prb);                             //count path connected
             
             switch (prb->ele.fac_vtx_int[prb->ele.bf_dim][prb->ele.bf_crd])                 //test internal verts on base face
             {

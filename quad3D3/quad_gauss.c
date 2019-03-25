@@ -210,7 +210,7 @@ float quad_vtx2(struct problem *prb)
     float spt_loc[3];                                                                               //srf quad point
     float spt_glb[3];
 
-    float qpt_h[3];                                                                                 //heights for scaling
+    float qpt_h[3];                                                                                  //heights for scaling
     float qpt_r[3];                                                                                 //roots
 
     qpt_r[dim_idx[0]] = vtx1_loc[dim_idx[0]];                                                       //find root
@@ -225,7 +225,6 @@ float quad_vtx2(struct problem *prb)
         qpt_r[dim_idx[1]] = bas_root(prb, dim_idx[1], qpt_loc);                                     //find root
 
         qpt_h[dim_idx[1]] = qpt_r[dim_idx[1]] - vtx0_loc[dim_idx[1]];                               //store h y
-
 
         for(int qpt_j=0; qpt_j<prb->scm.np; qpt_j++)                                                //loop y
         {
@@ -259,7 +258,7 @@ float quad_vtx2(struct problem *prb)
             }
         }
     }
-    return vlm_loc;                                                                     //local volume
+    return vlm_loc;                                                                                 //local volume
 }
 
 
