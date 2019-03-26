@@ -19,7 +19,7 @@ void lst_init(struct point_list *lst)
 //add point to list
 void lst_add_pt(struct point_list *lst, const float x[3], const float v)
 {
-    struct point pt = {{x[0],x[1],x[2]},v};                                         //init point
+    struct point pt = {{x[2],x[1],x[0]},v};                                         //init point
     
     if(lst->pp_num == (lst->pp_alloc-1))                                            //needs to be resized
     {

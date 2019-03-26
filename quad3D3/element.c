@@ -23,7 +23,7 @@ void ele_calc(struct problem *prb)
      ===============================
      */
     
-    prb->ele.vtx_int = 0;                                                               //reset count
+    prb->ele.vtx_int = 0;                                                                   //reset count
     
     for(int i=0; i<3; i++)
     {
@@ -72,10 +72,10 @@ void ele_calc(struct problem *prb)
         prb->ele.vtx_glb[vtx_idx][1] = prb->ele.vtx_glb[0][1] + prb->msh.ele_h[1]*j;
         prb->ele.vtx_glb[vtx_idx][2] = prb->ele.vtx_glb[0][2] + prb->msh.ele_h[2]*k;
         
-        //        prb->ele.vtx_sdf[vtx_idx] = geo_sdf(prb, prb->ele.vtx_glb[vtx_idx]);                                      //calc sdf
+        //prb->ele.vtx_sdf[vtx_idx] = geo_sdf(prb, prb->ele.vtx_glb[vtx_idx]);                                      //calc sdf
         prb->ele.vtx_sdf[vtx_idx] = prb->geo.dof_sdf[prb->ele.pos[0]+i][prb->ele.pos[1]+j][prb->ele.pos[2]+k];      //retrieve sdf from array
         
-        prb->ele.vtx_int += (prb->ele.vtx_sdf[vtx_idx] < 0);                                                    //count internal verts
+        prb->ele.vtx_int += (prb->ele.vtx_sdf[vtx_idx] < 0);                                                        //count internal verts
         
         prb->ele.fac_vtx_int[0][i] += prb->ele.vtx_sdf[vtx_idx]<0;                                                  //calc internal verts per face
         prb->ele.fac_vtx_int[1][j] += prb->ele.vtx_sdf[vtx_idx]<0;
@@ -142,29 +142,26 @@ void ele_calc(struct problem *prb)
      ===============================
      */
     
-    
-    switch (prb->ele.vtx_int)
+    switch(prb->ele.vtx_int)
     {
-        case 0:                                                             //all external
+        case 0:                                                                 //all external
         {
-            prb->ele.ctr.vtx_int[0][0][0] += 1;                                //increment counter
+            prb->ele.ctr.vtx_int[0][0][0] += 1;                                 //increment counter
             
             break;
         }
-        case 8:                                                             //all internal
+        case 8:                                                                 //all internal
         {
-            prb->ele.ctr.vtx_int[4][4][0] += 1;                                //increment counter
+            prb->ele.ctr.vtx_int[4][4][0] += 1;                                 //increment counter
             
-            prb->ele.vlm_loc = 1;                                           //add volume
+            prb->ele.vlm_loc = 1;                                               //add volume
             
             break;
         }
-        default:                                                            //both
+        default:                                                                //both
         {
-            //            lst_add_ele(&prb->lst1, prb);                                   //have a look
-            
-            //            printf("vtx_int %d\n",prb->ele.vtx_int_num);
-            
+            //lst_add_ele(&prb->lst1, prb);                                     //have a look
+            //printf("vtx_int %d\n",prb->ele.vtx_int_num);
             
             /*
              ===============================
@@ -175,49 +172,17 @@ void ele_calc(struct problem *prb)
             prb->ele.bf_dim = 0;                                                                        //integration dim (max chg)
             
             int   diff[3];                                                                              //change in int/ext verts per dim
-            //            float grad[3];                                                                              //gradient of interp sdf
-            //
-            //            grad[0] = prb->ele.bas_aa[1] + 0.5*(prb->ele.bas_aa[4] + prb->ele.bas_aa[5]);               //grad at centre
-            //            grad[1] = prb->ele.bas_aa[2] + 0.5*(prb->ele.bas_aa[4] + prb->ele.bas_aa[6]);
-            //            grad[2] = prb->ele.bas_aa[3] + 0.5*(prb->ele.bas_aa[5] + prb->ele.bas_aa[6]);
-            
+
             for(int dim_idx=0; dim_idx<3; dim_idx++)                                                    //loop dims
             {
                 diff[dim_idx] = prb->ele.fac_vtx_int[dim_idx][1] - prb->ele.fac_vtx_int[dim_idx][0];    //calc diff per dim
                 
                 if(abs(diff[dim_idx]) >= abs(diff[prb->ele.bf_dim]))                                    //look for max change in vertex count (>=)
                 {
-//                    if(fabsf(grad[dim_idx]) > fabsf(grad[prb->ele.bf_dim]))                             //look for max change in gradient (>)
-//                    {
-                        prb->ele.bf_dim = dim_idx;                                                      //store dim index
-//                    }
-                    
-//                    int m1 = MAX(fabsf(prb->ele.fac_vtx_int[dim_idx][0]),fabsf(prb->ele.fac_vtx_int[dim_idx][1]));
-//                    int m2 = MAX(fabsf(prb->ele.fac_vtx_int[prb->ele.bf_dim][0]),fabsf(prb->ele.fac_vtx_int[prb->ele.bf_dim][1]));
-//
-//                    if(m1 > m2)                             //look for max change in gradient (>)
-//                    {
-//                        prb->ele.bf_dim = dim_idx;                                                      //store dim index
-//                    }
+                    prb->ele.bf_dim = dim_idx;                                                          //store dim index
                 }
-                
-                //                printf("fac_vtx_int     %d | %d %d | %+d %d\n",
-                //                       dim_idx,
-                //                       prb->ele.fac_vtx_int[dim_idx][0],
-                //                       prb->ele.fac_vtx_int[dim_idx][1],
-                //                       diff[dim_idx],
-                //                       diff[dim_idx]>0);
             }
-            prb->ele.bf_crd = (diff[prb->ele.bf_dim] > 0);                                           //set base face coord
-            
-            //            printf("dim_max         %d | %d %d | %+d | %d %d \n",
-            //                   prb->ele.bas_dim,
-            //                   prb->ele.fac_vtx_int[prb->ele.bas_dim][0],
-            //                   prb->ele.fac_vtx_int[prb->ele.bas_dim][1],
-            //                   diff[prb->ele.bas_dim],
-            //                   prb->ele.bas_crd,
-            //                   prb->ele.fac_vtx_int[prb->ele.bas_dim][prb->ele.bas_crd] > prb->ele.fac_vtx_int[prb->ele.bas_dim][!prb->ele.bas_crd]);
-            
+            prb->ele.bf_crd = (diff[prb->ele.bf_dim] > 0);                                              //set base face coord
             
             /*
              ===============================
@@ -225,13 +190,12 @@ void ele_calc(struct problem *prb)
              ===============================
              */
             
-            
             int i = prb->ele.fac_vtx_int[prb->ele.bf_dim][prb->ele.bf_crd];                 //indices for counter
             int j = prb->ele.fac_vtx_int[prb->ele.bf_dim][!prb->ele.bf_crd];
             
             prb->ele.ctr.vtx_int[i][j][0] += 1;                                             //count different configurations
             
-            //            prb->ele.ctr.vtx_int[i][j][1] += ele_pth_test(prb);                             //count path connected
+            //            prb->ele.ctr.vtx_int[i][j][1] += ele_pth_test(prb);               //count path connected
             
             switch (prb->ele.fac_vtx_int[prb->ele.bf_dim][prb->ele.bf_crd])                 //test internal verts on base face
             {
@@ -251,13 +215,20 @@ void ele_calc(struct problem *prb)
                     
                     fac_get_vtx(prb, prb->ele.bf_dim, prb->ele.bf_crd, 1);                  //find internal verts on base face
                     
-                    if( vtx_adj(prb))                                                       //check verts are adjacent
+                    if(vtx_adj(prb))                                                        //check verts are adjacent
                     {
                         prb->ele.vlm_loc += quad_vtx2(prb);                                 //do quad on 2 points
                     }
                     else
                     {
-                        printf("non-adj base\n");
+//                        printf("2:? non-adj base\n");
+                        
+                        if(prb->ele.fac_vtx_int[prb->ele.bf_dim][!prb->ele.bf_crd]==2)
+                        {
+                            lst_add_ele(&prb->lst2, prb);
+                            
+                            printf("2:2 non-adj base\n");
+                        }
                     }
                     
                     break;                                                                  //break base case
@@ -296,9 +267,11 @@ void ele_calc(struct problem *prb)
                         }
                         case 2:                                                             //2 opp
                         {
-                            lst_add_ele(&prb->lst2, prb);
+                            lst_add_ele(&prb->lst3, prb);
                             
                             //these are 4:1 cubes introduced by the gradient test
+                            
+                            printf("3:2 ext not path conn\n");
                             
                             break;                                                          //break opposite case
                         }
@@ -341,7 +314,9 @@ void ele_calc(struct problem *prb)
                             }
                             else
                             {
-                                printf("non-adj opp\n");
+                                printf("4:2 non-adj opp\n");
+                                
+                                lst_add_ele(&prb->lst4, prb);
                             }
                             
                             break;                                                          //break opposite case

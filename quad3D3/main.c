@@ -71,7 +71,7 @@ int main(int argc, const char * argv[])
         {
             for(int i=0; i<MSH_ELE_DIM_0; i++)
             {
-                prb->ele.pos[0] = i;                            //position in ele space (i,j,k)
+                prb->ele.pos[0] = i;                            //position in ele space (i,j,k) - this is wrong should be stored (z,y,x)
                 prb->ele.pos[1] = j;
                 prb->ele.pos[2] = k;
                 
@@ -86,8 +86,6 @@ int main(int argc, const char * argv[])
     printf("prb_vlm         %4d,%d,%f,%f; \n",MSH_ELE_DIM, MSH_ELE_TOT , prb->vlm[2]*prb->msh.ele_vlm, (1e0/8e0)*(M_PI*0.3*0.3)*(2*M_PI*0.7));    //torus
     
     printf("\n");
-    
-   
     
     /*
      ===================

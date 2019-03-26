@@ -49,7 +49,7 @@ struct point_list
 //point
 struct point
 {
-    float               x[4];               //coords
+    float               x[3];               //coords
     float               v;                  //value
 };
 
