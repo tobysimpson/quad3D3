@@ -16,6 +16,7 @@ void lst_init(struct point_list *lst)
     lst->pp = malloc(lst->pp_alloc*sizeof(struct point));
 }
 
+
 //add point to list
 void lst_add_pt(struct point_list *lst, const float x[3], const float v)
 {

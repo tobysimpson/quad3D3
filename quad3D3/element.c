@@ -23,7 +23,7 @@ void ele_calc(struct problem *prb)
      ===============================
      */
     
-    prb->ele.vtx_int = 0;                                                                   //reset count
+    prb->ele.vtx_int_tot = 0;                                                                   //reset count
     
     for(int i=0; i<3; i++)
     {
@@ -75,7 +75,7 @@ void ele_calc(struct problem *prb)
         //prb->ele.vtx_sdf[vtx_idx] = geo_sdf(prb, prb->ele.vtx_glb[vtx_idx]);                                      //calc sdf
         prb->ele.vtx_sdf[vtx_idx] = prb->geo.dof_sdf[prb->ele.pos[0]+i][prb->ele.pos[1]+j][prb->ele.pos[2]+k];      //retrieve sdf from array
         
-        prb->ele.vtx_int += (prb->ele.vtx_sdf[vtx_idx] < 0);                                                        //count internal verts
+        prb->ele.vtx_int_tot += (prb->ele.vtx_sdf[vtx_idx] < 0);                                                        //count internal verts
         
         prb->ele.fac_vtx_int[0][i] += prb->ele.vtx_sdf[vtx_idx]<0;                                                  //calc internal verts per face
         prb->ele.fac_vtx_int[1][j] += prb->ele.vtx_sdf[vtx_idx]<0;
@@ -142,7 +142,7 @@ void ele_calc(struct problem *prb)
      ===============================
      */
     
-    switch(prb->ele.vtx_int)
+    switch(prb->ele.vtx_int_tot)
     {
         case 0:                                                                 //all external
         {
@@ -190,10 +190,10 @@ void ele_calc(struct problem *prb)
              ===============================
              */
             
-            int i = prb->ele.fac_vtx_int[prb->ele.bf_dim][prb->ele.bf_crd];                 //indices for counter
-            int j = prb->ele.fac_vtx_int[prb->ele.bf_dim][!prb->ele.bf_crd];
+            int ctr_i = prb->ele.fac_vtx_int[prb->ele.bf_dim][prb->ele.bf_crd];                 //indices for counter
+            int ctr_j = prb->ele.fac_vtx_int[prb->ele.bf_dim][!prb->ele.bf_crd];
             
-            prb->ele.ctr.vtx_int[i][j][0] += 1;                                             //count different configurations
+            prb->ele.ctr.vtx_int[ctr_i][ctr_j][0] += 1;                                             //count different configurations
             
             //            prb->ele.ctr.vtx_int[i][j][1] += ele_pth_test(prb);               //count path connected
             
@@ -230,7 +230,6 @@ void ele_calc(struct problem *prb)
                             printf("2:2 non-adj base\n");
                         }
                     }
-                    
                     break;                                                                  //break base case
                 }
                 case 3:                                                                     //3 base

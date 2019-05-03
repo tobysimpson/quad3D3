@@ -34,6 +34,11 @@ struct mesh
     
     float               ele_vlm;            //element volume
     float               msh_vlm;            //mesh volume
+    
+//    int                 msh_ele_dim[3];     //dynamic mesh dim for loop
+//
+//    int                 msh_ele_tot;        //totals
+//    int                 msh_dof_tot;
 };
 
 
@@ -72,10 +77,10 @@ struct element
     
     float               bas_aa[8];          //interpolated basis function coefficients
     
-    int                 vtx_int;            //count internal verts
+    int                 vtx_int_tot;        //count internal verts
     int                 fac_vtx_int[3][2];  //count internal verts per face (dim [0,1,2],co-ord [0,1])
     
-    int                 bf_dim;             //base dimension for integration
+    int                 bf_dim;             //base face dimension for integration
     int                 bf_crd;             //base face coord for integration
 
     int                 vtx_idx[4];         //selected vertices for quadrature functions
@@ -107,9 +112,7 @@ struct problem
 
     float               vlm[3];             //volume (with subtotals)
     
-   
 
-    
     struct  point_list        lst1;               //lists for debug
     struct  point_list        lst2;
     struct  point_list        lst3;

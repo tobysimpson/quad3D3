@@ -16,7 +16,7 @@
 		DAE32D3421BFD02900CE1CFA /* element.c in Sources */ = {isa = PBXBuildFile; fileRef = DAE32D3321BFD02900CE1CFA /* element.c */; };
 		DAE32D3621BFD94300CE1CFA /* geometry.c in Sources */ = {isa = PBXBuildFile; fileRef = DAE32D3521BFD94300CE1CFA /* geometry.c */; };
 		DAE32D3821BFE92800CE1CFA /* list.c in Sources */ = {isa = PBXBuildFile; fileRef = DAE32D3721BFE92800CE1CFA /* list.c */; };
-		DAE32D3A21BFF41000CE1CFA /* quad_gauss.c in Sources */ = {isa = PBXBuildFile; fileRef = DAE32D3921BFF41000CE1CFA /* quad_gauss.c */; };
+		DAE32D3A21BFF41000CE1CFA /* quadrature.c in Sources */ = {isa = PBXBuildFile; fileRef = DAE32D3921BFF41000CE1CFA /* quadrature.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -32,10 +32,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		DA0BBD5B2226A7DB00FE0F6C /* old_element1.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = old_element1.c; sourceTree = "<group>"; };
 		DA0BBD5D2226BB7800FE0F6C /* path.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = path.c; sourceTree = "<group>"; };
 		DA0BBD5F2227FA9600FE0F6C /* write.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = write.c; sourceTree = "<group>"; };
-		DA19B179222D58B8004B52B4 /* old_quadrature.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = old_quadrature.c; sourceTree = "<group>"; };
 		DAE32D1B21BFBB2900CE1CFA /* quad3D3 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = quad3D3; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAE32D1E21BFBB2900CE1CFA /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		DAE32D2521BFBD2900CE1CFA /* const.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = const.h; sourceTree = "<group>"; };
@@ -48,7 +46,7 @@
 		DAE32D3321BFD02900CE1CFA /* element.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = element.c; sourceTree = "<group>"; };
 		DAE32D3521BFD94300CE1CFA /* geometry.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = geometry.c; sourceTree = "<group>"; };
 		DAE32D3721BFE92800CE1CFA /* list.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = list.c; sourceTree = "<group>"; };
-		DAE32D3921BFF41000CE1CFA /* quad_gauss.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = quad_gauss.c; sourceTree = "<group>"; };
+		DAE32D3921BFF41000CE1CFA /* quadrature.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = quadrature.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,13 +88,11 @@
 				DAE32D2F21BFCC6000CE1CFA /* mesh.c */,
 				DAE32D3321BFD02900CE1CFA /* element.c */,
 				DA0BBD5D2226BB7800FE0F6C /* path.c */,
-				DAE32D3921BFF41000CE1CFA /* quad_gauss.c */,
+				DAE32D3921BFF41000CE1CFA /* quadrature.c */,
 				DAE32D2B21BFC29600CE1CFA /* scheme.c */,
 				DAE32D3521BFD94300CE1CFA /* geometry.c */,
 				DAE32D3721BFE92800CE1CFA /* list.c */,
 				DA0BBD5F2227FA9600FE0F6C /* write.c */,
-				DA0BBD5B2226A7DB00FE0F6C /* old_element1.c */,
-				DA19B179222D58B8004B52B4 /* old_quadrature.c */,
 			);
 			path = quad3D3;
 			sourceTree = "<group>";
@@ -163,7 +159,7 @@
 				DAE32D3621BFD94300CE1CFA /* geometry.c in Sources */,
 				DA0BBD602227FA9600FE0F6C /* write.c in Sources */,
 				DAE32D3021BFCC6000CE1CFA /* mesh.c in Sources */,
-				DAE32D3A21BFF41000CE1CFA /* quad_gauss.c in Sources */,
+				DAE32D3A21BFF41000CE1CFA /* quadrature.c in Sources */,
 				DAE32D2C21BFC29600CE1CFA /* scheme.c in Sources */,
 				DAE32D3821BFE92800CE1CFA /* list.c in Sources */,
 				DAE32D2E21BFC34500CE1CFA /* float3.c in Sources */,
