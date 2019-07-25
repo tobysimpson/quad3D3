@@ -10,7 +10,7 @@
 
 //3D quadrature using basis, gauss and vertex logic
 //works and converges in linear fashion - needs extra logic for non adjacent vertices
-//needs surface area
+//needs surface area - do with gauss?
 
 int main(int argc, const char * argv[])
 {

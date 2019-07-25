@@ -24,4 +24,3 @@ void write_dof_raw(struct problem *prb)
 
     fclose(file1);
 }
-

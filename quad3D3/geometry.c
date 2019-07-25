@@ -8,9 +8,6 @@
 
 #include "master.h"
 
-//prototypes
-float smin( float a, float b, float k );
-
 
 ////signed distance function - sphere
 //float geo_sdf(struct problem *prb, float x[3])
@@ -105,14 +102,14 @@ float geo_sdf(struct problem *prb, float x[3])
 //            sdf_min = sdf_eval;                             //store min
 //        }
 
-        sdf_min = smin(sdf_min,sdf_eval,0.3);               //smoothed minimum
+        sdf_min = geo_smin(sdf_min,sdf_eval,0.3);               //smoothed minimum
     }
     return sdf_min;
 }
 
 
 // polynomial smooth min (k = 0.1);
-float smin( float a, float b, float k )
+float geo_smin( float a, float b, float k )
 {
     float h = MAX(k-fabs(a-b), 0.0 )/k;
     return MIN(a,b) - h*h*k*(0.2);                              // (0.2/200 centres)

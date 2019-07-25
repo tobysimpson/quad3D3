@@ -45,8 +45,9 @@ void lst_add_ele(struct point_list *lst, struct problem *prb);
 void lst_write(struct point_list *lst, char file_name[20]);
 
 //geometry
-void geo_init(struct problem *prb);
+void  geo_init(struct problem *prb);
 float geo_sdf(struct problem *prb, float x[3]);
+float geo_smin( float a, float b, float k );
 
 //quadrature.c
 float quad_ele(struct problem *prb);

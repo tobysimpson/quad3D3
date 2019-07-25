@@ -34,11 +34,6 @@ struct mesh
     
     float               ele_vlm;            //element volume
     float               msh_vlm;            //mesh volume
-    
-//    int                 msh_ele_dim[3];     //dynamic mesh dim for loop
-//
-//    int                 msh_ele_tot;        //totals
-//    int                 msh_dof_tot;
 };
 
 
@@ -85,8 +80,6 @@ struct element
 
     int                 vtx_idx[4];         //selected vertices for quadrature functions
     
-//    int                 fac_vtx[4];         //vertex indices for a given face
-    
     struct counter      ctr;                //counter for logic debug
 };
 
@@ -107,8 +100,7 @@ struct problem
     struct  mesh        msh;                //mesh
     struct  element     ele;                //ele
     struct  geometry    geo;                //geometry data
-    
-//    struct  quadpoint qpt;                //quadrature point
+
 
     float               vlm[3];             //volume (with subtotals)
     
